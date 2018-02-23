@@ -55,5 +55,25 @@
 	</bean>
 	
 	<!-- Other domain beans come here -->	
+	<bean id="administrator1" class="domain.Administrator">
+		<property name="name" value="Admin"/>
+		<property name="surname" value="McAdmin"/>
+		<property name="phone" value="619619619"/>
+		<property name="userAccount" ref="userAccount1"/>
+	</bean>
+	
+	<bean id="customer1" class="domain.Customer">
+		<property name="name" value="Customer1"/>
+		<property name="surname" value="McCustomer1"/>
+		<property name="phone" value="619619619"/>
+		<property name="userAccount" ref="userAccount2"/>
+	</bean>
+	
+	<bean id="customer2" class="domain.Customer">
+		<property name="name" value="Customer2"/>
+		<property name="surname" value="McCustomer2"/>
+		<property name="phone" value="619619619"/>
+		<property name="userAccount" ref="userAccount3"/>
+	</bean>
 	
 </beans>
