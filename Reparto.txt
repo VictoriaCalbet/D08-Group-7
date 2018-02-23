@@ -1,0 +1,45 @@
+Reparto Acme-Rendezvous
+
+Level C:
+
+4.1 Guillermo
+4.2 Guillermo
+4.3 Victoria
+
+5.1 Guillermo, Victoria
+5.2 Victoria
+5.3 Victoria
+5.4 David
+5.5 David
+5.6 Marta
+
+6.1 Marta
+6.2 Victoria
+6.3 Utrilla
+
+7. HECHO
+8. Guillermo
+9. Todos (Cuando hagas una query, mete un index si procede)
+10. Victoria
+11. Guillermo
+
+Level B:
+
+15.1 Utrilla
+15.2 Victoria
+
+16.3 Utrilla
+16.4 Victoria
+16.5 Utrilla
+
+17.1 Utrilla
+17.2 Utrilla
+
+Level A:
+
+20.1 Jesús
+
+21.1 Jesús
+21.2 Jesús
+
+22.1 Utrilla
