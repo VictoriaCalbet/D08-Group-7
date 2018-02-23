@@ -1,0 +1,66 @@
+
+package services;
+
+import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import repositories.RSVPRepository;
+import domain.RSVP;
+
+@Service
+@Transactional
+public class RSVPService {
+
+	// Managed Repository -----------------------------------------------------
+
+	@Autowired
+	private RSVPRepository	rsvpRepository;
+
+
+	// Supporting services ----------------------------------------------------
+
+	// Constructors -----------------------------------------------------------
+
+	public RSVPService() {
+		super();
+	}
+
+	// Simple CRUD methods ----------------------------------------------------
+
+	public RSVP create() {
+		RSVP result = null;
+		result = new RSVP();
+
+		return result;
+	}
+
+	public Collection<RSVP> findAll() {
+		Collection<RSVP> result = null;
+		result = this.rsvpRepository.findAll();
+		return result;
+	}
+
+	public RSVP findOne(final int rsvpId) {
+		RSVP result = null;
+		result = this.rsvpRepository.findOne(rsvpId);
+		return result;
+	}
+
+	public RSVP save(final RSVP rsvp) {
+		Assert.notNull(rsvp, "message.error.rsvp.null");
+		final RSVP result = null;
+
+		return result;
+	}
+
+	public void delete(final RSVP rsvp) {
+		Assert.notNull(rsvp, "message.error.rsvp.null");
+
+	}
+
+	// Other business methods -------------------------------------------------
+}

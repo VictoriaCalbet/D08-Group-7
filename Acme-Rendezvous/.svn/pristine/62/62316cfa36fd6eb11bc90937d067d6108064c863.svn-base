@@ -1,0 +1,97 @@
+
+package services;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import repositories.UserRepository;
+import security.LoginService;
+import security.UserAccount;
+import security.UserAccountService;
+import domain.Answer;
+import domain.Comment;
+import domain.RSVP;
+import domain.Rendezvous;
+import domain.User;
+
+@Service
+@Transactional
+public class UserService {
+
+	// Managed Repository -----------------------------------------------------
+
+	@Autowired
+	private UserRepository		userRepository;
+
+	// Supporting services ----------------------------------------------------
+
+	@Autowired
+	private UserAccountService	userAccountService;
+
+
+	// Constructors -----------------------------------------------------------
+
+	public UserService() {
+		super();
+	}
+
+	// Simple CRUD methods ----------------------------------------------------
+
+	public User create() {
+		User result = null;
+		UserAccount userAccount = null;
+
+		result = new User();
+		userAccount = this.userAccountService.create("USER");
+		result.setAnswers(new ArrayList<Answer>());
+		result.setComments(new ArrayList<Comment>());
+		result.setRsvps(new ArrayList<RSVP>());
+		result.setRendezvoussesCreated(new ArrayList<Rendezvous>());
+		result.setUserAccount(userAccount);
+
+		return result;
+	}
+
+	public Collection<User> findAll() {
+		Collection<User> result = null;
+		result = this.userRepository.findAll();
+		return result;
+	}
+
+	public User findOne(final int userId) {
+		User result = null;
+		result = this.userRepository.findOne(userId);
+		return result;
+	}
+
+	public User save(final User user) {
+		Assert.notNull(user, "message.error.user.null");
+		final User result = null;
+
+		return result;
+	}
+
+	public User findByPrincipal() {
+		User result;
+		UserAccount userAccount;
+
+		userAccount = LoginService.getPrincipal();
+		Assert.notNull(userAccount);
+
+		result = this.userRepository.findByUserAccountId(userAccount.getId());
+		Assert.notNull(result);
+
+		return result;
+	}
+
+	// Other business methods -------------------------------------------------
+
+	public Collection<User> findAttendantsOfRendezvous(final int rendezvousId) {
+		return this.userRepository.findAttendantsOfRendezvous(rendezvousId);
+	}
+}

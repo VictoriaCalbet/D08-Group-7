@@ -1,0 +1,28 @@
+# messages.properties
+#
+# Copyright (C) 2017 Universidad de Sevilla
+# 
+# The use of this project is hereby constrained to the conditions of the 
+# TDG Licence, a copy of which you may download from 
+# http://www.tdg-seville.info/License.html
+
+comment.text = Texto
+comment.picture = Imagen
+comment.momentWritten = Momento de publicación
+comment.date = dd-MM-YYYY
+comment.viewReply = Ver respuestas
+comment.reply = Responder
+comment.replies = Respuestas
+comment.noReplies = No hay respuestas para mostrar
+comment.delete = Borrar
+comment.cancel = Cancelar
+comment.create = Crear un nuevo comentario
+comment.commit.error = No se pudo realizar esta operación 
+comment.delete.error = No se puede borrar este comentario
+
+message.error.comment.null = El comentario no puede ser nulo
+message.error.comment.text = El texto no puede ser nulo
+message.error.comment.momentWritten = El momento en el que se escribe el comentario no puede ser nulo
+message.error.comment.rendezvous = El rendezvous no puede ser nulo
+message.error.comment.notAnAdmin = Este usuario no puede borrar comentarios
+message.error.comment.user = Sólo los usuarios pueden publicar comentarios

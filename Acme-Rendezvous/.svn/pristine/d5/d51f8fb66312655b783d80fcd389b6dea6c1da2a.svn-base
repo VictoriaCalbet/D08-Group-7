@@ -1,0 +1,61 @@
+package controllers;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import services.CommentService;
+import services.RendezvousService;
+
+import domain.Comment;
+import domain.Rendezvous;
+
+@Controller
+@RequestMapping("/comment")
+public class CommentController extends AbstractController{
+	
+	//Constructor
+	
+	public CommentController(){
+		
+		super();
+	}
+	
+	//Supporting services
+	
+	private CommentService commentService;
+	
+	private RendezvousService rendezvousService;
+	
+	//Methods
+	
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam final int rendezvousId) {
+		ModelAndView result;
+		
+		try{
+		Collection<Comment> comments = new ArrayList<Comment>();
+		
+		Rendezvous rendez = this.rendezvousService.findOne(rendezvousId);
+		
+		comments = rendez.getComments();
+		
+		result = new ModelAndView("comment/list");
+		result.addObject("requestURI", "comment/list.do");
+		result.addObject("comments",comments);
+		
+		
+		}catch(Throwable oops){
+			result = new ModelAndView("rendezvous/list");
+			
+		}
+		
+	return result;	
+	}
+
+}

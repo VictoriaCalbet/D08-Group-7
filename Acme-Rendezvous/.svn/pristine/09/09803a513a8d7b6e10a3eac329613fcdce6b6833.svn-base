@@ -1,0 +1,30 @@
+# messages.properties
+#
+# Copyright (C) 2017 Universidad de Sevilla
+# 
+# The use of this project is hereby constrained to the conditions of the 
+# TDG Licence, a copy of which you may download from 
+# http://www.tdg-seville.info/License.html
+
+actorForm.name				= Name
+actorForm.surname			= Surname
+actorForm.email				= Email
+actorForm.address			= Address
+actorForm.phone				= Phone
+actorForm.birthDate			= Birth date
+actorForm.birthDate.pattern	= MM/dd/yy HH:mm
+actorForm.username			= Username
+actorForm.password			= Password
+actorForm.repeatedPassword	= Repeat password
+actorForm.acceptTerm		= Accept terms
+actorForm.acceptTerm.text	= I do accept this terms of use 
+
+actorForm.edit		= Edit
+actorForm.save		= Save
+actorForm.delete	= Delete
+actorForm.cancel	= Cancel
+
+message.error.actorForm.null				= The ActorForm must not be null
+message.error.actorForm.password.mismatch	= Both passwords must match
+message.error.actorForm.acceptTerms.false	= You must accept the terms of use
+message.error.actorForm.birthDate.format	= There is an error formatting the birth date

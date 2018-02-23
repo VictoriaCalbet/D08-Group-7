@@ -1,0 +1,148 @@
+
+package controllers.user;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import services.RendezvousService;
+import services.form.RendezvousFormService;
+import controllers.AbstractController;
+import domain.form.RendezvousForm;
+
+@Controller
+@RequestMapping("/rendezvous/user")
+public class RendezvousUserController extends AbstractController {
+
+	@Autowired
+	private RendezvousService		rendezvousService;
+
+	@Autowired
+	private RendezvousFormService	rendezvousFormService;
+
+
+	//	@Autowired
+	//	private Validator				rendezvousFormValidator;
+
+	// Constructors -----------------------------------------------------------
+
+	public RendezvousUserController() {
+		super();
+	}
+
+	// Creation ----------------------------------------------------------------
+
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create() {
+		final ModelAndView result;
+		RendezvousForm rendezvousForm;
+
+		rendezvousForm = this.rendezvousFormService.create();
+		result = this.createModelAndView(rendezvousForm);
+
+		return result;
+
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
+	public ModelAndView create(@Valid final RendezvousForm rendezvousForm, final BindingResult binding) {
+		//		this.rendezvousFormValidator.validate(rendezvousForm, binding);
+
+		ModelAndView result;
+
+		if (binding.hasErrors())
+			result = this.createModelAndView(rendezvousForm);
+		else
+			try {
+				this.rendezvousFormService.saveFromCreate(rendezvousForm);
+				result = new ModelAndView("redirect:rendezvous/list.do");
+			} catch (final Throwable oops) {
+				String messageError = "rendezvous.commit.error";
+				if (oops.getMessage().contains("message.error"))
+					messageError = oops.getMessage();
+				result = this.createModelAndView(rendezvousForm, messageError);
+			}
+
+		return result;
+	}
+
+	// Edit ----------------------------------------------------------------
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam final int rendezvousId) {
+		final ModelAndView result;
+		RendezvousForm rendezvousForm;
+
+		rendezvousForm = this.rendezvousFormService.create(rendezvousId);
+		result = this.createModelAndView(rendezvousForm);
+
+		return result;
+
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView edit(@Valid final RendezvousForm rendezvousForm, final BindingResult binding) {
+		//		this.rendezvousFormValidator.validate(rendezvousForm, binding);
+
+		ModelAndView result;
+
+		if (binding.hasErrors())
+			result = this.createModelAndView(rendezvousForm);
+		else
+			try {
+				this.rendezvousFormService.saveFromEdit(rendezvousForm);
+				result = new ModelAndView("redirect:rendezvous/list.do");
+			} catch (final Throwable oops) {
+				String messageError = "rendezvous.commit.error";
+				if (oops.getMessage().contains("message.error"))
+					messageError = oops.getMessage();
+				result = this.createModelAndView(rendezvousForm, messageError);
+			}
+
+		return result;
+	}
+
+	// Ancillaty methods
+	protected ModelAndView createModelAndView(final RendezvousForm rendezvousForm) {
+		ModelAndView result;
+
+		result = this.createModelAndView(rendezvousForm, null);
+
+		return result;
+	}
+
+	protected ModelAndView createModelAndView(final RendezvousForm rendezvousForm, final String message) {
+		ModelAndView result;
+
+		result = new ModelAndView("rendezvous/user/create");
+		result.addObject("rendezvousForm", rendezvousForm);
+		result.addObject("message", message);
+
+		return result;
+	}
+
+	protected ModelAndView editModelAndView(final RendezvousForm rendezvousForm) {
+		ModelAndView result;
+
+		result = this.editModelAndView(rendezvousForm, null);
+
+		return result;
+	}
+
+	protected ModelAndView editModelAndView(final RendezvousForm rendezvousForm, final String message) {
+		ModelAndView result;
+
+		result = new ModelAndView("rendezvous/user/edit");
+		result.addObject("rendezvousForm", rendezvousForm);
+		result.addObject("message", message);
+
+		return result;
+	}
+
+}

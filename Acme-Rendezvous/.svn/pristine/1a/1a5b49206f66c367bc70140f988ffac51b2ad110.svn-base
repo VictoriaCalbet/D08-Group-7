@@ -1,0 +1,43 @@
+# messages.properties
+#
+# Copyright (C) 2017 Universidad de Sevilla
+# 
+# The use of this project is hereby constrained to the conditions of the 
+# TDG Licence, a copy of which you may download from 
+# http://www.tdg-seville.info/License.html
+
+
+rendezvous.name							= Nombre
+rendezvous.description					= Descripción
+rendezvous.meetingMoment				= Momento de encuentro
+rendezvous.meetingMoment.pattern		= dd/MM/yy HH:mm
+rendezvous.picture						= Imagen
+rendezvous.gpsPoint.latitude			= Latitud
+rendezvous.gpsPoint.longitude			= Longitud
+rendezvous.isAdultOnly					= ¿Es adulto?
+rendezvous.isDraft						= ¿Es borrador?
+rendezvous.creator						= Creador
+rendezvous.creatorButton				= Mostrar el creador
+rendezvous.attendant					= Asistentes
+rendezvous.attendantButton				= Mostrar los asistentes
+rendezvous.notAttendants				= No hay asistentes que mostrar
+rendezvous.similar						= Citas similares
+rendezvous.similarButton				= Mostrar las citas similares
+rendezvous.notSimilar					= No hay citas similares
+rendezvous.comments						= Comentarios
+rendezvous.commentButton				= Mostrar comentarios
+rendezvous.noComments					= No hay comentarios para mostrar
+
+rendezvous.commit.error					= No se puede realizar esta operación
+message.error.rendezvous.user			= El usuario no es el propietario de esta cita
+message.error.rendezvous.null			= La cita no existe
+message.error.rendezvous.isDraft		= La cita no es borrador
+rendezvous.save							= Guardar
+rendezvous.cancel						= Cancelar
+rendezvous.delete.error					= No se puede borrar esta cita
+
+rendezvous.RSVPButton					= Asistir
+rendezvous.delete						= Borrar una cita
+rendezvous.deleteButton					= Borrar
+rendezvous.edit							= Editar una cita
+rendezvous.editButton					= Editar

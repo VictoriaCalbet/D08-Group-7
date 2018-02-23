@@ -1,0 +1,74 @@
+
+package services.form;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import services.RendezvousService;
+import domain.Rendezvous;
+import domain.form.RendezvousForm;
+
+@Service
+@Transactional
+public class RendezvousFormService {
+
+	// Managed repository -----------------------------------------------------
+
+	// Supporting services ----------------------------------------------------
+
+	@Autowired
+	private RendezvousService	rendezvousService;
+
+
+	// Constructors -----------------------------------------------------------
+
+	public RendezvousFormService() {
+		super();
+	}
+
+	public RendezvousForm create() {
+		RendezvousForm result;
+
+		result = new RendezvousForm();
+
+		return result;
+	}
+
+	public RendezvousForm create(final int rendezvousId) {
+		final Rendezvous r = this.rendezvousService.findOne(rendezvousId);
+
+		final RendezvousForm rF = new RendezvousForm();
+		rF.setDescription(r.getDescription());
+		rF.setName(r.getName());
+		rF.setGpsPoint(r.getGpsPoint());
+		rF.setIsAdultOnly(r.getIsAdultOnly());
+		rF.setIsDraft(r.getIsDraft());
+		rF.setMeetingMoment(r.getMeetingMoment());
+		rF.setPicture(r.getPicture());
+
+		return rF;
+	}
+
+	public Rendezvous saveFromCreate(final RendezvousForm rendezvousForm) {
+
+		final Rendezvous r = this.rendezvousService.create();
+
+		r.setDescription(rendezvousForm.getDescription());
+		r.setName(rendezvousForm.getName());
+		r.setGpsPoint(rendezvousForm.getGpsPoint());
+		r.setIsAdultOnly(rendezvousForm.getIsAdultOnly());
+		r.setIsDraft(rendezvousForm.getIsDraft());
+		r.setMeetingMoment(rendezvousForm.getMeetingMoment());
+		r.setPicture(rendezvousForm.getPicture());
+
+		return this.rendezvousService.save(r);
+
+	}
+
+	public Rendezvous saveFromEdit(final RendezvousForm rendezvousForm) {
+		return null;
+	}
+
+}

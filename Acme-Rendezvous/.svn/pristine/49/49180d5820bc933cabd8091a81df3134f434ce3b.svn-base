@@ -1,0 +1,51 @@
+
+package services.form;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import services.ActorService;
+import domain.Actor;
+import domain.form.ActorForm;
+
+@Service
+@Transactional
+public class ActorFormService {
+
+	// Managed repository -----------------------------------------------------
+
+	// Supporting services ----------------------------------------------------
+
+	@Autowired
+	private ActorService	actorService;
+
+
+	// Constructors -----------------------------------------------------------
+
+	public ActorFormService() {
+		super();
+	}
+
+	public ActorForm create() {
+		ActorForm result;
+
+		result = new ActorForm();
+
+		return result;
+	}
+
+	public Actor saveFromCreate(final ActorForm actorForm) {
+		Assert.notNull(actorForm);
+		Assert.isTrue(actorForm.getPassword().equals(actorForm.getRepeatedPassword()), "message.error.actorForm.password.mismatch");
+		Assert.isTrue(actorForm.getAcceptTerms(), "message.error.actorForm.acceptTerms.false");
+		return null;
+	}
+
+	public Actor saveFromEdit(final ActorForm actorForm) {
+		return null;
+	}
+
+}

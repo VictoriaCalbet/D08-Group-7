@@ -1,0 +1,94 @@
+
+package services;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import repositories.RendezvousRepository;
+import domain.Announcement;
+import domain.Comment;
+import domain.Question;
+import domain.RSVP;
+import domain.Rendezvous;
+import domain.User;
+
+@Service
+@Transactional
+public class RendezvousService {
+
+	// Managed Repository -----------------------------------------------------
+
+	@Autowired
+	private RendezvousRepository	rendezvousRepository;
+
+	// Supporting services ----------------------------------------------------
+
+	@Autowired
+	private UserService				userService;
+	@Autowired
+	private RSVPService				rsvpService;
+
+
+	// Constructors -----------------------------------------------------------
+
+	public RendezvousService() {
+		super();
+	}
+
+	// Simple CRUD methods ----------------------------------------------------
+
+	public Rendezvous create() {
+
+		final Rendezvous result = new Rendezvous();
+		final User u = this.userService.findByPrincipal();
+		final Collection<RSVP> rsvps = new ArrayList<RSVP>();
+		final Collection<Question> questions = new ArrayList<Question>();
+		final Collection<Comment> comments = new ArrayList<Comment>();
+		final Collection<Announcement> announcements = new ArrayList<Announcement>();
+		final Collection<Rendezvous> isLinkedTo = new ArrayList<Rendezvous>();
+
+		result.setIsDeleted(false);
+		result.setCreator(u);
+		result.setRsvps(rsvps);
+		result.setQuestions(questions);
+		result.setComments(comments);
+		result.setAnnouncements(announcements);
+		result.setIsLinkedTo(isLinkedTo);
+
+		return result;
+	}
+	public Collection<Rendezvous> findAll() {
+		Collection<Rendezvous> result = null;
+		result = this.rendezvousRepository.findAll();
+		return result;
+	}
+
+	public Rendezvous findOne(final int rendezvousId) {
+		Rendezvous result = null;
+		result = this.rendezvousRepository.findOne(rendezvousId);
+		return result;
+	}
+
+	public Rendezvous save(final Rendezvous rendezvous) {
+		Assert.notNull(rendezvous, "message.error.rendezvous.null");
+		Rendezvous result;
+		result = this.rendezvousRepository.save(rendezvous);
+
+		final RSVP rsvp = this.rsvpService.create(result);
+		result.getRsvps().add(rsvp);
+		result = this.rendezvousRepository.save(result);
+
+		return result;
+	}
+	public void delete(final Rendezvous rendezvous) {
+		Assert.notNull(rendezvous, "message.error.rendezvous.null");
+
+	}
+
+	// Other business methods -------------------------------------------------
+}
