@@ -54,6 +54,7 @@ public class CommentFormService {
 		public CommentForm create() {
 			CommentForm result = null;
 			result = new CommentForm();
+			result.setMomentWritten(new Date(System.currentTimeMillis() - 1));
 
 			return result;
 		}
@@ -65,12 +66,15 @@ public class CommentFormService {
 			CommentForm result = null;
 			
 			Comment cO = this.commentRepository.findOne(commentId);
+			Assert.notNull(cO, "message.error.comment.null");
+			Assert.notNull(cO.getText(),"message.error.comment.text");
+			Assert.notNull(cO.getMomentWritten(),"message.error.comment.momentWritten");
 			
 			result = new CommentForm();
 			result.setId(cO.getId());
 			result.setText(cO.getText());
 			result.setPicture(cO.getPicture());
-			result.setMomentWritten(cO.getMomentWritten());
+			result.setMomentWritten(new Date(System.currentTimeMillis() - 1));
 			
 			return result;
 		}
@@ -82,7 +86,10 @@ public class CommentFormService {
 			//Check if the logged actor is a user
 			final Comment c = this.commentService.create();
 			
-			Assert.notNull(c, "message.error.comment.null");
+			Assert.isTrue(cF.getId() == 0, "message.error.commentForm.id");
+			Assert.notNull(cF, "message.error.comment.null");
+			Assert.notNull(cF.getText(),"message.error.comment.text");
+			Assert.notNull(cF.getMomentWritten(),"message.error.comment.momentWritten");
 			c.setText(cF.getText());
 			c.setPicture(cF.getPicture());
 			c.setMomentWritten(new Date(System.currentTimeMillis() - 1));
@@ -115,11 +122,13 @@ public class CommentFormService {
 			//Check if the logged actor is a user
 			final Comment c = this.commentService.create();
 			
-			Assert.notNull(c, "message.error.comment.null");
+			Assert.notNull(cF, "message.error.comment.null");
+			Assert.notNull(cF.getText(),"message.error.commentForm.text");
+			Assert.notNull(cF.getMomentWritten(),"message.error.comment.momentWritten");
 			c.setText(cF.getText());
 			c.setPicture(cF.getPicture());
 			c.setMomentWritten(new Date(System.currentTimeMillis() - 1));
-			c.setOriginalComment(null);
+			c.setOriginalComment(r);
 			c.setUser(this.userService.findByPrincipal());
 			c.setReplies(new ArrayList<Comment>());
 			c.setRendezvous(r.getRendezvous());

@@ -34,7 +34,7 @@
 
 <security:authorize access="hasRole('USER')">
 
-<display:column><a href="comment/user/create.do?commentId=${row.id}"><spring:message code="comment.reply">
+<display:column><a href="comment/user/reply.do?commentId=${row.id}"><spring:message code="comment.reply">
 </spring:message></a></display:column>
 
 </security:authorize>
@@ -65,14 +65,8 @@
 <security:authorize access="hasRole('USER')">
 
 <!-- Link to create a new comment in the rendezvous, which has no replies -->
-<jstl:choose>
-	<jstl:when test="${requestURI == 'comment/list.do'}">
-		
-		<a href="comment/user/create.do?rendezvousId=${row.rendezvous.id}"><spring:message code="comment.create"></spring:message></a>
-	</jstl:when>
-	<jstl:otherwise>
+
 		<a href="comment/user/create.do?rendezvousId=${rendezvous.id}"><spring:message code="comment.create"></spring:message></a>
 	
-	</jstl:otherwise>
-</jstl:choose>
+	
 </security:authorize>

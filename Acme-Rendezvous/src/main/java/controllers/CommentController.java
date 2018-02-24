@@ -55,7 +55,7 @@ public class CommentController extends AbstractController{
 		result = new ModelAndView("comment/list");
 		result.addObject("requestURI", "comment/list.do");
 		result.addObject("comments",comments);
-		
+		result.addObject("rendezvous",rendez);
 		
 		}catch(Throwable oops){
 			
