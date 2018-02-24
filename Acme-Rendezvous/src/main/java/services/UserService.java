@@ -162,21 +162,21 @@ public class UserService {
 
 	// Dashboard methods ------------------------------------------------------
 
-	public Double ratioUserRendezvousesCreatedVsNeverCreated() {
+	public Double findRatioUserRendezvousesCreatedVsNeverCreated() {
 		Double result = null;
-		result = this.userRepository.ratioUserRendezvousesCreatedVsNeverCreated();
+		result = this.userRepository.findRatioUserRendezvousesCreatedVsNeverCreated();
 		return result;
 	}
 
-	public Double avgUsersRSVPsPerRendezvous() {
+	public Double findAvgUsersRSVPsPerRendezvous() {
 		Double result = null;
-		result = this.userRepository.avgUsersRSVPsPerRendezvous();
+		result = this.userRepository.findAvgUsersRSVPsPerRendezvous();
 		return result;
 	}
 
-	public Double stdUsersRSVPsPerRendezvous() {
+	public Double findStdUsersRSVPsPerRendezvous() {
 		Double result = null;
-		result = this.userRepository.stdUsersRSVPsPerRendezvous();
+		result = this.userRepository.findStdUsersRSVPsPerRendezvous();
 		return result;
 	}
 }

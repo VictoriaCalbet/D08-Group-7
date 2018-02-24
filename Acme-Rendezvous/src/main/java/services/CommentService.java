@@ -182,15 +182,15 @@ public class CommentService {
 
 	// Dashboard methods ------------------------------------------------------
 
-	public Double avgRepliesPerComment() {
+	public Double findAvgRepliesPerComment() {
 		Double result = null;
-		result = this.commentRepository.avgRepliesPerComment();
+		result = this.commentRepository.findAvgRepliesPerComment();
 		return result;
 	}
 
-	public Double stdRepliesPerComment() {
+	public Double findStdRepliesPerComment() {
 		Double result = null;
-		result = this.commentRepository.stdRepliesPerComment();
+		result = this.commentRepository.findStdRepliesPerComment();
 		return result;
 	}
 }

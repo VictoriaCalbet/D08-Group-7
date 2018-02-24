@@ -31,8 +31,7 @@ public class RendezvousService {
 
 	@Autowired
 	private UserService				userService;
-	@Autowired
-	private RSVPService				rsvpService;
+
 	@Autowired
 	private ActorService			actorService;
 
@@ -65,6 +64,7 @@ public class RendezvousService {
 
 		return result;
 	}
+
 	public Collection<Rendezvous> findAll() {
 		Collection<Rendezvous> result = null;
 		result = this.rendezvousRepository.findAll();
@@ -134,27 +134,27 @@ public class RendezvousService {
 
 	// Dashboard methods ------------------------------------------------------
 
-	public Double avgRendezvousesCreatedPerUser() {
+	public Double findAvgRendezvousesCreatedPerUser() {
 		Double result = null;
-		result = this.rendezvousRepository.avgRendezvousesCreatedPerUser();
+		result = this.rendezvousRepository.findAvgRendezvousesCreatedPerUser();
 		return result;
 	}
 
-	public Double stdRendezvousesCreatedPerUser() {
+	public Double findStdRendezvousesCreatedPerUser() {
 		Double result = null;
-		result = this.rendezvousRepository.stdRendezvousesCreatedPerUser();
+		result = this.rendezvousRepository.findStdRendezvousesCreatedPerUser();
 		return result;
 	}
 
-	public Double avgRendezvousRSVPsPerUsers() {
+	public Double findAvgRendezvousRSVPsPerUsers() {
 		Double result = null;
-		result = this.rendezvousRepository.avgRendezvousRSVPsPerUsers();
+		result = this.rendezvousRepository.findAvgRendezvousRSVPsPerUsers();
 		return result;
 	}
 
-	public Double stdRendezvousRSVPsPerUsers() {
+	public Double findStdRendezvousRSVPsPerUsers() {
 		Double result = null;
-		result = this.rendezvousRepository.stdRendezvousRSVPsPerUsers();
+		result = this.rendezvousRepository.findStdRendezvousRSVPsPerUsers();
 		return result;
 	}
 
@@ -170,21 +170,21 @@ public class RendezvousService {
 		return result;
 	}
 
-	public Collection<Rendezvous> getRendezvousesThatLinkedToRvGreaterThanAvgPlus10() {
+	public Collection<Rendezvous> findRendezvousesThatLinkedToRvGreaterThanAvgPlus10() {
 		Collection<Rendezvous> result = null;
-		result = this.rendezvousRepository.getRendezvousesThatLinkedToRvGreaterThanAvgPlus10();
+		result = this.rendezvousRepository.findRendezvousesThatLinkedToRvGreaterThanAvgPlus10();
 		return result;
 	}
 
-	public Double avgNoQuestionPerRendezvous() {
+	public Double findAvgNoQuestionPerRendezvous() {
 		Double result = null;
-		result = this.rendezvousRepository.avgNoQuestionPerRendezvous();
-		return result;
-	}
-	public Double stdNoQuestionPerRendezvous() {
-		Double result = null;
-		result = this.rendezvousRepository.stdNoQuestionPerRendezvous();
+		result = this.rendezvousRepository.findAvgNoQuestionPerRendezvous();
 		return result;
 	}
 
+	public Double findStdNoQuestionPerRendezvous() {
+		Double result = null;
+		result = this.rendezvousRepository.findStdNoQuestionPerRendezvous();
+		return result;
+	}
 }

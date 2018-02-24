@@ -170,15 +170,15 @@ public class AnnouncementService {
 
 	// Dashboard methods ------------------------------------------------------
 
-	public Double avgAnnouncementPerRendezvous() {
+	public Double findAvgAnnouncementPerRendezvous() {
 		Double result = null;
-		result = this.announcementRepository.avgAnnouncementPerRendezvous();
+		result = this.announcementRepository.findAvgAnnouncementPerRendezvous();
 		return result;
 	}
 
-	public Double stdAnnouncementPerRendezvous() {
+	public Double findStdAnnouncementPerRendezvous() {
 		Double result = null;
-		result = this.announcementRepository.stdAnnouncementPerRendezvous();
+		result = this.announcementRepository.findStdAnnouncementPerRendezvous();
 		return result;
 	}
 }

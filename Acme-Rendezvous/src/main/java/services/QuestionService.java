@@ -66,15 +66,15 @@ public class QuestionService {
 
 	// Dashboard methods ------------------------------------------------------
 
-	public Double avgAnnouncementPerRendezvous() {
+	public Double findAvgQuestionsPerRendezvous() {
 		Double result = null;
-		result = this.questionRepository.avgAnnouncementPerRendezvous();
+		result = this.questionRepository.findAvgQuestionsPerRendezvous();
 		return result;
 	}
 
-	public Double stdAnnouncementPerRendezvous() {
+	public Double findStdQuestionsPerRendezvous() {
 		Double result = null;
-		result = this.questionRepository.stdAnnouncementPerRendezvous();
+		result = this.questionRepository.findStdQuestionsPerRendezvous();
 		return result;
 	}
 }
