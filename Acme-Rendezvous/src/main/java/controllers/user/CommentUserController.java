@@ -1,5 +1,8 @@
 package controllers.user;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +17,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.CommentService;
 import services.RendezvousService;
+import services.UserService;
 import services.form.CommentFormService;
 
 import controllers.AbstractController;
 import domain.Comment;
 import domain.Rendezvous;
+import domain.User;
 import domain.form.CommentForm;
 
 @Controller
@@ -42,6 +47,9 @@ public class CommentUserController extends AbstractController{
 	
 	@Autowired
 	private RendezvousService rendezvousService;
+	
+	@Autowired
+	private UserService userService;
 	
 	// Creation ----------------------------------------------------------------
 
@@ -70,7 +78,7 @@ public class CommentUserController extends AbstractController{
 		}
 
 		@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
-		public ModelAndView create(@ModelAttribute("commentForm") @Valid final CommentForm commentForm, @RequestParam(required=true) final int rendezvousId, final BindingResult binding) {
+		public ModelAndView create(@ModelAttribute("commentForm") @Valid final CommentForm commentForm, final BindingResult binding, @RequestParam(required=true) final int rendezvousId) {
 			//		this.rendezvousFormValidator.validate(rendezvousForm, binding);
 
 			ModelAndView result;
@@ -79,8 +87,11 @@ public class CommentUserController extends AbstractController{
 				result = this.createModelAndView(commentForm);
 			else
 				try {
-					Assert.notNull(commentForm.getText(),"message.error.commentForm.text");
+					final User user = this.userService.findByPrincipal();
 					Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousId);
+					Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
+					principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(user.getId());
+					Assert.isTrue(principalRendezvouses.contains(rendezvous),"message.error.comment.noRSVP");
 					this.commentFormService.saveFromCreate(commentForm, rendezvous);
 					result = new ModelAndView("redirect:/rendezvous/list.do");
 				} catch (final Throwable oops) {
@@ -94,7 +105,7 @@ public class CommentUserController extends AbstractController{
 		}
 		
 		@RequestMapping(value = "/reply", method = RequestMethod.POST, params = "save")
-		public ModelAndView reply(@ModelAttribute("commentForm") @Valid final CommentForm commentForm, @RequestParam(required=true) final int commentId, final BindingResult binding) {
+		public ModelAndView reply(@ModelAttribute("commentForm") @Valid final CommentForm commentForm, final BindingResult binding,@RequestParam(required=true) final int commentId) {
 			//		this.rendezvousFormValidator.validate(rendezvousForm, binding);
 
 			ModelAndView result;
@@ -104,6 +115,11 @@ public class CommentUserController extends AbstractController{
 			else
 				try {
 					Comment comment = this.commentService.findOne(commentId);
+					final User user = this.userService.findByPrincipal();
+					Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
+
+					principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(user.getId());
+					Assert.isTrue(principalRendezvouses.contains(comment.getRendezvous()),"message.error.comment.noRSVP");
 					this.commentFormService.saveReply(commentForm, comment);
 					result = new ModelAndView("redirect:/rendezvous/list.do");
 				} catch (final Throwable oops) {

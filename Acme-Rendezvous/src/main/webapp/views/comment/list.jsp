@@ -20,6 +20,8 @@
 
 <jsp:useBean id="now" class="java.util.Date"/>
 
+<security:authentication property="principal" var="loggedactor"/>
+
 <display:table id="row" name="comments" requestURI="${requestURI}" pagesize="10">
 
 <!-- Link to delete a comment, visible only by admins -->
@@ -34,8 +36,12 @@
 
 <security:authorize access="hasRole('USER')">
 
-<display:column><a href="comment/user/reply.do?commentId=${row.id}"><spring:message code="comment.reply">
-</spring:message></a></display:column>
+<display:column>
+<jstl:if test="${principalRendezvouses.contains(rendezvous)}">
+<a href="comment/user/reply.do?commentId=${row.id}"><spring:message code="comment.reply">
+</spring:message></a>
+</jstl:if>
+</display:column>
 
 </security:authorize>
 
@@ -66,7 +72,8 @@
 
 <!-- Link to create a new comment in the rendezvous, which has no replies -->
 
+<jstl:if test="${principalRendezvouses.contains(rendezvous)}">
 		<a href="comment/user/create.do?rendezvousId=${rendezvous.id}"><spring:message code="comment.create"></spring:message></a>
-	
+</jstl:if>	
 	
 </security:authorize>
