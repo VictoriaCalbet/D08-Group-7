@@ -135,7 +135,7 @@ public class Rendezvous extends DomainEntity {
 
 	@Valid
 	@NotNull
-	@OneToMany(cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "rendezvous", cascade = CascadeType.REMOVE)
 	public Collection<RSVP> getRsvps() {
 		return this.rsvps;
 	}

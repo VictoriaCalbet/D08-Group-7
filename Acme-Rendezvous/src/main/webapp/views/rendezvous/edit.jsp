@@ -23,6 +23,9 @@
 
 	<!-- Hidden attributes -->
 	<form:hidden path="id"/>
+	<jstl:if test="${age < 18}">
+		<form:hidden path="isAdultOnly"/>
+	</jstl:if>
 	
 	<!-- Editable attributes -->
 	
@@ -32,7 +35,9 @@
 	<acme:textbox code="rendezvous.picture" path="picture"/>
 	<acme:textbox code="rendezvous.gpsPoint.latitude" path="gpsPoint.latitude"/>
 	<acme:textbox code="rendezvous.gpsPoint.longitude" path="gpsPoint.longitude"/>
-	<acme:checkbox code="rendezvous.isAdultOnly" path="isAdultOnly"/>
+	<jstl:if test="${age > 18}">
+		<acme:checkbox code="rendezvous.isAdultOnly" path="isAdultOnly"/>
+	</jstl:if>
 	<acme:checkbox code="rendezvous.isDraft" path="isDraft"/>
 	
 		<!-- Action buttons -->
