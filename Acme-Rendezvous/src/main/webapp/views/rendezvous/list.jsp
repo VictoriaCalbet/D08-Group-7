@@ -144,6 +144,15 @@
 		</jstl:if>
 	</display:column>
 	
+	<spring:message code="rendezvous.link" var="linkHeader" />	
+	<display:column title="${linkHeader}">	
+		<jstl:if test="${!row.isDeleted && row.creator.userAccount.username==loggedactor.username}">	
+			<a href="rendezvous/user/link.do?rendezvousId=${row.id}">
+			 	<spring:message code="rendezvous.linkButton" />
+			</a>
+		</jstl:if>
+	</display:column>
+	
 	<spring:message code="rendezvous.RSVPButton" var="rsvpHeader" />
 	<display:column title="${rsvpHeader}">
 	<jstl:choose>

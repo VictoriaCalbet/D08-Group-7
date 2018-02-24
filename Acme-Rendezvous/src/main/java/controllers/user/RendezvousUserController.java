@@ -18,23 +18,28 @@ import org.springframework.web.servlet.ModelAndView;
 import services.RendezvousService;
 import services.UserService;
 import services.form.RendezvousFormService;
+import services.form.RendezvousLinkedFormService;
 import controllers.AbstractController;
 import domain.Rendezvous;
 import domain.User;
 import domain.form.RendezvousForm;
+import domain.form.RendezvousLinkedForm;
 
 @Controller
 @RequestMapping("/rendezvous/user")
 public class RendezvousUserController extends AbstractController {
 
 	@Autowired
-	private RendezvousService		rendezvousService;
+	private RendezvousService			rendezvousService;
 
 	@Autowired
-	private RendezvousFormService	rendezvousFormService;
+	private RendezvousFormService		rendezvousFormService;
 
 	@Autowired
-	private UserService				userService;
+	private UserService					userService;
+
+	@Autowired
+	private RendezvousLinkedFormService	rendezvousLinkedFormService;
 
 
 	//	@Autowired
@@ -174,6 +179,41 @@ public class RendezvousUserController extends AbstractController {
 		return result;
 	}
 
+	// Linked ----------------------------------------------------------------
+
+	@RequestMapping(value = "/link", method = RequestMethod.GET)
+	public ModelAndView link(@RequestParam final int rendezvousId) {
+		final ModelAndView result;
+		RendezvousLinkedForm rendezvousLinkedForm;
+
+		rendezvousLinkedForm = this.rendezvousLinkedFormService.create(rendezvousId);
+		result = this.createLinkModelAndView(rendezvousLinkedForm);
+		return result;
+
+	}
+
+	@RequestMapping(value = "/link", method = RequestMethod.POST, params = "save")
+	public ModelAndView link(@Valid final RendezvousLinkedForm rendezvousLinkedForm, final BindingResult binding) {
+		//		this.rendezvousFormValidator.validate(rendezvousForm, binding);
+
+		ModelAndView result;
+
+		if (binding.hasErrors())
+			result = this.createLinkModelAndView(rendezvousLinkedForm);
+		else
+			try {
+				this.rendezvousLinkedFormService.linkedTo(rendezvousLinkedForm);
+				result = new ModelAndView("redirect:/rendezvous/user/list.do");
+			} catch (final Throwable oops) {
+				String messageError = "rendezvous.commit.error";
+				if (oops.getMessage().contains("message.error"))
+					messageError = oops.getMessage();
+				result = this.createLinkModelAndView(rendezvousLinkedForm, messageError);
+			}
+
+		return result;
+	}
+
 	// Ancillaty methods
 	protected ModelAndView createModelAndView(final RendezvousForm rendezvousForm) {
 		ModelAndView result;
@@ -211,4 +251,27 @@ public class RendezvousUserController extends AbstractController {
 		return result;
 	}
 
+	protected ModelAndView createLinkModelAndView(final RendezvousLinkedForm rendezvousLinkedForm) {
+		ModelAndView result;
+
+		result = this.createLinkModelAndView(rendezvousLinkedForm, null);
+
+		return result;
+	}
+
+	protected ModelAndView createLinkModelAndView(final RendezvousLinkedForm rendezvousLinkedForm, final String message) {
+		ModelAndView result;
+		final User u = this.userService.findByPrincipal();
+
+		final Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousLinkedForm.getRendezvousId());
+		final Collection<Rendezvous> rendezvouses = u.getRendezvoussesCreated();
+		rendezvouses.remove(rendezvous);
+
+		result = new ModelAndView("rendezvous/user/link");
+		result.addObject("rendezvousLinkedForm", rendezvousLinkedForm);
+		result.addObject("message", message);
+		result.addObject("rendezvouses", rendezvouses);
+
+		return result;
+	}
 }
