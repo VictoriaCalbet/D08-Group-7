@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.AnnouncementService;
+import services.AnswerService;
 import services.CommentService;
-import services.QuestionService;
 import services.RendezvousService;
 import services.UserService;
 import domain.Rendezvous;
@@ -32,7 +32,7 @@ public class DashboardAdministratorController {
 	private RendezvousService	rendezvousService;
 
 	@Autowired
-	private QuestionService		questionService;
+	private AnswerService		answerService;
 
 	@Autowired
 	private UserService			userService;
@@ -60,14 +60,14 @@ public class DashboardAdministratorController {
 		final Double stdRendezvousesCreatedPerUser = this.rendezvousService.findStdRendezvousesCreatedPerUser();
 		final Double avgRendezvousRSVPsPerUsers = this.rendezvousService.findAvgRendezvousRSVPsPerUsers();
 		final Double stdRendezvousRSVPsPerUsers = this.rendezvousService.findStdRendezvousRSVPsPerUsers();
-		final Collection<Rendezvous> rendezvousByRSVPs = this.rendezvousService.findAllRendezvousByRSVPs();
+		final Collection<Rendezvous> rendezvousByRSVPs = this.rendezvousService.findTop10RendezvousByRSVPs();
 		final Collection<Rendezvous> findAllRendezvousNoAnnouncementsIsAbove75PerCentNoAnnouncementPerRendezvous = this.rendezvousService.findAllRendezvousNoAnnouncementsIsAbove75PerCentNoAnnouncementPerRendezvous();
 		final Collection<Rendezvous> rendezvousesThatLinkedToRvGreaterThanAvgPlus10 = this.rendezvousService.findRendezvousesThatLinkedToRvGreaterThanAvgPlus10();
 		final Double avgNoQuestionPerRendezvous = this.rendezvousService.findAvgNoQuestionPerRendezvous();
 		final Double stdNoQuestionPerRendezvous = this.rendezvousService.findStdNoQuestionPerRendezvous();
 
-		final Double avgQuestionsPerRendezvous = this.questionService.findAvgQuestionsPerRendezvous();
-		final Double stdQuestionsPerRendezvous = this.questionService.findStdQuestionsPerRendezvous();
+		final Double avgNoAnswersToTheQuestionsPerRendezvous = this.answerService.findAvgNoAnswersToTheQuestionsPerRendezvous();
+		final Double stdNoAnswersToTheQuestionsPerRendezvous = this.answerService.findStdNoAnswersToTheQuestionsPerRendezvous();
 
 		final Double ratioUserRendezvousesCreatedVsNeverCreated = this.userService.findRatioUserRendezvousesCreatedVsNeverCreated();
 		final Double avgUsersRSVPsPerRendezvous = this.userService.findAvgUsersRSVPsPerRendezvous();
@@ -88,8 +88,8 @@ public class DashboardAdministratorController {
 		result.addObject("rendezvousesThatLinkedToRvGreaterThanAvgPlus10", rendezvousesThatLinkedToRvGreaterThanAvgPlus10);
 		result.addObject("avgNoQuestionPerRendezvous", avgNoQuestionPerRendezvous);
 		result.addObject("stdNoQuestionPerRendezvous", stdNoQuestionPerRendezvous);
-		result.addObject("avgQuestionsPerRendezvous", avgQuestionsPerRendezvous);
-		result.addObject("stdQuestionsPerRendezvous", stdQuestionsPerRendezvous);
+		result.addObject("avgNoAnswersToTheQuestionsPerRendezvous", avgNoAnswersToTheQuestionsPerRendezvous);
+		result.addObject("stdNoAnswersToTheQuestionsPerRendezvous", stdNoAnswersToTheQuestionsPerRendezvous);
 		result.addObject("ratioUserRendezvousesCreatedVsNeverCreated", ratioUserRendezvousesCreatedVsNeverCreated);
 		result.addObject("avgUsersRSVPsPerRendezvous", avgUsersRSVPsPerRendezvous);
 		result.addObject("stdUsersRSVPsPerRendezvous", stdUsersRSVPsPerRendezvous);
