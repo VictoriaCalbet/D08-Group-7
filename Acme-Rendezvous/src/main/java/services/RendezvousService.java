@@ -224,7 +224,7 @@ public class RendezvousService {
 		return result;
 	}
 
-	private int calculateAge(final Calendar fechaNac) {
+	public int calculateAge(final Calendar fechaNac) {
 		final Calendar today = Calendar.getInstance();
 
 		int year = today.get(Calendar.YEAR) - fechaNac.get(Calendar.YEAR);

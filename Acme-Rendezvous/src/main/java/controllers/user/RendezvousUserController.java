@@ -3,6 +3,7 @@ package controllers.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.GregorianCalendar;
 
 import javax.validation.Valid;
 
@@ -71,10 +72,16 @@ public class RendezvousUserController extends AbstractController {
 	public ModelAndView create() {
 		final ModelAndView result;
 		RendezvousForm rendezvousForm;
+		final User u = this.userService.findByPrincipal();
+
+		final GregorianCalendar g = new GregorianCalendar();
+		if (u.getBirthDate() != null)
+			g.setTime(u.getBirthDate());
+		final int age = this.rendezvousService.calculateAge(g);
 
 		rendezvousForm = this.rendezvousFormService.create();
 		result = this.createModelAndView(rendezvousForm);
-
+		result.addObject("age", age);
 		return result;
 
 	}
@@ -107,10 +114,18 @@ public class RendezvousUserController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int rendezvousId) {
 		ModelAndView result;
 		RendezvousForm rendezvousForm;
+		final User u = this.userService.findByPrincipal();
+
+		final GregorianCalendar g = new GregorianCalendar();
+		if (u.getBirthDate() != null)
+			g.setTime(u.getBirthDate());
+		final int age = this.rendezvousService.calculateAge(g);
 
 		try {
 			rendezvousForm = this.rendezvousFormService.create(rendezvousId);
 			result = this.createModelAndView(rendezvousForm);
+			result.addObject("age", age);
+
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/rendezvous/user/list.do");
 			result.addObject("message", oops.getMessage());
