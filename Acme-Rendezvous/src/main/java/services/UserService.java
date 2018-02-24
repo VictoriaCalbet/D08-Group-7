@@ -159,4 +159,24 @@ public class UserService {
 	public Collection<User> findAttendantsOfRendezvous(final int rendezvousId) {
 		return this.userRepository.findAttendantsOfRendezvous(rendezvousId);
 	}
+
+	// Dashboard methods ------------------------------------------------------
+
+	public Double ratioUserRendezvousesCreatedVsNeverCreated() {
+		Double result = null;
+		result = this.userRepository.ratioUserRendezvousesCreatedVsNeverCreated();
+		return result;
+	}
+
+	public Double avgUsersRSVPsPerRendezvous() {
+		Double result = null;
+		result = this.userRepository.avgUsersRSVPsPerRendezvous();
+		return result;
+	}
+
+	public Double stdUsersRSVPsPerRendezvous() {
+		Double result = null;
+		result = this.userRepository.stdUsersRSVPsPerRendezvous();
+		return result;
+	}
 }

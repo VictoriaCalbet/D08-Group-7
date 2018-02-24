@@ -167,4 +167,18 @@ public class AnnouncementService {
 		announcements = this.announcementRepository.getAnnouncementsPostedAndAcceptedByUser(userId);
 		return announcements;
 	}
+
+	// Dashboard methods ------------------------------------------------------
+
+	public Double avgAnnouncementPerRendezvous() {
+		Double result = null;
+		result = this.announcementRepository.avgAnnouncementPerRendezvous();
+		return result;
+	}
+
+	public Double stdAnnouncementPerRendezvous() {
+		Double result = null;
+		result = this.announcementRepository.stdAnnouncementPerRendezvous();
+		return result;
+	}
 }

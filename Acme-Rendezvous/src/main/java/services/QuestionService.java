@@ -63,4 +63,18 @@ public class QuestionService {
 	}
 
 	// Other business methods -------------------------------------------------
+
+	// Dashboard methods ------------------------------------------------------
+
+	public Double avgAnnouncementPerRendezvous() {
+		Double result = null;
+		result = this.questionRepository.avgAnnouncementPerRendezvous();
+		return result;
+	}
+
+	public Double stdAnnouncementPerRendezvous() {
+		Double result = null;
+		result = this.questionRepository.stdAnnouncementPerRendezvous();
+		return result;
+	}
 }
