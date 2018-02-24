@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
 import services.RendezvousService;
-import services.UserService;
 import domain.Actor;
 import domain.Rendezvous;
 
@@ -26,9 +25,6 @@ public class RendezvousController extends AbstractController {
 
 	@Autowired
 	private ActorService		actorService;
-
-	@Autowired
-	private UserService			userService;
 
 
 	public RendezvousController() {
