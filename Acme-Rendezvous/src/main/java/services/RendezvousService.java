@@ -36,6 +36,8 @@ public class RendezvousService {
 
 	@Autowired
 	private ActorService			actorService;
+	@Autowired
+	private RSVPService				rsvpService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -130,6 +132,14 @@ public class RendezvousService {
 		final User creator = r.getCreator();
 		creator.getRendezvoussesCreated().remove(r);
 		this.userService.save(creator);
+		final Collection<RSVP> rsvps = r.getRsvps();
+		for (final RSVP rv : rsvps) {
+			final User u = rv.getUser();
+			u.getRsvps().remove(rv);
+			this.userService.save(u);
+			this.rsvpService.delete(rv);
+		}
+
 		this.rendezvousRepository.delete(r);
 
 	}
