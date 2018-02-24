@@ -120,15 +120,7 @@
 	
 	<spring:message code="rendezvous.comments" var="commentHeader" />	
 	<display:column title="${commentHeader}">
-	<jstl:choose>
-		<jstl:when  test = "${fn:length(row.comments) ==0}">	
-			<spring:message code="rendezvous.noComments"/>
-		</jstl:when>
-		<jstl:otherwise> 
-			<a href="comment/list.do?rendezvousId=${row.id}"> 
-		<spring:message code="rendezvous.commentButton"/>
-		</a>	</jstl:otherwise>
-	</jstl:choose>
+			<a href="comment/list.do?rendezvousId=${row.id}"><spring:message code="rendezvous.commentButton"/></a>
 	</display:column>
 	
 	

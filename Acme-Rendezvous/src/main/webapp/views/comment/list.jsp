@@ -50,26 +50,29 @@
 <display:column property="momentWritten" title="${commentMomentWritten}"></display:column>
 <fmt:formatDate value="${row.momentWritten}" pattern="${commentDate}"/>
 
+<spring:message code="comment.user" var="commentUser" />
+<display:column property="user.name" title="${commentUser}"><jstl:out value="${row.user.name}"></jstl:out></display:column>
+
 
 <spring:message code="comment.replies" var="listReplies"/>
 <display:column title="${listReplies}">
-
-<jstl:choose>
-		<jstl:when  test = "${fn:length(row.replies) ==0}">	
-			<spring:message code="comment.noReplies"/>
-		</jstl:when>
-		<jstl:otherwise> 
 			<a href="comment/listReplies.do?commentId=${row.id}">
 		<spring:message code="comment.viewReply"/></a>
-		</jstl:otherwise>
-	</jstl:choose>
-
 </display:column>
 
 </display:table>
-
+<br/>
 <security:authorize access="hasRole('USER')">
 
 <!-- Link to create a new comment in the rendezvous, which has no replies -->
-<a href="comment/user/create.do?rendezvousId=${row.rendezvous.id}"><spring:message code="comment.create"></spring:message></a>
+<jstl:choose>
+	<jstl:when test="${requestURI == 'comment/list.do'}">
+		
+		<a href="comment/user/create.do?rendezvousId=${row.rendezvous.id}"><spring:message code="comment.create"></spring:message></a>
+	</jstl:when>
+	<jstl:otherwise>
+		<a href="comment/user/create.do?rendezvousId=${rendezvous.id}"><spring:message code="comment.create"></spring:message></a>
+	
+	</jstl:otherwise>
+</jstl:choose>
 </security:authorize>
