@@ -16,7 +16,6 @@ import services.RendezvousService;
 import services.UserService;
 import domain.Actor;
 import domain.Rendezvous;
-import domain.User;
 
 @Controller
 @RequestMapping("/rendezvous")
@@ -54,7 +53,7 @@ public class RendezvousController extends AbstractController {
 		//RSVP button control
 		Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
 		if (this.actorService.checkLogin()) {
-			final User principal = this.userService.findByPrincipal();
+			final Actor principal = this.actorService.findByPrincipal();
 			principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(principal.getId());
 		}
 
