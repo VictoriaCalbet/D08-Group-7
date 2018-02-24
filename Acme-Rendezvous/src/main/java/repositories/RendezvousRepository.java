@@ -16,10 +16,10 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select r from Rendezvous r where r.isDeleted = false AND r.isDraft = false")
 	Collection<Rendezvous> findRendezvousesOnlyAdult();
 
-	@Query("select rsvp.rendezvous from RSVP rsvp where rsvp.user.id = ?1 AND rsvp.isCancelled IS FALSE")
+	@Query("select rsvp.rendezvous from RSVP rsvp where rsvp.user.id = ?1 AND rsvp.isCancelled IS FALSE AND rsvp.rendezvous.isDraft IS FALSE AND rsvp.rendezvous.isDeleted IS FALSE")
 	Collection<Rendezvous> findAllAttendedByUserId(int userId);
 
-	@Query("select rsvp.rendezvous from RSVP rsvp where rsvp.user.id = ?1 AND rsvp.isCancelled IS FALSE AND rsvp.rendezvous.isAdultOnly IS FALSE")
+	@Query("select rsvp.rendezvous from RSVP rsvp where rsvp.user.id = ?1 AND rsvp.isCancelled IS FALSE AND rsvp.rendezvous.isDraft IS FALSE AND rsvp.rendezvous.isDeleted IS FALSE AND rsvp.rendezvous.isAdultOnly IS FALSE")
 	Collection<Rendezvous> findAllAttendedByUserIdU18(int userId);
 
 	@Query("select rvs from Rendezvous rvs where rvs.meetingMoment < CURRENT_TIMESTAMP and rvs.isDraft is false and rvs.isDeleted is false and rvs.creator.id = ?1")
