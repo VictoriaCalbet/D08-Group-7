@@ -2,7 +2,9 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.GregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,8 +79,28 @@ public class RendezvousService {
 		return result;
 	}
 
-	public Collection<Rendezvous> findByNotDeleted() {
-		return this.rendezvousRepository.findByNotDeleted();
+	public Collection<Rendezvous> findRendezvousesLogged(final Actor a) {
+
+		final Calendar birthDate = new GregorianCalendar();
+		birthDate.setTime(a.getBirthDate());
+		final int age = this.calculateAge(birthDate);
+		if (age < 18)
+			return this.findRendezvousesAllUser();
+		else
+			return this.findRendezvousesOnlyAdult();
+
+	}
+
+	public Collection<Rendezvous> findRendezvousesNotLogged() {
+		return this.findRendezvousesAllUser();
+	}
+
+	public Collection<Rendezvous> findRendezvousesAllUser() {
+		return this.rendezvousRepository.findRendezvousesAllUser();
+	}
+
+	public Collection<Rendezvous> findRendezvousesOnlyAdult() {
+		return this.rendezvousRepository.findRendezvousesOnlyAdult();
 	}
 
 	public Rendezvous save(final Rendezvous rendezvous) {
@@ -191,4 +213,18 @@ public class RendezvousService {
 		result = this.rendezvousRepository.findStdNoQuestionPerRendezvous();
 		return result;
 	}
+
+	private int calculateAge(final Calendar fechaNac) {
+		final Calendar today = Calendar.getInstance();
+
+		int year = today.get(Calendar.YEAR) - fechaNac.get(Calendar.YEAR);
+		final int month = today.get(Calendar.MONTH) - fechaNac.get(Calendar.MONTH);
+		final int day = today.get(Calendar.DAY_OF_MONTH) - fechaNac.get(Calendar.DAY_OF_MONTH);
+
+		//Si aun no los ha cumplido
+		if (month < 0 || (month == 0 && day < 0))
+			year = year - 1;
+		return year;
+	}
+
 }

@@ -10,8 +10,11 @@ import domain.Rendezvous;
 
 public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer> {
 
-	@Query("select r from Rendezvous r where r.isDeleted = false")
-	Collection<Rendezvous> findByNotDeleted();
+	@Query("select r from Rendezvous r where r.isDeleted = false AND r.isDraft = false AND r.isAdultOnly = false")
+	Collection<Rendezvous> findRendezvousesAllUser();
+
+	@Query("select r from Rendezvous r where r.isDeleted = false AND r.isDraft = false")
+	Collection<Rendezvous> findRendezvousesOnlyAdult();
 
 	@Query("select rsvp.rendezvous from RSVP rsvp where rsvp.user.id = ?1 AND rsvp.isCancelled IS FALSE")
 	Collection<Rendezvous> findAllAttendedByUserId(int userId);
