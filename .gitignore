@@ -45,3 +45,10 @@ local.properties
 .springBeans
 # Code Recommenders
 .recommenders/
+*.class
+Acme-Rendezvous/target/m2e-wtp/web-resources/META-INF/maven/Design-and-Testing/Acme-Rendezvous/pom.properties
+Acme-Rendezvous/src/main/resources/Entities.map
+*.class
+Acme-Rendezvous/target/classes/Entities.map
+Acme-Rendezvous/target/m2e-wtp/web-resources/META-INF/maven/Design-and-Testing/Acme-Rendezvous/pom.properties
+Acme-Rendezvous/target/classes/controllers/RendezvousController.class
