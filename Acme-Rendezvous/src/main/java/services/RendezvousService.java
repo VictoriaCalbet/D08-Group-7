@@ -131,4 +131,60 @@ public class RendezvousService {
 		result = this.rendezvousRepository.findAllAvailableAnnouncementsByUserId(userId);
 		return result;
 	}
+
+	// Dashboard methods ------------------------------------------------------
+
+	public Double avgRendezvousesCreatedPerUser() {
+		Double result = null;
+		result = this.rendezvousRepository.avgRendezvousesCreatedPerUser();
+		return result;
+	}
+
+	public Double stdRendezvousesCreatedPerUser() {
+		Double result = null;
+		result = this.rendezvousRepository.stdRendezvousesCreatedPerUser();
+		return result;
+	}
+
+	public Double avgRendezvousRSVPsPerUsers() {
+		Double result = null;
+		result = this.rendezvousRepository.avgRendezvousRSVPsPerUsers();
+		return result;
+	}
+
+	public Double stdRendezvousRSVPsPerUsers() {
+		Double result = null;
+		result = this.rendezvousRepository.stdRendezvousRSVPsPerUsers();
+		return result;
+	}
+
+	public Collection<Rendezvous> findAllRendezvousByRSVPs() {
+		Collection<Rendezvous> result = null;
+		result = this.rendezvousRepository.findAllRendezvousByRSVPs();
+		return result;
+	}
+
+	public Collection<Rendezvous> findAllRendezvousNoAnnouncementsIsAbove75PerCentNoAnnouncementPerRendezvous() {
+		Collection<Rendezvous> result = null;
+		result = this.rendezvousRepository.findAllRendezvousNoAnnouncementsIsAbove75PerCentNoAnnouncementPerRendezvous();
+		return result;
+	}
+
+	public Collection<Rendezvous> getRendezvousesThatLinkedToRvGreaterThanAvgPlus10() {
+		Collection<Rendezvous> result = null;
+		result = this.rendezvousRepository.getRendezvousesThatLinkedToRvGreaterThanAvgPlus10();
+		return result;
+	}
+
+	public Double avgNoQuestionPerRendezvous() {
+		Double result = null;
+		result = this.rendezvousRepository.avgNoQuestionPerRendezvous();
+		return result;
+	}
+	public Double stdNoQuestionPerRendezvous() {
+		Double result = null;
+		result = this.rendezvousRepository.stdNoQuestionPerRendezvous();
+		return result;
+	}
+
 }

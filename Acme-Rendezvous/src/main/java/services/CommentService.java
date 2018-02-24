@@ -34,8 +34,9 @@ public class CommentService {
 	private UserService				userService;
 
 	@Autowired
-	private RendezvousService				rendezvousService;
-	
+	private RendezvousService		rendezvousService;
+
+
 	// Constructors -----------------------------------------------------------
 
 	public CommentService() {
@@ -130,39 +131,39 @@ public class CommentService {
 	}
 
 	public void delete(final int id) {
-		
-		Comment comment = this.findOne(id);
-		
-		Assert.notNull(comment.getId(),"message.error.comment.id");
-		Assert.isTrue(comment.getId()>0,"message.error.comment.id.greaterThan0");
+
+		final Comment comment = this.findOne(id);
+
+		Assert.notNull(comment.getId(), "message.error.comment.id");
+		Assert.isTrue(comment.getId() > 0, "message.error.comment.id.greaterThan0");
 		Assert.notNull(comment, "message.error.comment.null");
 		final Administrator admin = this.administratorService.findByPrincipal();
 		Assert.notNull(admin, "message.error.comment.notAnAdmin");
-		Assert.notNull(comment.getMomentWritten(),"message.error.comment.momentWritten");
-		
-		Rendezvous rendez = comment.getRendezvous();
-		Collection<Comment> commentsRendez = rendez.getComments();
+		Assert.notNull(comment.getMomentWritten(), "message.error.comment.momentWritten");
+
+		final Rendezvous rendez = comment.getRendezvous();
+		final Collection<Comment> commentsRendez = rendez.getComments();
 		commentsRendez.remove(comment);
 		rendez.setComments(commentsRendez);
-		
-		Comment commentO = comment.getOriginalComment();
-		
-		if(commentO!=null){
-		
-		Collection<Comment> replies = commentO.getReplies();
-		replies.remove(comment);
-		commentO.setReplies(replies);
-		this.commentRepository.save(commentO);
+
+		final Comment commentO = comment.getOriginalComment();
+
+		if (commentO != null) {
+
+			final Collection<Comment> replies = commentO.getReplies();
+			replies.remove(comment);
+			commentO.setReplies(replies);
+			this.commentRepository.save(commentO);
 		}
-		
+
 		//guardar usuario, rendezvous, borrar replies de comentario original si lo tiene y borrar replies de este comentario en cascada
 		this.rendezvousService.save(rendez);
-		
+
 		final User user = comment.getUser();
 		user.getComments().remove(comment);
 		this.userService.save(user);
 		//User user = this.userService.findOne(comment.getUser().getId());		
-		
+
 		//user.getComments().remove(comment);
 		//user.setComments(comments);
 
@@ -170,18 +171,26 @@ public class CommentService {
 		this.commentRepository.delete(comment);
 
 	}
-	
-	public Collection<Comment> getOriginalCommentsByRendezvousId(int id){
-		
-		Collection<Comment> comments = null;
 
+	public Collection<Comment> getOriginalCommentsByRendezvousId(final int id) {
+		Collection<Comment> comments = null;
 		comments = this.commentRepository.getOriginalCommentsByRendezvousId(id);
-		
 		return comments;
-		
 	}
-	
-	
 
 	// Other business methods -------------------------------------------------
+
+	// Dashboard methods ------------------------------------------------------
+
+	public Double avgRepliesPerComment() {
+		Double result = null;
+		result = this.commentRepository.avgRepliesPerComment();
+		return result;
+	}
+
+	public Double stdRepliesPerComment() {
+		Double result = null;
+		result = this.commentRepository.stdRepliesPerComment();
+		return result;
+	}
 }
