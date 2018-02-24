@@ -19,12 +19,12 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	// Dashboard queries
 	
 	@Query("select count(usr)*1.0/(select count(u) from User u where u.rendezvoussesCreated is not empty) from User usr where usr.rendezvoussesCreated is empty")
-	public Double ratioUserRendezvousesCreatedVsNeverCreated();
+	public Double findRatioUserRendezvousesCreatedVsNeverCreated();
 	
 	@Query("select avg(rvs.rsvps.size) from Rendezvous rvs")
-	public Double avgUsersRSVPsPerRendezvous();
+	public Double findAvgUsersRSVPsPerRendezvous();
 	
 	@Query("select sqrt(sum(rvs.rsvps.size * rvs.rsvps.size) / count(rvs.rsvps.size) - (avg(rvs.rsvps.size) * avg(rvs.rsvps.size))) from Rendezvous rvs")
-	public Double stdUsersRSVPsPerRendezvous();
+	public Double findStdUsersRSVPsPerRendezvous();
 
 }

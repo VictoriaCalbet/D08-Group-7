@@ -15,12 +15,12 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Inte
 
 	@Query("select ann from User us join us.rsvps rsvp join rsvp.rendezvous rv join rv.announcements ann where us.id = ?1 and rsvp.isCancelled = false order by ann.momentMade desc")
 	public Collection<Announcement> getAnnouncementsPostedAndAcceptedByUser(int userId);
-	
+
 	// Dashboard queries
-	
+
 	@Query("select avg(rvs.announcements.size) from Rendezvous rvs")
-	public Double avgAnnouncementPerRendezvous();
-	
+	public Double findAvgAnnouncementPerRendezvous();
+
 	@Query("select sqrt(sum(rvs.announcements.size * rvs.announcements.size) / count(rvs.announcements.size) - (avg(rvs.announcements.size) * avg(rvs.announcements.size))) from Rendezvous rvs")
-	public Double stdAnnouncementPerRendezvous();
+	public Double findStdAnnouncementPerRendezvous();
 }

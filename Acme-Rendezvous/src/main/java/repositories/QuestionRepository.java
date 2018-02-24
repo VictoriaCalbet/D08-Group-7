@@ -9,10 +9,10 @@ import domain.Question;
 public interface QuestionRepository extends JpaRepository<Question, Integer> {
 
 	// Dashboard queries
-	
+
 	@Query("select avg(rvs.questions.size) from Rendezvous rvs")
-	public Double avgAnnouncementPerRendezvous();
-	
+	public Double findAvgQuestionsPerRendezvous();
+
 	@Query("select  sqrt(sum(rvs.questions.size * rvs.questions.size) / count(rvs.questions.size) - (avg(rvs.questions.size) * avg(rvs.questions.size))) from Rendezvous rvs")
-	public Double stdAnnouncementPerRendezvous();
+	public Double findStdQuestionsPerRendezvous();
 }

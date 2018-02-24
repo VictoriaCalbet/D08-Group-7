@@ -30,8 +30,8 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 	// Dashboard queries
 
 	@Query("select avg(cmt.replies.size) from Comment cmt")
-	public Double avgRepliesPerComment();
+	public Double findAvgRepliesPerComment();
 
 	@Query("select sqrt(sum(cmt.replies.size * cmt.replies.size) / count(cmt.replies.size) - (avg(cmt.replies.size) * avg(cmt.replies.size))) from Comment cmt")
-	public Double stdRepliesPerComment();
+	public Double findStdRepliesPerComment();
 }

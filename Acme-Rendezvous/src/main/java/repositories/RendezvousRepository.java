@@ -25,16 +25,16 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	// Dashboard queries
 
 	@Query("select avg(usr.rendezvoussesCreated.size) from User usr")
-	public Double avgRendezvousesCreatedPerUser();
+	public Double findAvgRendezvousesCreatedPerUser();
 
 	@Query("select  sqrt(sum(usr.rendezvoussesCreated.size * usr.rendezvoussesCreated.size) / count(usr.rendezvoussesCreated.size) - (avg(usr.rendezvoussesCreated.size) * avg(usr.rendezvoussesCreated.size))) from User usr")
-	public Double stdRendezvousesCreatedPerUser();
+	public Double findStdRendezvousesCreatedPerUser();
 
 	@Query("select avg(usr.rsvps.size) from User usr")
-	public Double avgRendezvousRSVPsPerUsers();
+	public Double findAvgRendezvousRSVPsPerUsers();
 
 	@Query("select sqrt(sum(usr.rsvps.size * usr.rsvps.size) / count(usr.rsvps.size) - (avg(usr.rsvps.size) * avg(usr.rsvps.size))) from User usr")
-	public Double stdRendezvousRSVPsPerUsers();
+	public Double findStdRendezvousRSVPsPerUsers();
 
 	@Query("select rvs from Rendezvous rvs order by rvs.rsvps.size")
 	public Collection<Rendezvous> findAllRendezvousByRSVPs();
@@ -43,12 +43,12 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	public Collection<Rendezvous> findAllRendezvousNoAnnouncementsIsAbove75PerCentNoAnnouncementPerRendezvous();
 
 	@Query("select rvs from Rendezvous rvs where rvs.isLinkedTo.size > (select avg(rv.isLinkedTo.size)*1.1 from Rendezvous rv)")
-	public Collection<Rendezvous> getRendezvousesThatLinkedToRvGreaterThanAvgPlus10();
+	public Collection<Rendezvous> findRendezvousesThatLinkedToRvGreaterThanAvgPlus10();
 
 	@Query("select avg(q.answers.size) from Rendezvous rvs join rvs.questions q join q.answers")
-	public Double avgNoQuestionPerRendezvous();
+	public Double findAvgNoQuestionPerRendezvous();
 
 	@Query("select sqrt(sum(q.answers.size * q.answers.size) / count(q.answers.size) - (avg(q.answers.size) * avg(q.answers.size))) from Rendezvous rvs join rvs.questions q join q.answers")
-	public Double stdNoQuestionPerRendezvous();
+	public Double findStdNoQuestionPerRendezvous();
 
 }
