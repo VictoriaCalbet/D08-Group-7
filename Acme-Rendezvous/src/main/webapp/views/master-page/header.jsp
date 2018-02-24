@@ -32,6 +32,10 @@
 			<li><a class="fNiv" href="administrator/administrator/list.do"><spring:message code="master.page.administrator" /></a></li>
 		</security:authorize>
 		
+		<security:authorize access="hasRole('ADMIN')">
+			<li><a class="fNiv" href="administrator/dashboard.do"><spring:message code="master.page.administrator.dashboard" /></a></li>
+		</security:authorize>
+		
 		<security:authorize access="hasRole('USER')">
 			<li><a class="fNiv" href="rendezvous/user/create.do"><spring:message code="master.page.user.rendezvous.create" /></a></li>
 		</security:authorize>
