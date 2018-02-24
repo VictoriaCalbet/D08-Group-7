@@ -64,17 +64,4 @@ public class QuestionService {
 
 	// Other business methods -------------------------------------------------
 
-	// Dashboard methods ------------------------------------------------------
-
-	public Double findAvgQuestionsPerRendezvous() {
-		Double result = null;
-		result = this.questionRepository.findAvgQuestionsPerRendezvous();
-		return result;
-	}
-
-	public Double findStdQuestionsPerRendezvous() {
-		Double result = null;
-		result = this.questionRepository.findStdQuestionsPerRendezvous();
-		return result;
-	}
 }

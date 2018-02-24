@@ -63,4 +63,18 @@ public class AnswerService {
 	}
 
 	// Other business methods -------------------------------------------------
+
+	// Dashboard methods ------------------------------------------------------
+
+	public Double findAvgNoAnswersToTheQuestionsPerRendezvous() {
+		Double result = null;
+		result = this.answerRepository.findAvgNoAnswersToTheQuestionsPerRendezvous();
+		return result;
+	}
+
+	public Double findStdNoAnswersToTheQuestionsPerRendezvous() {
+		Double result = null;
+		result = this.answerRepository.findStdNoAnswersToTheQuestionsPerRendezvous();
+		return result;
+	}
 }

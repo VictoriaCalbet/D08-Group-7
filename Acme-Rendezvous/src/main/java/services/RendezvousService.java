@@ -158,9 +158,13 @@ public class RendezvousService {
 		return result;
 	}
 
-	public Collection<Rendezvous> findAllRendezvousByRSVPs() {
+	public Collection<Rendezvous> findTop10RendezvousByRSVPs() {
 		Collection<Rendezvous> result = null;
 		result = this.rendezvousRepository.findAllRendezvousByRSVPs();
+
+		if (result != null && result.size() > 10)
+			result = new ArrayList<Rendezvous>(result).subList(0, 10);
+
 		return result;
 	}
 
