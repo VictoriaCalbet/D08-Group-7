@@ -152,13 +152,15 @@
 		</jstl:if>
 	</display:column>
 	
-	<spring:message code="rendezvous.RSVPButton" var="rsvpHeader" />	
-	<display:column title="${rsvpHeader}">		
+	<spring:message code="rendezvous.RSVPButton" var="rsvpHeader" />
 	
-			<a href="RSVP/user/RSVPAssure.do?rendezvousId=${row.id}"> <spring:message code="rendezvous.RSVPButton" /></a>
-			
+	<jstl:choose>
+	<jstl:when test="${!principalRendezvouses.contains(row) }">
+			<display:column title="${rsvpHeader}">
+			<a href="RSVP/user/RSVPAssure.do?rendezvousId=${row.id}"> <spring:message code="rendezvous.RSVPButton" /></a>	
 	</display:column>
-	
+	</jstl:when>
+	</jstl:choose>
 	
 	</security:authorize>
 	

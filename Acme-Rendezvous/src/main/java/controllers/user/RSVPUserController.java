@@ -19,7 +19,6 @@ import services.RSVPService;
 import services.RendezvousService;
 import services.UserService;
 import controllers.AbstractController;
-import domain.RSVP;
 import domain.Rendezvous;
 import domain.User;
 
@@ -46,20 +45,21 @@ public class RSVPUserController extends AbstractController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam(required = false) final String message) {
 		final ModelAndView result;
-		Collection<RSVP> rsvps = new ArrayList<RSVP>();
 
 		final User u = this.userService.findByPrincipal();
-		rsvps = u.getRsvps();
-		final Collection<Rendezvous> rendezvouses = new ArrayList<Rendezvous>();
-		for (final RSVP rsvp : rsvps)
-			rendezvouses.add(rsvp.getRendezvous());
-		Collection<Rendezvous> rendezvousesCreated = new ArrayList<Rendezvous>();
-		rendezvousesCreated = u.getRendezvoussesCreated();
-		for (final Rendezvous rv : rendezvousesCreated)
-			if (!rendezvouses.contains(rv))
-				rendezvouses.add(rv);
+		//Parece de poco sentido tener dos colecciones iguales, pero no. La vista de listar
+		//necesita dos colecciones de rendezvouses para ser mostrada correctamente. Dependiendo
+		//del controlador, la colección rendezvouses cambiará. Lo que no cambiará sera la
+		//de principalRendezvouses, que es la que se compara con cada rendezvous de la lista
+		//con la funcionalidad de que si ya la contiene, significa que el usuario ya ha 
+		//hecho la reserva y no puede volver a reservar.
+		Collection<Rendezvous> rendezvouses = new ArrayList<Rendezvous>();
+		Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
 
+		principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(u.getId());
+		rendezvouses = principalRendezvouses;
 		result = new ModelAndView("rendezvous/list");
+		result.addObject("principalRendezvouses", principalRendezvouses);
 		result.addObject("rendezvouses", rendezvouses);
 		result.addObject("message", message);
 		result.addObject("requestURI", "rendezvous/user/list.do");
