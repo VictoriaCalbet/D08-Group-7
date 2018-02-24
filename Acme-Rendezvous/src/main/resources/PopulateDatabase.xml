@@ -179,7 +179,7 @@
 		<property name="meetingMoment" value="2017/10/01 00:00" />
 		<property name="picture" value="http://www.andbank.es/observatoriodelinversor/wp-content/uploads/2016/02/Andbank-Plenario-Convenci%C3%B3n-Banca-Privada-2016.jpg" />
 		<property name="gpsPoint" ref="gpsPoint1"/>
-		<property name="isDraft" value="true"/>
+		<property name="isDraft" value="false"/>
 		<property name="isDeleted" value="false"/>
 		<property name="isAdultOnly" value="false"/>
 		<property name="rsvps">
