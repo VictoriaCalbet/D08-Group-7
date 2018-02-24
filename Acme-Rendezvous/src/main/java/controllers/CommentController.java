@@ -13,9 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.CommentService;
 import services.RendezvousService;
+import services.UserService;
 
 import domain.Comment;
 import domain.Rendezvous;
+import domain.User;
 
 @Controller
 @RequestMapping("/comment")
@@ -36,6 +38,9 @@ public class CommentController extends AbstractController{
 	@Autowired
 	private RendezvousService rendezvousService;
 	
+	@Autowired
+	private UserService userService;
+	
 	//Methods
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -52,10 +57,20 @@ public class CommentController extends AbstractController{
 		
 		comments = this.commentService.getOriginalCommentsByRendezvousId(rendez.getId());
 		
+		final User user = this.userService.findByPrincipal();
+		
+		Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
+		
 		result = new ModelAndView("comment/list");
 		result.addObject("requestURI", "comment/list.do");
 		result.addObject("comments",comments);
 		result.addObject("rendezvous",rendez);
+		
+		if(user!=null){
+			principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(user.getId());
+			result.addObject("principalRendezvouses",principalRendezvouses);
+			
+		}
 		
 		}catch(Throwable oops){
 			
