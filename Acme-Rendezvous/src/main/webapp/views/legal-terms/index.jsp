@@ -37,8 +37,10 @@
 <spring:message code="legalTerms.text7" />
 <h3><spring:message code="legalTerms.title7" /></h3>
 <spring:message code="legalTerms.text8" />
+<h3><spring:message code="legalTerms.title8" /></h3>
+<spring:message code="legalTerms.text9" />
 <br />
 <br />
 
 <spring:message code="legalTerms.Date" />
-13/02/2018
+24/02/2018
