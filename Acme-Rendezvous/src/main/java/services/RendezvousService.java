@@ -111,21 +111,24 @@ public class RendezvousService {
 		this.rendezvousRepository.delete(r);
 
 	}
+
 	// Other business methods -------------------------------------------------
+
 	public Collection<Rendezvous> findAllAttendedByUserId(final int userId) {
 		final Collection<Rendezvous> result;
-
 		result = this.rendezvousRepository.findAllAttendedByUserId(userId);
-
 		return result;
 	}
 
 	public Collection<Rendezvous> findAllAttendedByUserIdU18(final int userId) {
 		Collection<Rendezvous> result;
-
 		result = this.rendezvousRepository.findAllAttendedByUserIdU18(userId);
-
 		return result;
 	}
 
+	public Collection<Rendezvous> findAllAvailableAnnouncementsByUserId(final int userId) {
+		Collection<Rendezvous> result = null;
+		result = this.rendezvousRepository.findAllAvailableAnnouncementsByUserId(userId);
+		return result;
+	}
 }
