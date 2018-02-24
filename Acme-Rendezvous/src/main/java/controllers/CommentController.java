@@ -82,6 +82,7 @@ public class CommentController extends AbstractController{
 		Collection<Comment> comments = new ArrayList<Comment>();
 		
 		Comment comment = this.commentService.findOne(commentId);
+		Rendezvous rendez = comment.getRendezvous();
 		
 		Assert.notNull(comment,"message.error.comment.null");
 		
@@ -90,7 +91,7 @@ public class CommentController extends AbstractController{
 		result = new ModelAndView("comment/list");
 		result.addObject("requestURI", "comment/listReplies.do");
 		result.addObject("comments",comments);
-		
+		result.addObject("rendezvous",rendez);
 		
 		}catch(Throwable oops){
 			
