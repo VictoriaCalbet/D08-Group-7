@@ -13,8 +13,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
 import services.RendezvousService;
+<<<<<<< HEAD
 import domain.Actor;
+=======
+import services.UserService;
+>>>>>>> David
 import domain.Rendezvous;
+import domain.User;
 
 @Controller
 @RequestMapping("/rendezvous")
@@ -22,6 +27,12 @@ public class RendezvousController extends AbstractController {
 
 	@Autowired
 	private RendezvousService	rendezvousService;
+	@Autowired
+	private ActorService		actorService;
+
+	@Autowired
+	private UserService			userService;
+
 	@Autowired
 	private ActorService		actorService;
 
@@ -45,8 +56,16 @@ public class RendezvousController extends AbstractController {
 		else
 			rendezvouses = this.rendezvousService.findOne(rendezvousId).getIsLinkedTo();
 
+		//RSVP button control
+		Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
+		if (this.actorService.checkLogin()) {
+			final User principal = this.userService.findByPrincipal();
+			principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(principal.getId());
+		}
+
 		result = new ModelAndView("rendezvous/list");
 		result.addObject("rendezvouses", rendezvouses);
+		result.addObject("principalRendezvouses", principalRendezvouses);
 		result.addObject("message", message);
 		result.addObject("requestURI", "rendezvous/list.do");
 

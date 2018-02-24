@@ -52,7 +52,12 @@ public class RendezvousUserController extends AbstractController {
 		final User u = this.userService.findByPrincipal();
 		rendezvouses = u.getRendezvoussesCreated();
 
+		//Assist button control
+		Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
+		principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(u.getId());
+
 		result = new ModelAndView("rendezvous/list");
+		result.addObject("principalRendezvouses", principalRendezvouses);
 		result.addObject("rendezvouses", rendezvouses);
 		result.addObject("message", message);
 		result.addObject("requestURI", "rendezvous/user/list.do");
