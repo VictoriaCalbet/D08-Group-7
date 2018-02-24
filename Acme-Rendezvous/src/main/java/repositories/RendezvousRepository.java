@@ -20,31 +20,31 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	Collection<Rendezvous> findAllAttendedByUserIdU18(int userId);
 
 	// Dashboard queries
-	//	@Query("select r from Rendezvous r where r.user.id = ?1")
-	//	public Collection<Rendezvous> getRendezvousesFromPrincipal(int userId);
 
-	//	@Query("select avg(rvs.attendants.size) from Rendezvous rvs")
-	//	public Double avgUsersPerRendezvous();
-	//
-	//	@Query("select sqrt(sum(rvs.attendants.size * rvs.attendants.size) / count(rvs.attendants.size) - (avg(rvs.attendants.size) * avg(rvs.attendants.size))) from Rendezvous rvs")
-	//	public Double stdUsersPerRendezvous();
+	@Query("select avg(usr.rendezvoussesCreated.size) from User usr")
+	public Double avgRendezvousesCreatedPerUser();
+	
+	@Query("select  sqrt(sum(usr.rendezvoussesCreated.size * usr.rendezvoussesCreated.size) / count(usr.rendezvoussesCreated.size) - (avg(usr.rendezvoussesCreated.size) * avg(usr.rendezvoussesCreated.size))) from User usr")
+	public Double stdRendezvousesCreatedPerUser();
 
-	@Query("select avg(rvs.announcements.size) from Rendezvous rvs")
-	public Double avgAnnouncementPerRendezvous();
-
-	@Query("select sqrt(sum(rvs.announcements.size * rvs.announcements.size) / count(rvs.announcements.size) - (avg(rvs.announcements.size) * avg(rvs.announcements.size))) from Rendezvous rvs")
-	public Double stdAnnouncementPerRendezvous();
-
-	@Query("select avg(rvs.questions.size) from Rendezvous rvs")
-	public Double avgNoQuestionsPerRendezvous();
-
-	@Query("select  sqrt(sum(rvs.questions.size * rvs.questions.size) / count(rvs.questions.size) - (avg(rvs.questions.size) * avg(rvs.questions.size))) from Rendezvous rvs")
-	public Double stdNoQuestionsPerRendezvous();
-
+	@Query("select avg(usr.rsvps.size) from User usr")
+	public Double avgRendezvousRSVPsPerUsers();
+	
+	@Query("select sqrt(sum(usr.rsvps.size * usr.rsvps.size) / count(usr.rsvps.size) - (avg(usr.rsvps.size) * avg(usr.rsvps.size))) from User usr")
+	public Double stdRendezvousRSVPsPerUsers();
+	
+	@Query("select rvs from Rendezvous rvs order by rvs.rsvps.size")
+	public Collection<Rendezvous> findAllRendezvousByRSVPs();
+	
+	@Query("select rvs from Rendezvous rvs where rvs.announcements.size > (select avg(rv.announcements.size) * 1.75 from Rendezvous rv)")
+	public Collection<Rendezvous> findAllRendezvousNoAnnouncementsIsAbove75PerCentNoAnnouncementPerRendezvous();
+	
+	@Query("select rvs from Rendezvous rvs where rvs.isLinkedTo.size > (select avg(rv.isLinkedTo.size)*1.1 from Rendezvous rv)")
+	public Collection<Rendezvous> getRendezvousesThatLinkedToRvGreaterThanAvgPlus10();
+	
 	@Query("select avg(q.answers.size) from Rendezvous rvs join rvs.questions q join q.answers")
-	public Double avgNoAnswersPerRendezvous();
-
+	public Double avgNoQuestionPerRendezvous();
+	
 	@Query("select sqrt(sum(q.answers.size * q.answers.size) / count(q.answers.size) - (avg(q.answers.size) * avg(q.answers.size))) from Rendezvous rvs join rvs.questions q join q.answers")
-	public Double stdNoAnswersPerRendezvous();
-
+	public Double stdNoQuestionPerRendezvous();
 }
