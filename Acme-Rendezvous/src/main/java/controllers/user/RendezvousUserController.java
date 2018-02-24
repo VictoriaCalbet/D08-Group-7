@@ -265,6 +265,7 @@ public class RendezvousUserController extends AbstractController {
 
 		final Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousLinkedForm.getRendezvousId());
 		final Collection<Rendezvous> rendezvouses = u.getRendezvoussesCreated();
+		rendezvouses.removeAll(this.rendezvousService.findRendezvousSimilar(rendezvousLinkedForm.getRendezvousId()));
 		rendezvouses.remove(rendezvous);
 
 		result = new ModelAndView("rendezvous/user/link");

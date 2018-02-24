@@ -69,6 +69,10 @@ public class RendezvousService {
 		return result;
 	}
 
+	public Collection<Rendezvous> findRendezvousSimilar(final int rendezvousId) {
+		return this.rendezvousRepository.findRendezvousSimilar(rendezvousId);
+	}
+
 	public Collection<Rendezvous> findAll() {
 		Collection<Rendezvous> result = null;
 		result = this.rendezvousRepository.findAll();
