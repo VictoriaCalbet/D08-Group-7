@@ -60,8 +60,8 @@ public class DashboardAdministratorController {
 		final Double stdRendezvousesCreatedPerUser = this.rendezvousService.findStdRendezvousesCreatedPerUser();
 		final Double avgRendezvousRSVPsPerUsers = this.rendezvousService.findAvgRendezvousRSVPsPerUsers();
 		final Double stdRendezvousRSVPsPerUsers = this.rendezvousService.findStdRendezvousRSVPsPerUsers();
-		final Collection<Rendezvous> rendezvousByRSVPs = this.rendezvousService.findTop10RendezvousByRSVPs();
-		final Collection<Rendezvous> findAllRendezvousNoAnnouncementsIsAbove75PerCentNoAnnouncementPerRendezvous = this.rendezvousService.findAllRendezvousNoAnnouncementsIsAbove75PerCentNoAnnouncementPerRendezvous();
+		final Collection<Rendezvous> top10RendezvousByRSVPs = this.rendezvousService.findTop10RendezvousByRSVPs();
+		final Collection<Rendezvous> rendezvousNoAnnouncementsIsAbove75PerCentNoAnnouncementPerRendezvous = this.rendezvousService.findAllRendezvousNoAnnouncementsIsAbove75PerCentNoAnnouncementPerRendezvous();
 		final Collection<Rendezvous> rendezvousesThatLinkedToRvGreaterThanAvgPlus10 = this.rendezvousService.findRendezvousesThatLinkedToRvGreaterThanAvgPlus10();
 		final Double avgNoQuestionPerRendezvous = this.rendezvousService.findAvgNoQuestionPerRendezvous();
 		final Double stdNoQuestionPerRendezvous = this.rendezvousService.findStdNoQuestionPerRendezvous();
@@ -83,8 +83,8 @@ public class DashboardAdministratorController {
 		result.addObject("stdRendezvousesCreatedPerUser", stdRendezvousesCreatedPerUser);
 		result.addObject("avgRendezvousRSVPsPerUsers", avgRendezvousRSVPsPerUsers);
 		result.addObject("stdRendezvousRSVPsPerUsers", stdRendezvousRSVPsPerUsers);
-		result.addObject("rendezvousByRSVPs", rendezvousByRSVPs);
-		result.addObject("findAllRendezvousNoAnnouncementsIsAbove75PerCentNoAnnouncementPerRendezvous", findAllRendezvousNoAnnouncementsIsAbove75PerCentNoAnnouncementPerRendezvous);
+		result.addObject("top10RendezvousByRSVPs", top10RendezvousByRSVPs);
+		result.addObject("rendezvousNoAnnouncementsIsAbove75PerCentNoAnnouncementPerRendezvous", rendezvousNoAnnouncementsIsAbove75PerCentNoAnnouncementPerRendezvous);
 		result.addObject("rendezvousesThatLinkedToRvGreaterThanAvgPlus10", rendezvousesThatLinkedToRvGreaterThanAvgPlus10);
 		result.addObject("avgNoQuestionPerRendezvous", avgNoQuestionPerRendezvous);
 		result.addObject("stdNoQuestionPerRendezvous", stdNoQuestionPerRendezvous);
