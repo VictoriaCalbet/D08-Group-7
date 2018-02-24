@@ -48,3 +48,4 @@ local.properties
 *.class
 Acme-Rendezvous/target/m2e-wtp/web-resources/META-INF/maven/Design-and-Testing/Acme-Rendezvous/pom.properties
 Acme-Rendezvous/src/main/resources/Entities.map
+*.class
