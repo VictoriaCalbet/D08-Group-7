@@ -44,10 +44,10 @@ public class DashboardAdministratorController {
 		super();
 	}
 
-	// Listing --------------------------------------------------------------
+	// Dashboard ------------------------------------------------------------
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView dashboard() {
 		ModelAndView result = null;
 
 		final Double avgAnnouncementPerRendezvous = this.announcementService.findAvgAnnouncementPerRendezvous();
