@@ -23,28 +23,31 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 
 	@Query("select avg(usr.rendezvoussesCreated.size) from User usr")
 	public Double avgRendezvousesCreatedPerUser();
-	
+
 	@Query("select  sqrt(sum(usr.rendezvoussesCreated.size * usr.rendezvoussesCreated.size) / count(usr.rendezvoussesCreated.size) - (avg(usr.rendezvoussesCreated.size) * avg(usr.rendezvoussesCreated.size))) from User usr")
 	public Double stdRendezvousesCreatedPerUser();
 
 	@Query("select avg(usr.rsvps.size) from User usr")
 	public Double avgRendezvousRSVPsPerUsers();
-	
+
 	@Query("select sqrt(sum(usr.rsvps.size * usr.rsvps.size) / count(usr.rsvps.size) - (avg(usr.rsvps.size) * avg(usr.rsvps.size))) from User usr")
 	public Double stdRendezvousRSVPsPerUsers();
-	
+
 	@Query("select rvs from Rendezvous rvs order by rvs.rsvps.size")
 	public Collection<Rendezvous> findAllRendezvousByRSVPs();
-	
+
 	@Query("select rvs from Rendezvous rvs where rvs.announcements.size > (select avg(rv.announcements.size) * 1.75 from Rendezvous rv)")
 	public Collection<Rendezvous> findAllRendezvousNoAnnouncementsIsAbove75PerCentNoAnnouncementPerRendezvous();
-	
+
 	@Query("select rvs from Rendezvous rvs where rvs.isLinkedTo.size > (select avg(rv.isLinkedTo.size)*1.1 from Rendezvous rv)")
 	public Collection<Rendezvous> getRendezvousesThatLinkedToRvGreaterThanAvgPlus10();
-	
+
 	@Query("select avg(q.answers.size) from Rendezvous rvs join rvs.questions q join q.answers")
 	public Double avgNoQuestionPerRendezvous();
-	
+
 	@Query("select sqrt(sum(q.answers.size * q.answers.size) / count(q.answers.size) - (avg(q.answers.size) * avg(q.answers.size))) from Rendezvous rvs join rvs.questions q join q.answers")
 	public Double stdNoQuestionPerRendezvous();
+
+	@Query("select rvs from Rendezvous rvs where rvs.meetingMoment < CURRENT_TIMESTAMP and rvs.isDraft is false and rvs.isDeleted is false and rvs.creator.id = ?1")
+	Collection<Rendezvous> findAllAvailableAnnouncementsByUserId(int userId);
 }
