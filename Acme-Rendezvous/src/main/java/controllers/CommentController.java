@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.CommentService;
 import services.RendezvousService;
 import services.UserService;
 
+import domain.Actor;
 import domain.Comment;
 import domain.Rendezvous;
 import domain.User;
@@ -41,6 +43,9 @@ public class CommentController extends AbstractController{
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private ActorService actorService;
+	
 	//Methods
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -57,7 +62,7 @@ public class CommentController extends AbstractController{
 		
 		comments = this.commentService.getOriginalCommentsByRendezvousId(rendez.getId());
 		
-		final User user = this.userService.findByPrincipal();
+		final Actor actor = this.actorService.findByPrincipal();
 		
 		Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
 		
@@ -66,10 +71,11 @@ public class CommentController extends AbstractController{
 		result.addObject("comments",comments);
 		result.addObject("rendezvous",rendez);
 		
-		if(user!=null){
-			principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(user.getId());
-			result.addObject("principalRendezvouses",principalRendezvouses);
-			
+		if(actor!=null){ //If it's logged in
+			if(this.actorService.checkAuthority(actor, "USER")){ //checks if the actor is a user
+				principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(this.userService.findByPrincipal().getId());
+				result.addObject("principalRendezvouses",principalRendezvouses);
+			}
 		}
 		
 		}catch(Throwable oops){
@@ -109,13 +115,15 @@ public class CommentController extends AbstractController{
 		result.addObject("comments",comments);
 		result.addObject("rendezvous",rendez);
 		
-		final User user = this.userService.findByPrincipal();
+		final Actor actor = this.actorService.findByPrincipal();
 		
-		if(user!=null){
-			principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(user.getId());
-			result.addObject("principalRendezvouses",principalRendezvouses);
-			
+		if(actor!=null){ //If it's logged in
+			if(this.actorService.checkAuthority(actor, "USER")){ //checks if the actor is a user
+				principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(this.userService.findByPrincipal().getId());
+				result.addObject("principalRendezvouses",principalRendezvouses);
+			}
 		}
+		
 		
 		}catch(Throwable oops){
 			
