@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.AnnouncementService;
 import services.AnswerService;
 import services.CommentService;
+import services.QuestionService;
 import services.RendezvousService;
 import services.UserService;
 import controllers.AbstractController;
@@ -27,13 +28,16 @@ public class DashboardAdministratorController extends AbstractController {
 	private AnnouncementService	announcementService;
 
 	@Autowired
+	private AnswerService		answerService;
+
+	@Autowired
 	private CommentService		commentService;
 
 	@Autowired
-	private RendezvousService	rendezvousService;
+	private QuestionService		questionService;
 
 	@Autowired
-	private AnswerService		answerService;
+	private RendezvousService	rendezvousService;
 
 	@Autowired
 	private UserService			userService;
@@ -64,8 +68,9 @@ public class DashboardAdministratorController extends AbstractController {
 		final Collection<Rendezvous> top10RendezvousByRSVPs = this.rendezvousService.findTop10RendezvousByRSVPs();
 		final Collection<Rendezvous> rendezvousNoAnnouncementsIsAbove75PerCentNoAnnouncementPerRendezvous = this.rendezvousService.findAllRendezvousNoAnnouncementsIsAbove75PerCentNoAnnouncementPerRendezvous();
 		final Collection<Rendezvous> rendezvousesThatLinkedToRvGreaterThanAvgPlus10 = this.rendezvousService.findRendezvousesThatLinkedToRvGreaterThanAvgPlus10();
-		final Double avgNoQuestionPerRendezvous = this.rendezvousService.findAvgNoQuestionPerRendezvous();
-		final Double stdNoQuestionPerRendezvous = this.rendezvousService.findStdNoQuestionPerRendezvous();
+
+		final Double avgNoQuestionPerRendezvous = this.questionService.findAvgNoQuestionsPerRendezvous();
+		final Double stdNoQuestionPerRendezvous = this.questionService.findStdNoQuestionsPerRendezvous();
 
 		final Double avgNoAnswersToTheQuestionsPerRendezvous = this.answerService.findAvgNoAnswersToTheQuestionsPerRendezvous();
 		final Double stdNoAnswersToTheQuestionsPerRendezvous = this.answerService.findStdNoAnswersToTheQuestionsPerRendezvous();
