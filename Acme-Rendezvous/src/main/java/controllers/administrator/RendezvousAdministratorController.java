@@ -47,12 +47,12 @@ public class RendezvousAdministratorController extends AbstractController {
 		ModelAndView result;
 		try {
 			this.rendezvousService.deleteAdmin(rendezvousId);
-			result = new ModelAndView("redirect:/rendezvous/list.do");
+			result = new ModelAndView("redirect:/rendezvous/administrator/list.do");
 		} catch (final Throwable oops) {
 			String messageError = "rendezvous.delete.error";
 			if (oops.getMessage().contains("message.error"))
 				messageError = oops.getMessage();
-			result = new ModelAndView("redirect:/rendezvous/list.do");
+			result = new ModelAndView("redirect:/rendezvous/administrator/list.do");
 			result.addObject("message", messageError);
 		}
 		return result;
