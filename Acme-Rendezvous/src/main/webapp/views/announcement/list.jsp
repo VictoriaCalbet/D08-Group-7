@@ -54,10 +54,18 @@
 	<display:column title="${announcementMomentMadeHeader}">
 		<fmt:formatDate value="${row.momentMade}" pattern="${datePattern}"/>
 	</display:column>
-
 </display:table>
+<br/>
+<br/>
 
 <!-- Link to create an announcement. It's only visible by users -->
 <security:authorize access="hasRole('USER')">
-	<a href="announcement/user/create.do"> <spring:message code="announcement.create"/> </a>
+	<jstl:choose>
+		<jstl:when test="${not empty availableRendezvouses}">
+			<a href="announcement/user/create.do"> <spring:message code="announcement.create"/> </a>
+		</jstl:when>
+		<jstl:otherwise>
+			<spring:message code="message.rendezvousesNotAvailable"/>
+		</jstl:otherwise>
+	</jstl:choose>
 </security:authorize>
