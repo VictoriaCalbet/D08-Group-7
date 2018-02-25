@@ -48,6 +48,20 @@
 			<li><a class="fNiv" href="RSVP/user/list.do"><spring:message code="master.page.user.RSVP.list" /></a></li>
 		</security:authorize>
 		
+		<!-- Hacer para Announcement
+		<li>
+			<a class="fNiv">
+				<spring:message code="master.page.announcement" />
+			</a>
+			<ul>
+				<li class="arrow"></li>
+				<spring:message code="master.page.announcement.createdByUser" />
+			</ul>
+		</li>
+		
+		
+		 -->
+		
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="user/create.do"><spring:message code="user.create" /></a></li>
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
