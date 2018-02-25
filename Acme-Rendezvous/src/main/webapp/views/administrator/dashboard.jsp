@@ -41,7 +41,14 @@
 	<table border="1">
 		<tr>
 			<td> <b> <spring:message code="administrator.ratioUserRendezvousesCreatedVsNeverCreated"/>:&nbsp; </b> </td>
-			<td> <b> <jstl:out value="${ratioUserRendezvousesCreatedVsNeverCreated}"/> </b> </td>
+			<jstl:choose>
+				<jstl:when test="${not empty ratioUserRendezvousesCreatedVsNeverCreated}">
+					<td> <jstl:out value="${ratioUserRendezvousesCreatedVsNeverCreated}"/> </td>
+				</jstl:when>
+				<jstl:otherwise>
+					<td> <spring:message code="dashboard.ratioUserRvCreatedVsNeverCreated"/> </td>
+				</jstl:otherwise>
+			</jstl:choose>
 		</tr>
 	</table>
 	
