@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -167,9 +168,10 @@ public class UserController extends AbstractController {
 		try {
 			final Actor actor = this.actorService.findByPrincipal();
 			final Date birthDate = actor.getBirthDate();
-			final Long birthDateMillis = birthDate.getTime();
-			final Long now = System.currentTimeMillis();
-			if (now - birthDateMillis >= 568024200000L)
+			final Calendar now = Calendar.getInstance();
+			now.set(Calendar.YEAR, now.get(Calendar.YEAR) - 18);
+			final Date yearLimit = now.getTime();
+			if (birthDate.before(yearLimit))
 				rendezvouses = this.rendezvousService.findAllAttendedByUserId(user.getId());
 			else
 				rendezvouses = this.rendezvousService.findAllAttendedByUserIdU18(user.getId());
