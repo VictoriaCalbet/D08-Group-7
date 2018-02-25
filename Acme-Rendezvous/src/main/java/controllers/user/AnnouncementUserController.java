@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.AnnouncementService;
+import services.RendezvousService;
 import services.UserService;
 import controllers.AbstractController;
 import domain.Announcement;
@@ -33,6 +34,9 @@ public class AnnouncementUserController extends AbstractController {
 	@Autowired
 	private UserService			userService;
 
+	@Autowired
+	private RendezvousService	rendezvousService;
+
 
 	// Constructors ---------------------------------------------------------
 
@@ -46,15 +50,18 @@ public class AnnouncementUserController extends AbstractController {
 	public ModelAndView list() {
 		ModelAndView result = null;
 		Collection<Announcement> announcements = null;
+		Collection<Rendezvous> availableRendezvouses = null;
 		User user = null;
 
 		announcements = new ArrayList<Announcement>();
 		user = this.userService.findByPrincipal();
 
 		announcements = this.announcementService.getAnnouncementsCreatedByUser(user.getId());
+		availableRendezvouses = this.rendezvousService.findAllAvailableRendezvousesCreatedByUserId(user.getId());
 
 		result = new ModelAndView("announcement/list");
 		result.addObject("announcements", announcements);
+		result.addObject("availableRendezvouses", availableRendezvouses);
 		result.addObject("requestURI", "announcement/user/list.do");
 
 		return result;
@@ -64,15 +71,18 @@ public class AnnouncementUserController extends AbstractController {
 	public ModelAndView stream() {
 		ModelAndView result = null;
 		Collection<Announcement> announcements = null;
+		Collection<Rendezvous> availableRendezvouses = null;
 		User user = null;
 
 		announcements = new ArrayList<Announcement>();
 		user = this.userService.findByPrincipal();
 
 		announcements = this.announcementService.getAnnouncementsPostedAndAcceptedByUser(user.getId());
+		availableRendezvouses = this.rendezvousService.findAllAvailableRendezvousesCreatedByUserId(user.getId());
 
 		result = new ModelAndView("announcement/list");
 		result.addObject("announcements", announcements);
+		result.addObject("availableRendezvouses", availableRendezvouses);
 		result.addObject("requestURI", "announcement/user/stream.do");
 
 		return result;
@@ -82,8 +92,8 @@ public class AnnouncementUserController extends AbstractController {
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
-		final ModelAndView result;
-		Announcement announcement;
+		ModelAndView result = null;
+		Announcement announcement = null;
 
 		announcement = this.announcementService.create();
 		result = this.createEditModelAndView(announcement);
@@ -115,23 +125,25 @@ public class AnnouncementUserController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int announcementId) {
 		ModelAndView result = null;
 		Announcement announcement = null;
-
 		announcement = this.announcementService.findOne(announcementId);
-
 		result = this.createEditModelAndView(announcement);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView edit(@Valid final Announcement announcement, final BindingResult binding) {
+	public ModelAndView save(@Valid final Announcement announcement, final BindingResult binding) {
 		ModelAndView result = null;
 
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(announcement);
 		else
 			try {
-				this.announcementService.save(announcement);
+				if (announcement.getId() == 0)
+					this.announcementService.saveFromCreate(announcement);
+				else
+					this.announcementService.saveFromEdit(announcement);
+
 				result = new ModelAndView("redirect:/announcement/list.do?rendezvousId=" + announcement.getRendezvous().getId());
 			} catch (final Throwable oops) {
 				String messageError = "announcement.commit.error";
@@ -155,14 +167,22 @@ public class AnnouncementUserController extends AbstractController {
 		ModelAndView result = null;
 		User user = null;
 		Collection<Rendezvous> rendezvouses = null;
+		String requestURI = null;
 
 		user = this.userService.findByPrincipal();
-		rendezvouses = user.getRendezvoussesCreated();
+		rendezvouses = this.rendezvousService.findAllAvailableRendezvousesCreatedByUserId(user.getId());
 
-		result = new ModelAndView("announcement/edit");
+		requestURI = "announcement/user/edit.do";
+
+		if (announcement.getId() == 0)
+			result = new ModelAndView("announcement/create");
+		else
+			result = new ModelAndView("announcement/edit");
+
 		result.addObject("announcement", announcement);
 		result.addObject("rendezvouses", rendezvouses);
 		result.addObject("message", message);
+		result.addObject("requestURI", requestURI);
 
 		return result;
 	}
