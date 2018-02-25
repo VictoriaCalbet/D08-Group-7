@@ -171,7 +171,6 @@ public class AnnouncementUserController extends AbstractController {
 
 		user = this.userService.findByPrincipal();
 		rendezvouses = this.rendezvousService.findAllAvailableRendezvousesCreatedByUserId(user.getId());
-
 		requestURI = "announcement/user/edit.do";
 
 		if (announcement.getId() == 0)
@@ -180,7 +179,7 @@ public class AnnouncementUserController extends AbstractController {
 			result = new ModelAndView("announcement/edit");
 
 		result.addObject("announcement", announcement);
-		result.addObject("rendezvouses", rendezvouses);
+		result.addObject("availableRendezvouses", rendezvouses);
 		result.addObject("message", message);
 		result.addObject("requestURI", requestURI);
 
