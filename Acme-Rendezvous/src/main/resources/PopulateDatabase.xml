@@ -89,11 +89,13 @@
 		<property name="rsvps">
 			<list>
 				<ref bean="rsvp1"/>
+				<ref bean="rsvp4"/>
 			</list>
 		</property>
 		<property name="rendezvoussesCreated">
 			<list>
 				<ref bean="rendezvous1" />
+				<ref bean="rendezvous4" />
 			</list>
 		</property>
 		<property name="comments">
@@ -120,11 +122,14 @@
 		<property name="rsvps">
 			<list>
 				<ref bean="rsvp2"/>
+				<ref bean="rsvp5"/>
+				<ref bean="rsvp6"/>
 			</list>
 		</property>
 		<property name="rendezvoussesCreated">
 			<list>
 				<ref bean="rendezvous2" />
+				<ref bean="rendezvous5" />
 			</list>
 		</property>
 		<property name="comments">
@@ -176,7 +181,7 @@
 	<bean id="rendezvous1" class="domain.Rendezvous">
 		<property name="name" value="This is rendezvous1" />
 		<property name="description" value="Description of the rendezvous1" />
-		<property name="meetingMoment" value="2017/10/01 00:00" />
+		<property name="meetingMoment" value="2018/10/01 00:00" />
 		<property name="picture" value="http://www.andbank.es/observatoriodelinversor/wp-content/uploads/2016/02/Andbank-Plenario-Convenci%C3%B3n-Banca-Privada-2016.jpg" />
 		<property name="gpsPoint" ref="gpsPoint1"/>
 		<property name="isDraft" value="false"/>
@@ -212,7 +217,7 @@
 	<bean id="rendezvous2" class="domain.Rendezvous">
 		<property name="name" value="This is rendezvous2" />
 		<property name="description" value="Description of the rendezvous2" />
-		<property name="meetingMoment" value="2017/11/01 00:00" />
+		<property name="meetingMoment" value="2018/11/01 00:00" />
 		<property name="picture" value="http://www.andbank.es/observatoriodelinversor/wp-content/uploads/2016/02/Andbank-Plenario-Convenci%C3%B3n-Banca-Privada-2016.jpg" />
 		<property name="gpsPoint" ref="gpsPoint2"/>
 		<property name="isDraft" value="false"/>
@@ -247,7 +252,7 @@
 	<bean id="rendezvous3" class="domain.Rendezvous">
 		<property name="name" value="This is rendezvous3" />
 		<property name="description" value="Description of the rendezvous3" />
-		<property name="meetingMoment" value="2017/12/01 00:00" />
+		<property name="meetingMoment" value="2018/12/01 00:00" />
 		<property name="picture"><null/></property> 
 		<property name="gpsPoint"><null/></property>
 		<property name="isDraft" value="true"/>
@@ -282,6 +287,73 @@
 		</property>
 	</bean>
 	
+	<bean id="rendezvous4" class="domain.Rendezvous">
+		<property name="name" value="This is rendezvous4" />
+		<property name="description" value="Description of the rendezvous4" />
+		<property name="meetingMoment" value="2017/12/01 00:00" />
+		<property name="picture"><null/></property> 
+		<property name="gpsPoint"><null/></property>
+		<property name="isDraft" value="false"/>
+		<property name="isDeleted" value="false"/>
+		<property name="isAdultOnly" value="false"/>
+		<property name="rsvps">
+			<list>
+				<ref bean="rsvp4"/>
+				<ref bean="rsvp5"/>
+			</list>
+		</property>
+		<property name="creator" ref="user1" />
+		<property name="questions">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="announcements">
+			<list>
+			</list>
+		</property>
+		<property name="isLinkedTo">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="rendezvous5" class="domain.Rendezvous">
+		<property name="name" value="This is rendezvous5" />
+		<property name="description" value="Description of the rendezvous4" />
+		<property name="meetingMoment" value="2017/12/01 00:00" />
+		<property name="picture"><null/></property> 
+		<property name="gpsPoint"><null/></property>
+		<property name="isDraft" value="false"/>
+		<property name="isDeleted" value="false"/>
+		<property name="isAdultOnly" value="true"/>
+		<property name="rsvps">
+			<list>
+				<ref bean="rsvp6"/>
+			</list>
+		</property>
+		<property name="creator" ref="user2" />
+		<property name="questions">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="announcements">
+			<list>
+			</list>
+		</property>
+		<property name="isLinkedTo">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
 	<!-- RSVP #RSVP -->
 	<bean id="rsvp1" class="domain.RSVP">
 		<property name="isCancelled" value="false"/>
@@ -301,6 +373,23 @@
 		<property name="rendezvous" ref="rendezvous3"/>
 	</bean>
 
+	<bean id="rsvp4" class="domain.RSVP">
+		<property name="isCancelled" value="false"/>
+		<property name="user" ref="user1"/>
+		<property name="rendezvous" ref="rendezvous4"/>
+	</bean>
+	
+	<bean id="rsvp5" class="domain.RSVP">
+		<property name="isCancelled" value="false"/>
+		<property name="user" ref="user2"/>
+		<property name="rendezvous" ref="rendezvous4"/>
+	</bean>
+	
+	<bean id="rsvp6" class="domain.RSVP">
+		<property name="isCancelled" value="false"/>
+		<property name="user" ref="user2"/>
+		<property name="rendezvous" ref="rendezvous5"/>
+	</bean>
 
 	<!-- GPS Points #GPSPoints -->
 
