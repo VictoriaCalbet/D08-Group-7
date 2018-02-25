@@ -18,7 +18,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<display:table id="row" name="announcements" id="row" requestURI="${requestURI}" pagesize="10">
+<display:table name="announcements" id="row" requestURI="${requestURI}" pagesize="10">
 	
 	<!-- Links to edit or display an announcement -->
 	<security:authorize access="hasRole('USER')">
@@ -29,31 +29,32 @@
 		</display:column>
 	</security:authorize>
 	
-	<security:authorize access="hasRole('ADMINISTRATOR')">
+	<security:authorize access="hasRole('ADMIN')">
 		<display:column>
 			<a href="announcement/administrator/delete.do?announcementId=${row.id}">
-				<spring:message code="announcement.edit"/>
+				<spring:message code="announcement.delete"/>
 			</a>
 		</display:column>
 	</security:authorize>
 	
 	<display:column>
-		<a href="announcement/user/display.do?announcementId=${row.id}">
+		<a href="announcement/display.do?announcementId=${row.id}">
 			<spring:message code="announcement.display"/>
 		</a>
 	</display:column>
 	
 	<spring:message code="announcement.title" var="announcementTitleHeader"/>
-	<display:column property="title" title="announcementTitleHeader" />
+	<display:column property="title" title="${announcementTitleHeader}" />
 	
 	<spring:message code="announcement.rendezvous" var="announcementRendezVousHeader"/>
-	<display:column property="rendezvous" title="announcementRendezVousHeader"/>
+	<display:column property="rendezvous.name" title="${announcementRendezVousHeader}"/>
 	
 	<spring:message code="announcement.momentMade" var="announcementMomentMadeHeader"/>
-	<display:column property="rendezvous" title="announcementMomentMadeHeader">
+	<spring:message code="announcement.momentMade.pattern" var="datePattern"/>
+	<display:column title="${announcementMomentMadeHeader}">
 		<fmt:formatDate value="$(row.momentMade)" pattern="${datePattern}"/>
 	</display:column>
-	
+
 </display:table>
 
 <!-- Link to create an announcement. It's only visible by users -->
