@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -183,11 +184,20 @@ public class RendezvousUserController extends AbstractController {
 
 	@RequestMapping(value = "/link", method = RequestMethod.GET)
 	public ModelAndView link(@RequestParam final int rendezvousId) {
-		final ModelAndView result;
-		RendezvousLinkedForm rendezvousLinkedForm;
+		ModelAndView result;
+		try {
 
-		rendezvousLinkedForm = this.rendezvousLinkedFormService.create(rendezvousId);
-		result = this.createLinkModelAndView(rendezvousLinkedForm);
+			RendezvousLinkedForm rendezvousLinkedForm;
+
+			rendezvousLinkedForm = this.rendezvousLinkedFormService.create(rendezvousId);
+			result = this.createLinkModelAndView(rendezvousLinkedForm);
+		} catch (final Throwable oops) {
+			String messageError = "";
+			if (oops.getMessage().contains("message.error"))
+				messageError = oops.getMessage();
+			result = new ModelAndView("redirect:/rendezvous/user/list.do");
+			result.addObject("message", messageError);
+		}
 		return result;
 
 	}
@@ -267,6 +277,7 @@ public class RendezvousUserController extends AbstractController {
 		final Collection<Rendezvous> rendezvouses = u.getRendezvoussesCreated();
 		rendezvouses.removeAll(this.rendezvousService.findRendezvousSimilar(rendezvousLinkedForm.getRendezvousId()));
 		rendezvouses.remove(rendezvous);
+		Assert.isTrue(rendezvouses.size() > 0, "message.error.rendezvous.isLinkedTo.size");
 
 		result = new ModelAndView("rendezvous/user/link");
 		result.addObject("rendezvousLinkedForm", rendezvousLinkedForm);
