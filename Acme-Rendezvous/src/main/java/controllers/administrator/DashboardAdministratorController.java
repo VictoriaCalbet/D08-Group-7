@@ -14,11 +14,12 @@ import services.AnswerService;
 import services.CommentService;
 import services.RendezvousService;
 import services.UserService;
+import controllers.AbstractController;
 import domain.Rendezvous;
 
 @Controller
 @RequestMapping("/administrator")
-public class DashboardAdministratorController {
+public class DashboardAdministratorController extends AbstractController {
 
 	// Services -------------------------------------------------------------
 
