@@ -10,7 +10,7 @@ import domain.Rendezvous;
 
 public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer> {
 
-	@Query("select r from Rendezvous r where r.isDeleted = false AND r.isDraft = false AND r.isAdultOnly = false")
+	@Query("select r from Rendezvous r where r.isDeleted = false AND r.isDraft = false AND r.isAdultOnly = false AND r.meetingMoment > CURRENT_TIMESTAMP")
 	Collection<Rendezvous> findRendezvousesAllUser();
 
 	@Query("select r2 from Rendezvous r join r.isLinkedTo r2 where r.id=?1")
@@ -19,7 +19,7 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select r from Rendezvous r join r.creator u where u.id = ?1 AND r.isDeleted = false")
 	Collection<Rendezvous> findRendezvousSimilarNotDeleted(int creatorId);
 
-	@Query("select r from Rendezvous r where r.isDeleted = false AND r.isDraft = false")
+	@Query("select r from Rendezvous r where r.isDeleted = false AND r.isDraft = false AND r.meetingMoment > CURRENT_TIMESTAMP")
 	Collection<Rendezvous> findRendezvousesOnlyAdult();
 
 	@Query("select rsvp.rendezvous from RSVP rsvp where rsvp.user.id = ?1 AND rsvp.isCancelled IS FALSE AND rsvp.rendezvous.isDraft IS FALSE AND rsvp.rendezvous.isDeleted IS FALSE")
