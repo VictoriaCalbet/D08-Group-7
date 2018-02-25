@@ -60,12 +60,5 @@
 
 <!-- Link to create an announcement. It's only visible by users -->
 <security:authorize access="hasRole('USER')">
-	<jstl:choose>
-		<jstl:when test="${not empty availableRendezvouses}">
-			<a href="announcement/user/create.do"> <spring:message code="announcement.create"/> </a>
-		</jstl:when>
-		<jstl:otherwise>
-			<spring:message code="message.rendezvousesNotAvailable"/>
-		</jstl:otherwise>
-	</jstl:choose>
+	<a href="announcement/user/create.do"> <spring:message code="announcement.create"/> </a>
 </security:authorize>
