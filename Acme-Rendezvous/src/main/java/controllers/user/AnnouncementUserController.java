@@ -132,7 +132,7 @@ public class AnnouncementUserController extends AbstractController {
 		else
 			try {
 				this.announcementService.save(announcement);
-				result = new ModelAndView("redirect:/announcement/list.do?rendezvousId" + announcement.getRendezvous().getId());
+				result = new ModelAndView("redirect:/announcement/list.do?rendezvousId=" + announcement.getRendezvous().getId());
 			} catch (final Throwable oops) {
 				String messageError = "announcement.commit.error";
 				if (oops.getMessage().contains("message.error"))
