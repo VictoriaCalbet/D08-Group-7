@@ -97,6 +97,7 @@ public class CommentController extends AbstractController{
 		Collection<Comment> comments = new ArrayList<Comment>();
 		
 		Comment comment = this.commentService.findOne(commentId);
+		Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
 		Rendezvous rendez = comment.getRendezvous();
 		
 		Assert.notNull(comment,"message.error.comment.null");
@@ -107,6 +108,14 @@ public class CommentController extends AbstractController{
 		result.addObject("requestURI", "comment/listReplies.do");
 		result.addObject("comments",comments);
 		result.addObject("rendezvous",rendez);
+		
+		final User user = this.userService.findByPrincipal();
+		
+		if(user!=null){
+			principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(user.getId());
+			result.addObject("principalRendezvouses",principalRendezvouses);
+			
+		}
 		
 		}catch(Throwable oops){
 			
