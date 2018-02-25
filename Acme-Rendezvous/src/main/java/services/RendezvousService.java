@@ -227,18 +227,6 @@ public class RendezvousService {
 		return result;
 	}
 
-	public Double findAvgNoQuestionPerRendezvous() {
-		Double result = null;
-		result = this.rendezvousRepository.findAvgNoQuestionPerRendezvous();
-		return result;
-	}
-
-	public Double findStdNoQuestionPerRendezvous() {
-		Double result = null;
-		result = this.rendezvousRepository.findStdNoQuestionPerRendezvous();
-		return result;
-	}
-
 	public int calculateAge(final Calendar fechaNac) {
 		final Calendar today = Calendar.getInstance();
 

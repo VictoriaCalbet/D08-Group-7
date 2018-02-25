@@ -68,13 +68,13 @@ public class AnswerService {
 
 	public Double findAvgNoAnswersToTheQuestionsPerRendezvous() {
 		Double result = null;
-		result = this.answerRepository.findAvgNoAnswersToTheQuestionsPerRendezvous();
+		result = this.answerRepository.findAvgNoAnswersToTheQuestionPerRendezvous();
 		return result;
 	}
 
 	public Double findStdNoAnswersToTheQuestionsPerRendezvous() {
 		Double result = null;
-		result = this.answerRepository.findStdNoAnswersToTheQuestionsPerRendezvous();
+		result = this.answerRepository.findStdNoAnswersToTheQuestionPerRendezvous();
 		return result;
 	}
 }
