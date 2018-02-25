@@ -3,6 +3,7 @@ package services.form;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.transaction.Transactional;
 
@@ -70,6 +71,8 @@ public class RendezvousFormService {
 
 	public Rendezvous saveFromCreate(final RendezvousForm rendezvousForm) {
 
+		Assert.isTrue(rendezvousForm.getMeetingMoment().after(new Date()), "message.error.rendezvous.meetingMoment.future");
+
 		final Rendezvous r = this.rendezvousService.create();
 
 		r.setDescription(rendezvousForm.getDescription());
@@ -96,6 +99,8 @@ public class RendezvousFormService {
 	}
 
 	public Rendezvous saveFromEdit(final RendezvousForm rendezvousForm) {
+
+		Assert.isTrue(rendezvousForm.getMeetingMoment().after(new Date()), "message.error.rendezvous.meetingMoment.future");
 
 		final Rendezvous r = this.rendezvousService.findOne(rendezvousForm.getId());
 		final User u = this.userService.findByPrincipal();
