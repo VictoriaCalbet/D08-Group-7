@@ -33,6 +33,11 @@
 		</security:authorize>
 		
 		<security:authorize access="hasRole('ADMIN')">
+			<li><a class="fNiv" href="rendezvous/administrator/list.do"><spring:message code="master.page.administrator.rendezvous.list" /></a></li>
+		</security:authorize>
+		
+		
+		<security:authorize access="hasRole('ADMIN')">
 			<li><a class="fNiv" href="administrator/dashboard.do"><spring:message code="master.page.administrator.dashboard" /></a></li>
 		</security:authorize>
 		

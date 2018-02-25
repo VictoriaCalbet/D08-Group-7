@@ -43,7 +43,7 @@
 	</jstl:if>
 	
 	<jstl:if test="${(isDeleted eq false) && (isDraft eq true) && (isAdult eq true)}">
-		<jstl:set var="style" value="background-color:brown;" />
+		<jstl:set var="style" value="background-color:sandyBrown;" />
 	</jstl:if>
 	
 	<jstl:if test="${(isDeleted eq false) && (isDraft eq true) && (isAdult eq false)}">
