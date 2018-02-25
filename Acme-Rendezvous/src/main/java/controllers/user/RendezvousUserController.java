@@ -78,16 +78,9 @@ public class RendezvousUserController extends AbstractController {
 	public ModelAndView create() {
 		final ModelAndView result;
 		RendezvousForm rendezvousForm;
-		final User u = this.userService.findByPrincipal();
-
-		final GregorianCalendar g = new GregorianCalendar();
-		if (u.getBirthDate() != null)
-			g.setTime(u.getBirthDate());
-		final int age = this.rendezvousService.calculateAge(g);
 
 		rendezvousForm = this.rendezvousFormService.create();
 		result = this.createModelAndView(rendezvousForm);
-		result.addObject("age", age);
 		return result;
 
 	}
@@ -120,17 +113,10 @@ public class RendezvousUserController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int rendezvousId) {
 		ModelAndView result;
 		RendezvousForm rendezvousForm;
-		final User u = this.userService.findByPrincipal();
-
-		final GregorianCalendar g = new GregorianCalendar();
-		if (u.getBirthDate() != null)
-			g.setTime(u.getBirthDate());
-		final int age = this.rendezvousService.calculateAge(g);
 
 		try {
 			rendezvousForm = this.rendezvousFormService.create(rendezvousId);
-			result = this.createModelAndView(rendezvousForm);
-			result.addObject("age", age);
+			result = this.editModelAndView(rendezvousForm);
 
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/rendezvous/user/list.do");
@@ -148,7 +134,7 @@ public class RendezvousUserController extends AbstractController {
 		ModelAndView result;
 
 		if (binding.hasErrors())
-			result = this.createModelAndView(rendezvousForm);
+			result = this.editModelAndView(rendezvousForm);
 		else
 			try {
 				this.rendezvousFormService.saveFromEdit(rendezvousForm);
@@ -157,7 +143,7 @@ public class RendezvousUserController extends AbstractController {
 				String messageError = "rendezvous.commit.error";
 				if (oops.getMessage().contains("message.error"))
 					messageError = oops.getMessage();
-				result = this.createModelAndView(rendezvousForm, messageError);
+				result = this.editModelAndView(rendezvousForm, messageError);
 			}
 
 		return result;
@@ -236,9 +222,17 @@ public class RendezvousUserController extends AbstractController {
 	protected ModelAndView createModelAndView(final RendezvousForm rendezvousForm, final String message) {
 		ModelAndView result;
 
+		final User u = this.userService.findByPrincipal();
+
+		final GregorianCalendar g = new GregorianCalendar();
+		if (u.getBirthDate() != null)
+			g.setTime(u.getBirthDate());
+		final int age = this.rendezvousService.calculateAge(g);
+
 		result = new ModelAndView("rendezvous/user/create");
 		result.addObject("rendezvousForm", rendezvousForm);
 		result.addObject("message", message);
+		result.addObject("age", age);
 
 		return result;
 	}
@@ -254,9 +248,17 @@ public class RendezvousUserController extends AbstractController {
 	protected ModelAndView editModelAndView(final RendezvousForm rendezvousForm, final String message) {
 		ModelAndView result;
 
+		final User u = this.userService.findByPrincipal();
+
+		final GregorianCalendar g = new GregorianCalendar();
+		if (u.getBirthDate() != null)
+			g.setTime(u.getBirthDate());
+		final int age = this.rendezvousService.calculateAge(g);
+
 		result = new ModelAndView("rendezvous/user/edit");
 		result.addObject("rendezvousForm", rendezvousForm);
 		result.addObject("message", message);
+		result.addObject("age", age);
 
 		return result;
 	}
