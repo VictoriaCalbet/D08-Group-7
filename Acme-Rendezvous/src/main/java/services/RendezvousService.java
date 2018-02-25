@@ -167,9 +167,9 @@ public class RendezvousService {
 		return result;
 	}
 
-	public Collection<Rendezvous> findAllAvailableAnnouncementsByUserId(final int userId) {
+	public Collection<Rendezvous> findAllAvailableRendezvousesCreatedByUserId(final int userId) {
 		Collection<Rendezvous> result = null;
-		result = this.rendezvousRepository.findAllAvailableAnnouncementsByUserId(userId);
+		result = this.rendezvousRepository.findAllAvailableRendezvousesCreatedByUserId(userId);
 		return result;
 	}
 

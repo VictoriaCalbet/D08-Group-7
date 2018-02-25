@@ -87,7 +87,7 @@ public class AnnouncementService {
 		Assert.notNull(announcement, "message.error.announcement.null");
 		Assert.notNull(user, "message.error.announcement.principal.null");
 		Assert.isTrue(user.getId() == announcement.getRendezvous().getCreator().getId(), "message.error.announcement.rendezvous.userNotPrincipal");
-		Assert.isTrue(announcement.getRendezvous().getMeetingMoment().before(new Date()), "message.error.announcement.rendezvous.meetingMomment.isPast");
+		Assert.isTrue(announcement.getRendezvous().getMeetingMoment().after(new Date()), "message.error.announcement.rendezvous.meetingMomment.isPast");
 		Assert.isTrue(!announcement.getRendezvous().getIsDraft(), "message.error.announcement.rendezvous.isDraft.isTrue");
 		Assert.isTrue(!announcement.getRendezvous().getIsDeleted(), "message.error.announcement.rendezvous.isDeleted.isTrue");
 
@@ -120,7 +120,7 @@ public class AnnouncementService {
 		Assert.notNull(user, "message.error.announcement.principal.null");
 		Assert.isTrue(announcement.getRendezvous().getId() == announcementFromDB.getRendezvous().getId(), "message.error.announcement.rendezvous.isModified");
 		Assert.isTrue(user.getId() == announcement.getRendezvous().getCreator().getId(), "message.error.announcement.rendezvous.userNotPrincipal");
-		Assert.isTrue(announcement.getRendezvous().getMeetingMoment().before(new Date()), "message.error.announcement.rendezvous.meetingMomment.isPast");
+		Assert.isTrue(announcement.getRendezvous().getMeetingMoment().after(new Date()), "message.error.announcement.rendezvous.meetingMomment.isPast");
 		Assert.isTrue(!announcement.getRendezvous().getIsDraft(), "message.error.announcement.rendezvous.isDraft.isTrue");
 		Assert.isTrue(!announcement.getRendezvous().getIsDeleted(), "message.error.announcement.rendezvous.isDeleted.isTrue");
 
