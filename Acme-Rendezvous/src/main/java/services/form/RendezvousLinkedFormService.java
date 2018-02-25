@@ -55,6 +55,8 @@ public class RendezvousLinkedFormService {
 
 		final Rendezvous r1 = this.rendezvousService.findOne(r.getRendezvousId());
 		final Rendezvous r2 = this.rendezvousService.findOne(r.getRendezvousLinkedId());
+		Assert.notNull(r1, "message.error.rendezvous.null");
+		Assert.notNull(r2, "message.error.rendezvous.null");
 		Assert.isTrue(r1.getCreator().equals(u), "message.error.rendezvous.user");
 		Assert.isTrue(r2.getCreator().equals(u), "message.error.rendezvous.user");
 

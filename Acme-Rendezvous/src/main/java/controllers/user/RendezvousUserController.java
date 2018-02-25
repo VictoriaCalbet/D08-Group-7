@@ -273,10 +273,9 @@ public class RendezvousUserController extends AbstractController {
 
 	protected ModelAndView createLinkModelAndView(final RendezvousLinkedForm rendezvousLinkedForm, final String message) {
 		ModelAndView result;
-		final User u = this.userService.findByPrincipal();
 
 		final Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousLinkedForm.getRendezvousId());
-		final Collection<Rendezvous> rendezvouses = u.getRendezvoussesCreated();
+		final Collection<Rendezvous> rendezvouses = this.rendezvousService.findRendezvousSimilarNotDeleted();
 		rendezvouses.removeAll(this.rendezvousService.findRendezvousSimilar(rendezvousLinkedForm.getRendezvousId()));
 		rendezvouses.remove(rendezvous);
 		Assert.isTrue(rendezvouses.size() > 0, "message.error.rendezvous.isLinkedTo.size");

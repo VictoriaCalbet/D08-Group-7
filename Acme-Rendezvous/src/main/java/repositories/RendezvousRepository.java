@@ -16,6 +16,9 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select r2 from Rendezvous r join r.isLinkedTo r2 where r.id=?1")
 	Collection<Rendezvous> findRendezvousSimilar(int rendezvousId);
 
+	@Query("select r from Rendezvous r join r.creator u where u.id = ?1 AND r.isDeleted = false")
+	Collection<Rendezvous> findRendezvousSimilarNotDeleted(int creatorId);
+
 	@Query("select r from Rendezvous r where r.isDeleted = false AND r.isDraft = false")
 	Collection<Rendezvous> findRendezvousesOnlyAdult();
 
