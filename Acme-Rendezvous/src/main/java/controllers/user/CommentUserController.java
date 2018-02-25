@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.CommentService;
 import services.RendezvousService;
 import services.UserService;
 import services.form.CommentFormService;
 
 import controllers.AbstractController;
+import domain.Actor;
 import domain.Comment;
 import domain.Rendezvous;
 import domain.User;
@@ -51,28 +53,72 @@ public class CommentUserController extends AbstractController{
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private ActorService actorService;
+	
 	// Creation ----------------------------------------------------------------
 
 		@RequestMapping(value = "/create", method = RequestMethod.GET)
-		public ModelAndView create() {
-			final ModelAndView result;
+		public ModelAndView create(final int rendezvousId) {
+			ModelAndView result;
 			CommentForm commentForm;
-
-			commentForm = this.commentFormService.create();
-			result = this.createModelAndView(commentForm);
-
+			
+			try{
+				final User user = this.userService.findByPrincipal();
+				Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousId);
+				
+				Assert.notNull(rendezvous,"message.error.rendezvous.null");
+				
+				Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
+				principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(user.getId());
+				Assert.isTrue(principalRendezvouses.contains(rendezvous),"message.error.comment.noRSVP");
+				
+				
+				commentForm = this.commentFormService.create();
+				result = this.createModelAndView(commentForm);
+			}catch(Throwable oops){
+				String messageError = "comment.commit.error";
+				if (oops.getMessage().contains("message.error"))
+					messageError = oops.getMessage();
+				
+				result = new ModelAndView("redirect:/rendezvous/list.do");
+				result.addObject("message", messageError);
+				
+				
+			}
 			return result;
 
 		}
 		
 		@RequestMapping(value = "/reply", method = RequestMethod.GET)
-		public ModelAndView reply() {
-			final ModelAndView result;
+		public ModelAndView reply(final int commentId) {
+			ModelAndView result;
 			CommentForm commentForm;
-
-			commentForm = this.commentFormService.create();
-			result = this.createModelAndView(commentForm);
-
+			
+			try{
+				final User user = this.userService.findByPrincipal();
+				final Comment comment = this.commentService.findOne(commentId);
+				Rendezvous rendezvous = this.rendezvousService.findOne(comment.getRendezvous().getId());
+				
+				Assert.notNull(rendezvous,"message.error.rendezvous.null");
+				
+				Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
+				principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(user.getId());
+				Assert.isTrue(principalRendezvouses.contains(rendezvous),"message.error.comment.noRSVP");
+				
+				
+				commentForm = this.commentFormService.create();
+				result = this.createModelAndView(commentForm);
+			}catch(Throwable oops){
+				String messageError = "comment.commit.error";
+				if (oops.getMessage().contains("message.error"))
+					messageError = oops.getMessage();
+				
+				result = new ModelAndView("redirect:/rendezvous/list.do");
+				result.addObject("message", messageError);
+				
+				
+			}
 			return result;
 
 		}
@@ -89,16 +135,28 @@ public class CommentUserController extends AbstractController{
 				try {
 					final User user = this.userService.findByPrincipal();
 					Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousId);
+					
+					Assert.notNull(rendezvous,"message.error.rendezvous.null");
+					
 					Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
 					principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(user.getId());
 					Assert.isTrue(principalRendezvouses.contains(rendezvous),"message.error.comment.noRSVP");
 					this.commentFormService.saveFromCreate(commentForm, rendezvous);
 					result = new ModelAndView("redirect:/rendezvous/list.do");
+					
 				} catch (final Throwable oops) {
 					String messageError = "comment.commit.error";
 					if (oops.getMessage().contains("message.error"))
 						messageError = oops.getMessage();
-					result = this.createModelAndView(commentForm, messageError);
+					//result = this.createModelAndView(commentForm, messageError);
+//					result = new ModelAndView("rendezvous/list");
+					result = new ModelAndView("redirect:/rendezvous/list.do");
+//					Actor actor = this.actorService.findByPrincipal();
+//					final Collection<Rendezvous> rendezvousesError = this.rendezvousService.findRendezvousesLogged(actor);
+//					result.addObject("rendezvouses", rendezvousesError);
+//					result.addObject("requestURI", "rendezvous/list.do");
+					result.addObject("message", messageError);
+					
 				}
 
 			return result;
