@@ -97,10 +97,14 @@ public class CommentUserController extends AbstractController{
 			
 			try{
 				final User user = this.userService.findByPrincipal();
-				final Comment comment = this.commentService.findOne(commentId);
-				Rendezvous rendezvous = this.rendezvousService.findOne(comment.getRendezvous().getId());
 				
-				Assert.notNull(rendezvous,"message.error.rendezvous.null");
+				Assert.notNull(this.commentService.findOne(commentId),"message.error.comment.badId");
+				
+				final Comment comment = this.commentService.findOne(commentId);
+				
+				Assert.notNull(this.rendezvousService.findOne(comment.getRendezvous().getId()),"message.error.rendezvous.null");
+				
+				Rendezvous rendezvous = this.rendezvousService.findOne(comment.getRendezvous().getId());
 				
 				Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
 				principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(user.getId());
@@ -134,10 +138,9 @@ public class CommentUserController extends AbstractController{
 			else
 				try {
 					final User user = this.userService.findByPrincipal();
+					
+					Assert.notNull(this.rendezvousService.findOne(rendezvousId),"message.error.rendezvous.null");
 					Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousId);
-					
-					Assert.notNull(rendezvous,"message.error.rendezvous.null");
-					
 					Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
 					principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(user.getId());
 					Assert.isTrue(principalRendezvouses.contains(rendezvous),"message.error.comment.noRSVP");
@@ -172,10 +175,14 @@ public class CommentUserController extends AbstractController{
 				result = this.createModelAndView(commentForm);
 			else
 				try {
+					
+					//Assert.notNull(this.commentService.findOne(commentForm.getId()),"message.error.comment.badId");
+					Assert.notNull(this.commentService.findOne(commentId),"message.error.comment.badId");
 					Comment comment = this.commentService.findOne(commentId);
 					final User user = this.userService.findByPrincipal();
 					Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
-
+					
+					
 					principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(user.getId());
 					Assert.isTrue(principalRendezvouses.contains(comment.getRendezvous()),"message.error.comment.noRSVP");
 					this.commentFormService.saveReply(commentForm, comment);

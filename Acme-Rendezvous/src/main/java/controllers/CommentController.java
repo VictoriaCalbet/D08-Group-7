@@ -102,11 +102,10 @@ public class CommentController extends AbstractController{
 		try{
 		Collection<Comment> comments = new ArrayList<Comment>();
 		
+		Assert.notNull(this.commentService.findOne(commentId),"message.error.comment.badId");
 		Comment comment = this.commentService.findOne(commentId);
 		Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
 		Rendezvous rendez = comment.getRendezvous();
-		
-		Assert.notNull(comment,"message.error.comment.null");
 		
 		comments = comment.getReplies();
 		

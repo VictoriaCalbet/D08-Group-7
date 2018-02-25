@@ -2,6 +2,7 @@ package controllers.administrator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,8 +40,9 @@ public class CommentAdministratorController extends AbstractController{
 			
 			try {
 				//Comment comment = this.commentService.findOne(commentId);
+				Assert.notNull(this.commentService.findOne(commentId),"message.error.comment.badId");
 				this.commentService.delete(commentId);
-				result = new ModelAndView("redirect:/rendezvous/list.do");
+				result = new ModelAndView("redirect:/rendezvous/administrator/list.do");
 			} catch (final Throwable oops) {
 				String messageError = "comment.commit.error";
 				if (oops.getMessage().contains("message.error"))
