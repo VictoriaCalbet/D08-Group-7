@@ -50,6 +50,7 @@
 		<security:intercept-url pattern="/comment/list.do" access="permitAll" />
 		<security:intercept-url pattern="/comment/listReplies.do" access="permitAll" />
 		<security:intercept-url pattern="/announcement/display.do" access="permitAll" />
+		<security:intercept-url pattern="/announcement/list.do" access="permitAll" />
 		
 		<!-- Actor -->
 		<security:intercept-url pattern="/actor/actor/profile.do" access="hasAnyRole('ADMIN', 'USER')" />
