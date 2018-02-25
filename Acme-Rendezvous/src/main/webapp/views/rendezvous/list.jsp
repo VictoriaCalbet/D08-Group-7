@@ -156,7 +156,7 @@
 	<spring:message code="rendezvous.RSVPButton" var="rsvpHeader" />
 	<display:column title="${rsvpHeader}">
 	<jstl:choose>
-	<jstl:when test="${!principalRendezvouses.contains(row) }">
+	<jstl:when test="${!principalRendezvouses.contains(row) and (row.isDraft==false)}">
 			
 			<a href="RSVP/user/RSVPAssure.do?rendezvousId=${row.id}"> <spring:message code="rendezvous.RSVPButton" /></a>	
 

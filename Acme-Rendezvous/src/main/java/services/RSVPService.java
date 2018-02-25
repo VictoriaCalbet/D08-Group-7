@@ -2,7 +2,9 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,9 @@ public class RSVPService {
 
 	@Autowired
 	private UserService				userService;
+
+	@Autowired
+	private ActorService			actorService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -93,6 +98,16 @@ public class RSVPService {
 			principalRendezvouses.add(rsvp.getRendezvous());
 
 		Assert.isTrue(!(principalRendezvouses.contains(rendezvousToRSVP)));
+
+		final Date birthDate = principal.getBirthDate();
+		final Calendar now = Calendar.getInstance();
+		now.set(Calendar.YEAR, now.get(Calendar.YEAR) - 18);
+		final Date yearLimit = now.getTime();
+
+		if (rendezvousToRSVP.getIsAdultOnly())
+			Assert.isTrue(birthDate.before(yearLimit));
+
+		Assert.isTrue(!rendezvousToRSVP.getIsDraft());
 		final RSVP rsvp = this.create(rendezvousToRSVP);
 
 		rsvp.setRendezvous(rendezvousToRSVP);
