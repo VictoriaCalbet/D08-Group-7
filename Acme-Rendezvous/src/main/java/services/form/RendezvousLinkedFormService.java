@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import services.RSVPService;
 import services.RendezvousService;
 import services.UserService;
 import domain.Rendezvous;
@@ -24,8 +23,7 @@ public class RendezvousLinkedFormService {
 
 	@Autowired
 	private RendezvousService	rendezvousService;
-	@Autowired
-	private RSVPService			rsvpService;
+
 	@Autowired
 	private UserService			userService;
 

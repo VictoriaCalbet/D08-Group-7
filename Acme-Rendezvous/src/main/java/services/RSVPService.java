@@ -34,9 +34,6 @@ public class RSVPService {
 	@Autowired
 	private UserService				userService;
 
-	@Autowired
-	private ActorService			actorService;
-
 
 	// Constructors -----------------------------------------------------------
 
@@ -97,7 +94,10 @@ public class RSVPService {
 		for (final RSVP rsvp : principalRsvps)
 			principalRendezvouses.add(rsvp.getRendezvous());
 
-		Assert.isTrue(!(principalRendezvouses.contains(rendezvousToRSVP)));
+		Assert.isTrue(!(principalRendezvouses.contains(rendezvousToRSVP)), "RSVP.alreadyRSVPed.error");
+		final Calendar currentCalendar = Calendar.getInstance();
+		final Date currentDate = currentCalendar.getTime();
+		Assert.isTrue(rendezvousToRSVP.getMeetingMoment().after(currentDate), "RSVP.past.error");
 
 		final Date birthDate = principal.getBirthDate();
 		final Calendar now = Calendar.getInstance();
@@ -105,9 +105,9 @@ public class RSVPService {
 		final Date yearLimit = now.getTime();
 
 		if (rendezvousToRSVP.getIsAdultOnly())
-			Assert.isTrue(birthDate.before(yearLimit));
+			Assert.isTrue(birthDate.before(yearLimit), "RSVP.adult.error");
 
-		Assert.isTrue(!rendezvousToRSVP.getIsDraft());
+		Assert.isTrue(!rendezvousToRSVP.getIsDraft(), "RSVP.isDraft.error");
 		final RSVP rsvp = this.create(rendezvousToRSVP);
 
 		rsvp.setRendezvous(rendezvousToRSVP);

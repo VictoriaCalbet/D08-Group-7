@@ -75,7 +75,7 @@ public class RSVPUserController extends AbstractController {
 		Rendezvous rv;
 
 		rv = this.rendezvousService.findOne(rendezvousId);
-		Assert.notNull(rv);
+		Assert.notNull(rv, "message.error.rsvp.null");
 
 		result = this.createEditModelAndView(rv);
 

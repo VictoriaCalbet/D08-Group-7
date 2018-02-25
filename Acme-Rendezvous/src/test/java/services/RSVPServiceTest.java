@@ -10,6 +10,7 @@
 
 package services;
 
+import java.util.Calendar;
 import java.util.Collection;
 
 import javax.transaction.Transactional;
@@ -21,6 +22,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
+import security.UserAccount;
 import utilities.AbstractTest;
 import domain.RSVP;
 import domain.Rendezvous;
@@ -58,22 +60,45 @@ public class RSVPServiceTest extends AbstractTest {
 	}
 	@Test
 	public void testRSVPaRendezvous() {
-		this.authenticate("user2");
+
+		final User savedUser;
+		final User createdUser = this.userService.create();
+
+		UserAccount savedUserAccount;
+
+		createdUser.setName("Example name");
+		createdUser.setSurname("Example surname");
+		createdUser.setEmail("example@example.com");
+
+		savedUserAccount = createdUser.getUserAccount();
+		savedUserAccount.setUsername("Example");
+		savedUserAccount.setPassword("Example");
+
+		createdUser.setUserAccount(savedUserAccount);
+
+		savedUser = this.userService.saveFromCreate(createdUser);
+
+		Assert.isTrue(savedUser.getName().equals(createdUser.getName()));
+		Assert.isTrue(savedUser.getSurname().equals(createdUser.getSurname()));
+		Assert.isTrue(savedUser.getEmail().equals(createdUser.getEmail()));
+
 		final Rendezvous rendezvous = this.rendezvousService.findAll().iterator().next();
+		this.authenticate("user2");
 		final User principal = this.userService.findByPrincipal();
-		final User creator = this.userService.findOne(33);
-		rendezvous.setCreator(creator);
+		final Calendar calendar = Calendar.getInstance();
+		calendar.set(1990, 12, 12);
+		principal.setBirthDate(calendar.getTime());
+		rendezvous.setCreator(savedUser);
 		final RSVP createdRSVP = this.rsvpService.create(rendezvous);
 		Assert.notNull(createdRSVP);
 
-		Collection<RSVP> principalRSVPS = principal.getRsvps();
+		Collection<RSVP> principalRSVPS = savedUser.getRsvps();
 		this.rsvpService.save(createdRSVP);
 		principalRSVPS = principal.getRsvps();
 
 		this.rsvpService.RSVPaRendezvous(createdRSVP.getRendezvous().getId());
 
 		Assert.isTrue(!principalRSVPS.contains(createdRSVP));
-
 		this.unauthenticate();
 	}
 }

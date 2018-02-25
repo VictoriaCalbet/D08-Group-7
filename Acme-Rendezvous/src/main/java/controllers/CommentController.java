@@ -1,3 +1,4 @@
+
 package controllers;
 
 import java.util.ArrayList;
@@ -15,71 +16,69 @@ import services.ActorService;
 import services.CommentService;
 import services.RendezvousService;
 import services.UserService;
-
 import domain.Actor;
 import domain.Comment;
 import domain.Rendezvous;
-import domain.User;
 
 @Controller
 @RequestMapping("/comment")
-public class CommentController extends AbstractController{
-	
+public class CommentController extends AbstractController {
+
 	//Constructor
-	
-	public CommentController(){
-		
+
+	public CommentController() {
+
 		super();
 	}
-	
+
+
 	//Supporting services
-	
+
 	@Autowired
-	private CommentService commentService;
-	
+	private CommentService		commentService;
+
 	@Autowired
-	private RendezvousService rendezvousService;
-	
+	private RendezvousService	rendezvousService;
+
 	@Autowired
-	private UserService userService;
-	
+	private UserService			userService;
+
 	@Autowired
-	private ActorService actorService;
-	
+	private ActorService		actorService;
+
+
 	//Methods
-	
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required=true) final int rendezvousId) {
+	public ModelAndView list(@RequestParam(required = true) final int rendezvousId) {
 		ModelAndView result;
-		
-		try{
-		Collection<Comment> comments = new ArrayList<Comment>();
-		
-		
-		Rendezvous rendez = this.rendezvousService.findOne(rendezvousId);
-		
-		Assert.notNull(rendez,"message.error.rendezvous.null");
-		
-		comments = this.commentService.getOriginalCommentsByRendezvousId(rendez.getId());
-		
-		final Actor actor = this.actorService.findByPrincipal();
-		
-		Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
-		
-		result = new ModelAndView("comment/list");
-		result.addObject("requestURI", "comment/list.do");
-		result.addObject("comments",comments);
-		result.addObject("rendezvous",rendez);
-		
-		if(actor!=null){ //If it's logged in
-			if(this.actorService.checkAuthority(actor, "USER")){ //checks if the actor is a user
-				principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(this.userService.findByPrincipal().getId());
-				result.addObject("principalRendezvouses",principalRendezvouses);
-			}
-		}
-		
-		}catch(Throwable oops){
-			
+
+		try {
+			Collection<Comment> comments = new ArrayList<Comment>();
+
+			final Rendezvous rendez = this.rendezvousService.findOne(rendezvousId);
+
+			Assert.notNull(rendez, "message.error.rendezvous.null");
+
+			comments = this.commentService.getOriginalCommentsByRendezvousId(rendez.getId());
+
+			final Actor actor = this.actorService.findByPrincipal();
+
+			Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
+
+			result = new ModelAndView("comment/list");
+			result.addObject("requestURI", "comment/list.do");
+			result.addObject("comments", comments);
+			result.addObject("rendezvous", rendez);
+
+			if (actor != null)
+				if (this.actorService.checkAuthority(actor, "USER")) { //checks if the actor is a user
+					principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(this.userService.findByPrincipal().getId());
+					result.addObject("principalRendezvouses", principalRendezvouses);
+				}
+
+		} catch (final Throwable oops) {
+
 			String messageError = "comment.commit.error";
 			if (oops.getMessage().contains("message.error"))
 				messageError = oops.getMessage();
@@ -87,45 +86,43 @@ public class CommentController extends AbstractController{
 			//result = new ModelAndView("rendezvous/list");
 			//Collection<Rendezvous> rendezvouses = this.rendezvousService.findAll();
 			//result.addObject(rendezvouses);
-			result.addObject("message",messageError);
+			result.addObject("message", messageError);
 			//result.addObject("requestURI", "rendezvous/list.do");
 			//result = new ModelAndView("redirect:/rendezvous/user/list.do");
 		}
-		
-	return result;	
+
+		return result;
 	}
-	
+
 	@RequestMapping(value = "/listReplies", method = RequestMethod.GET)
-	public ModelAndView listReplies(@RequestParam(required=true) final int commentId) {
+	public ModelAndView listReplies(@RequestParam(required = true) final int commentId) {
 		ModelAndView result;
-		
-		try{
-		Collection<Comment> comments = new ArrayList<Comment>();
-		
-		Assert.notNull(this.commentService.findOne(commentId),"message.error.comment.badId");
-		Comment comment = this.commentService.findOne(commentId);
-		Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
-		Rendezvous rendez = comment.getRendezvous();
-		
-		comments = comment.getReplies();
-		
-		result = new ModelAndView("comment/list");
-		result.addObject("requestURI", "comment/listReplies.do");
-		result.addObject("comments",comments);
-		result.addObject("rendezvous",rendez);
-		
-		final Actor actor = this.actorService.findByPrincipal();
-		
-		if(actor!=null){ //If it's logged in
-			if(this.actorService.checkAuthority(actor, "USER")){ //checks if the actor is a user
-				principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(this.userService.findByPrincipal().getId());
-				result.addObject("principalRendezvouses",principalRendezvouses);
-			}
-		}
-		
-		
-		}catch(Throwable oops){
-			
+
+		try {
+			Collection<Comment> comments = new ArrayList<Comment>();
+
+			Assert.notNull(this.commentService.findOne(commentId), "message.error.comment.badId");
+			final Comment comment = this.commentService.findOne(commentId);
+			Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
+			final Rendezvous rendez = comment.getRendezvous();
+
+			comments = comment.getReplies();
+
+			result = new ModelAndView("comment/list");
+			result.addObject("requestURI", "comment/listReplies.do");
+			result.addObject("comments", comments);
+			result.addObject("rendezvous", rendez);
+
+			final Actor actor = this.actorService.findByPrincipal();
+
+			if (actor != null)
+				if (this.actorService.checkAuthority(actor, "USER")) { //checks if the actor is a user
+					principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(this.userService.findByPrincipal().getId());
+					result.addObject("principalRendezvouses", principalRendezvouses);
+				}
+
+		} catch (final Throwable oops) {
+
 			String messageError = "comment.commit.error";
 			if (oops.getMessage().contains("message.error"))
 				messageError = oops.getMessage();
@@ -133,12 +130,12 @@ public class CommentController extends AbstractController{
 			//result = new ModelAndView("rendezvous/list");
 			//Collection<Rendezvous> rendezvouses = this.rendezvousService.findAll();
 			//result.addObject(rendezvouses);
-			result.addObject("message",messageError);
+			result.addObject("message", messageError);
 			//result.addObject("requestURI", "rendezvous/list.do");
 			//result = new ModelAndView("redirect:/rendezvous/user/list.do");
 		}
-		
-	return result;	
+
+		return result;
 	}
 
 }

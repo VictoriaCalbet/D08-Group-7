@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import services.AnnouncementService;
 import controllers.AbstractController;
 import domain.Announcement;
-import domain.Rendezvous;
 
 @Controller
 @RequestMapping("/announcement/administrator")
@@ -78,7 +77,6 @@ public class AnnouncementAdministratorController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Announcement announcement, final String message) {
 		ModelAndView result = null;
-		final Collection<Rendezvous> rendezvouses = null;
 
 		result = new ModelAndView("announcement/edit");
 		result.addObject("announcement", announcement);
