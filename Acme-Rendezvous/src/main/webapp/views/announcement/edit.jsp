@@ -25,13 +25,29 @@
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
 	<form:hidden path="momentMade"/>
-	<form:hidden path="rendezvous"/>
+	
+	<jstl:if test="${announcement.id ne 0 }">
+		<form:hidden path="rendezvous"/>
+	</jstl:if>
+	
 	
 	<!-- Attributes -->
 	
-	<form:select path="rendezvous">
-		<form:options items="${rendezvouses}" itemLabel="name" itemValue="id"/>
-	</form:select>
+	<spring:message code="announcement.rendezvous" var="rendezvousHeader" />
+	<b><form:label path="rendezvous"/><jstl:out value="${rendezvousHeader}"/>:&nbsp;</b>
+
+	<jstl:choose>
+		<jstl:when test="${announcement.id eq 0}">
+			<form:select path="rendezvous">
+				<form:options items="${rendezvouses}" itemLabel="name" itemValue="id"/>
+			</form:select>
+		</jstl:when>
+			
+		<jstl:when test="${announcement.id ne 0}">
+			<jstl:out value="${announcement.rendezvous.name}"/>
+		</jstl:when>
+	</jstl:choose>
+	
 	<acme:textbox code="announcement.title" path="title"/>
 	<acme:textarea code="announcement.description" path="description"/>
 
