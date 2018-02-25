@@ -5,9 +5,11 @@ import java.util.Collection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import domain.Rendezvous;
 
+@Repository
 public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer> {
 
 	@Query("select r from Rendezvous r where r.isDeleted = false AND r.isDraft = false AND r.isAdultOnly = false")
