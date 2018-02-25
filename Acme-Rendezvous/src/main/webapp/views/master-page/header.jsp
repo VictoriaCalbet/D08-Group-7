@@ -56,11 +56,11 @@
 			<ul>
 				<li class="arrow"></li>
 				<security:authorize access="hasRole('USER')">
-					<li><a href="annoncement/user/list.do">   <spring:message code="master.page.announcement.createdByUser" /> </a></li>
-					<li><a href="annoncement/user/stream.do"> <spring:message code="master.page.announcement.stream" /> </a></li>
+					<li><a href="announcement/user/list.do">   <spring:message code="master.page.announcement.createdByUser" /> </a></li>
+					<li><a href="announcement/user/stream.do"> <spring:message code="master.page.announcement.stream" /> </a></li>
 				</security:authorize>
 				<security:authorize access="hasRole('ADMIN')">
-					<li><a href="annoncement/admin/list.do">   <spring:message code="master.page.announcement.findAllByAdmin" /> </a></li>
+					<li><a href="announcement/admin/list.do">   <spring:message code="master.page.announcement.findAllByAdmin" /> </a></li>
 				</security:authorize>				
 			</ul>
 		</li>
