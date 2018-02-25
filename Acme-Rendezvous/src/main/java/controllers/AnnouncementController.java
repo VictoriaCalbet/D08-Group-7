@@ -1,7 +1,6 @@
 
 package controllers;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,6 @@ public class AnnouncementController extends AbstractController {
 		ModelAndView result = null;
 		Collection<Announcement> announcements = null;
 
-		announcements = new ArrayList<Announcement>();
 		announcements = this.rendezvousService.findOne(rendezvousId).getAnnouncements();
 
 		result = new ModelAndView();
@@ -50,7 +48,6 @@ public class AnnouncementController extends AbstractController {
 
 		return result;
 	}
-
 	// Creation  ------------------------------------------------------------
 
 	// Display --------------------------------------------------------------
