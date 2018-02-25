@@ -143,6 +143,11 @@ public class RendezvousService {
 			this.userService.save(u);
 			this.rsvpService.delete(rv);
 		}
+		final Collection<Rendezvous> cr = r.getIsLinkedTo();
+		for (final Rendezvous r2 : cr) {
+			r2.getIsLinkedTo().remove(r);
+			this.rendezvousRepository.save(r2);
+		}
 
 		this.rendezvousRepository.delete(r);
 
