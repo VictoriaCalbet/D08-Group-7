@@ -48,22 +48,23 @@
 			<li><a class="fNiv" href="RSVP/user/list.do"><spring:message code="master.page.user.RSVP.list" /></a></li>
 		</security:authorize>
 		
-		
-		<li>
-			<a class="fNiv">
-				<spring:message code="master.page.announcement" />
-			</a>
-			<ul>
-				<li class="arrow"></li>
-				<security:authorize access="hasRole('USER')">
-					<li><a href="announcement/user/list.do">   <spring:message code="master.page.announcement.createdByUser" /> </a></li>
-					<li><a href="announcement/user/stream.do"> <spring:message code="master.page.announcement.stream" /> </a></li>
-				</security:authorize>
-				<security:authorize access="hasRole('ADMIN')">
-					<li><a href="announcement/admin/list.do">   <spring:message code="master.page.announcement.findAllByAdmin" /> </a></li>
-				</security:authorize>				
-			</ul>
-		</li>
+		<security:authorize access="hasAnyRole('ADMIN', 'USER')">
+			<li>
+				<a class="fNiv">
+					<spring:message code="master.page.announcement" />
+				</a>
+				<ul>
+					<li class="arrow"></li>
+					<security:authorize access="hasRole('USER')">
+						<li><a href="announcement/user/list.do">   <spring:message code="master.page.announcement.createdByUser" /> </a></li>
+						<li><a href="announcement/user/stream.do"> <spring:message code="master.page.announcement.stream" /> </a></li>
+					</security:authorize>
+					<security:authorize access="hasRole('ADMIN')">
+						<li><a href="announcement/admin/list.do">   <spring:message code="master.page.announcement.findAllByAdmin" /> </a></li>
+					</security:authorize>				
+				</ul>
+			</li>
+		</security:authorize>
 		
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="user/create.do"><spring:message code="user.create" /></a></li>
