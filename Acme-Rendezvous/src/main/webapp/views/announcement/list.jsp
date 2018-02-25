@@ -52,7 +52,7 @@
 	<spring:message code="announcement.momentMade" var="announcementMomentMadeHeader"/>
 	<spring:message code="announcement.momentMade.pattern" var="datePattern"/>
 	<display:column title="${announcementMomentMadeHeader}">
-		<fmt:formatDate value="$(row.momentMade)" pattern="${datePattern}"/>
+		<fmt:formatDate value="${row.momentMade}" pattern="${datePattern}"/>
 	</display:column>
 
 </display:table>
