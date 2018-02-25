@@ -60,7 +60,7 @@
 						<li><a href="announcement/user/stream.do"> <spring:message code="master.page.announcement.stream" /> </a></li>
 					</security:authorize>
 					<security:authorize access="hasRole('ADMIN')">
-						<li><a href="announcement/admin/list.do">   <spring:message code="master.page.announcement.findAllByAdmin" /> </a></li>
+						<li><a href="announcement/administrator/list.do">   <spring:message code="master.page.announcement.findAllByAdmin" /> </a></li>
 					</security:authorize>				
 				</ul>
 			</li>
