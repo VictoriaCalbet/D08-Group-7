@@ -12,9 +12,9 @@ public interface AnswerRepository extends JpaRepository<Answer, Integer> {
 
 	// Dashboard queries
 
-	@Query("select avg(rvs.questions.size) from Rendezvous rvs")
-	public Double findAvgNoAnswersToTheQuestionsPerRendezvous();
+	@Query("select avg(q.answers.size) from Rendezvous rvs join rvs.questions q join q.answers")
+	public Double findAvgNoAnswersToTheQuestionPerRendezvous();
 
-	@Query("select  sqrt(sum(rvs.questions.size * rvs.questions.size) / count(rvs.questions.size) - (avg(rvs.questions.size) * avg(rvs.questions.size))) from Rendezvous rvs")
-	public Double findStdNoAnswersToTheQuestionsPerRendezvous();
+	@Query("select sqrt(sum(q.answers.size * q.answers.size) / count(q.answers.size) - (avg(q.answers.size) * avg(q.answers.size))) from Rendezvous rvs join rvs.questions q join q.answers")
+	public Double findStdNoAnswersToTheQuestionPerRendezvous();
 }

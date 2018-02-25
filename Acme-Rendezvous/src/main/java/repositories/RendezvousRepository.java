@@ -56,10 +56,4 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select rvs from Rendezvous rvs where rvs.isLinkedTo.size > (select avg(rv.isLinkedTo.size)*1.1 from Rendezvous rv)")
 	public Collection<Rendezvous> findRendezvousesThatLinkedToRvGreaterThanAvgPlus10();
 
-	@Query("select avg(q.answers.size) from Rendezvous rvs join rvs.questions q join q.answers")
-	public Double findAvgNoQuestionPerRendezvous();
-
-	@Query("select sqrt(sum(q.answers.size * q.answers.size) / count(q.answers.size) - (avg(q.answers.size) * avg(q.answers.size))) from Rendezvous rvs join rvs.questions q join q.answers")
-	public Double findStdNoQuestionPerRendezvous();
-
 }
