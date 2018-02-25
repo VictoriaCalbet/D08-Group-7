@@ -37,7 +37,7 @@ public class User extends Actor {
 
 	@Valid
 	@NotNull
-	@OneToMany
+	@OneToMany(mappedBy = "creator")
 	public Collection<Rendezvous> getRendezvoussesCreated() {
 		return this.rendezvoussesCreated;
 	}
