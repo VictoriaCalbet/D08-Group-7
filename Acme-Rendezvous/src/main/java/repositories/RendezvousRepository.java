@@ -45,7 +45,7 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select sqrt(sum(usr.rsvps.size * usr.rsvps.size) / count(usr.rsvps.size) - (avg(usr.rsvps.size) * avg(usr.rsvps.size))) from User usr")
 	public Double findStdRendezvousRSVPsPerUsers();
 
-	@Query("select rvs from Rendezvous rvs order by rvs.rsvps.size")
+	@Query("select rvs from Rendezvous rvs order by rvs.rsvps.size desc")
 	public Collection<Rendezvous> findAllRendezvousByRSVPs();
 
 	@Query("select rvs from Rendezvous rvs where rvs.announcements.size > (select avg(rv.announcements.size) * 0.75 from Rendezvous rv)")
