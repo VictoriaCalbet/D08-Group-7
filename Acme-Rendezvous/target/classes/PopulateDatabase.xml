@@ -244,7 +244,7 @@
 		</property>
 		<property name="isLinkedTo">
 			<list>
-				<ref bean="rendezvous3"/>
+				<ref bean="rendezvous5"/>
 			</list>
 		</property>
 	</bean>
@@ -282,7 +282,6 @@
 		</property>
 		<property name="isLinkedTo">
 			<list>
-				<ref bean="rendezvous2"/>
 			</list>
 		</property>
 	</bean>
@@ -350,6 +349,7 @@
 		</property>
 		<property name="isLinkedTo">
 			<list>
+				<ref bean="rendezvous2"/>
 			</list>
 		</property>
 	</bean>
