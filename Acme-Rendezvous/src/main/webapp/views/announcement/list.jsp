@@ -18,14 +18,18 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<security:authentication property="principal" var="loggedactor"/>
+
 <display:table name="announcements" id="row" requestURI="${requestURI}" pagesize="10">
 	
 	<!-- Links to edit or display an announcement -->
 	<security:authorize access="hasRole('USER')">
 		<display:column>
-			<a href="announcement/user/edit.do?announcementId=${row.id}">
-				<spring:message code="announcement.edit"/>
-			</a>
+			<jstl:if test="${row.rendezvous.creator.userAccount.id eq loggedactor.id}">
+				<a href="announcement/user/edit.do?announcementId=${row.id}">
+					<spring:message code="announcement.edit"/>
+				</a>
+			</jstl:if>
 		</display:column>
 	</security:authorize>
 	
@@ -60,5 +64,7 @@
 
 <!-- Link to create an announcement. It's only visible by users -->
 <security:authorize access="hasRole('USER')">
-	<a href="announcement/user/create.do"> <spring:message code="announcement.create"/> </a>
+	<jstl:if test="${row.rendezvous.creator.userAccount.id eq loggedactor.id}">
+		<a href="announcement/user/create.do"> <spring:message code="announcement.create"/> </a>
+	</jstl:if>
 </security:authorize>

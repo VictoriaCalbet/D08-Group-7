@@ -18,6 +18,8 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<security:authentication property="principal" var="loggedactor"/>
+
 <form:form action="${requestURI}" modelAttribute="announcementForm">
 	
 	<jstl:choose>

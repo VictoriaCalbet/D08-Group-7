@@ -36,6 +36,4 @@
 <b><jstl:out value="${announcementDescriptionHeader}"/> :&nbsp;</b> <jstl:out value="${announcement.description}"/>
 <br/>
 
-
-<!-- Cancel URI -->
-<acme:cancel url="/" code="announcement.cancel"/>
+<acme:cancel url="/announcement/list.do?rendezvousId=${announcement.rendezvous.id}" code="announcement.cancel"/>
