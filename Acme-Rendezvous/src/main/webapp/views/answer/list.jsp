@@ -41,6 +41,6 @@
 </display:table>
 <jstl:choose>
 	<jstl:when test="${todoRespondido==1}">
-		<input type="button" value="<spring:message code="answer.continue"/>" onClick="relativeRedir('question/user/list.do?rendezvousId=${questionForm.rendezvousId}')"/>	
+		<input type="button" value="<spring:message code="answer.continue"/>" onClick="relativeRedir('RSVP/user/RSVPAssure.do?rendezvousId=${rendezvousId}')"/>	
 	</jstl:when>
 </jstl:choose>	

@@ -86,6 +86,7 @@ public class AnswerUserController extends AbstractController {
 			if (questions.size() == answersInDB.size())
 				todoRespondido = 1;
 			result.addObject("todoRespondido", todoRespondido);
+			result.addObject("rendezvousId", rendezvousId);
 			result.addObject("respondible", 1);
 		}
 		return result;

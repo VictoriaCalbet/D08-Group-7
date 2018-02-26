@@ -42,12 +42,11 @@
 	<form:hidden path="isLinkedTo"/>
 			
 <security:authorize access="hasRole('USER')">
-<input type="submit" name="save" value="<spring:message code="rendezvous.RSVPButton"/>"/>
-
-<input type="button" value="<spring:message code="rendezvous.cancel"/>" 
-	onClick="relativeRedir('rendezvous/user/list.do?rendezvousId=${row.id}')"/>
 
 
-	</security:authorize>
+<acme:submit name="save" code="rendezvous.RSVPButton" /> 
+<acme:cancel url="rendezvous/user/list.do?rendezvousId=${row.id}" code="rendezvous.cancel" /> <br/>
+
+</security:authorize>
 
 </form:form>

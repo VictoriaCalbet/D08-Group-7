@@ -31,7 +31,7 @@
 	</definition>
 	
 	<definition name="RSVP/user/RSVP" extends="master.page">        
-		<put-attribute name="title" value="Are you sure that you want to assist to this rendezvous? Then, you must answer some questions" />
+		<put-attribute name="title" value="Thank for answer the questions." />
 		<put-attribute name="body" value="/views/rsvp/RSVP.jsp" />
 	</definition>
 </tiles-definitions>

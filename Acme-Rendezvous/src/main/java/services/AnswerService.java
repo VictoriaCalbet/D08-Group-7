@@ -71,7 +71,7 @@ public class AnswerService {
 		Question questionInDB;
 		questionInDB = this.questionService.findOne(savedAnswer.getQuestion().getId());
 		questionInDB.getAnswers().add(savedAnswer);
-		this.questionService.saveFromEdit(questionInDB);
+		this.questionService.saveByOtherUser(questionInDB);
 		return savedAnswer;
 	}
 	public Answer saveFromEdit(final Answer answer) {
@@ -87,7 +87,7 @@ public class AnswerService {
 		Question questionInDB;
 		questionInDB = this.questionService.findOne(savedAnswer.getQuestion().getId());
 		questionInDB.getAnswers().add(savedAnswer);
-		this.questionService.saveFromEdit(questionInDB);
+		this.questionService.saveByOtherUser(questionInDB);
 		return savedAnswer;
 	}
 

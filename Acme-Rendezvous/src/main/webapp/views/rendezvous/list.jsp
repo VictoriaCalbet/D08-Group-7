@@ -158,7 +158,7 @@
 	<jstl:choose>
 	<jstl:when test="${!principalRendezvouses.contains(row) and (row.isDraft==false)}">
 			
-			<a href="RSVP/user/RSVPAssure.do?rendezvousId=${row.id}"> <spring:message code="rendezvous.RSVPButton" /></a>	
+			<a href="answer/user/list.do?rendezvousId=${row.id}"> <spring:message code="rendezvous.RSVPButton" /></a>	
 
 	</jstl:when>
 	

@@ -73,7 +73,7 @@ public class QuestionService {
 		Assert.notNull(this.rendezvousService.findOne(question.getRendezvous().getId()));
 		Assert.isTrue(this.isCorrectString(question.getText()));
 		this.isUserAuthenticate();
-		this.checkQuestionIsUnique(question);
+
 		Question savedQuestion;
 		savedQuestion = this.questionRepository.save(question);
 		final List<Question> questions;
@@ -92,8 +92,25 @@ public class QuestionService {
 		Assert.notNull(this.rendezvousService.findOne(question.getRendezvous().getId()));
 		Assert.isTrue(this.isCorrectString(question.getText()));
 		this.isCorrectUser(question.getRendezvous().getId());
-		this.checkQuestionIsUnique(question);
 
+		Question savedQuestion;
+		savedQuestion = this.questionRepository.save(question);
+		final List<Question> questions;
+		questions = new ArrayList<Question>();
+		Rendezvous rendezvousInDB;
+		rendezvousInDB = this.rendezvousService.findOne(savedQuestion.getRendezvous().getId());
+		questions.addAll(rendezvousInDB.getQuestions());
+
+		for (int i = 0; i < questions.size(); i++)
+			if (questions.get(i).getId() == savedQuestion.getId()) {
+				questions.set(i, savedQuestion);
+				break;
+			}
+		rendezvousInDB.setQuestions(questions);
+
+		return savedQuestion;
+	}
+	public Question saveByOtherUser(final Question question) {
 		Question savedQuestion;
 		savedQuestion = this.questionRepository.save(question);
 		final List<Question> questions;
@@ -154,18 +171,7 @@ public class QuestionService {
 		Assert.isTrue(this.isUserAuthenticate().getRendezvoussesCreated().contains(this.rendezvousService.findOne(rendezvousId)));
 
 	}
-	private Boolean checkQuestionIsUnique(final Question question) {
-		Boolean unique;
-		unique = true;
-		final Rendezvous rendezvous;
-		rendezvous = this.rendezvousService.findOne(question.getRendezvous().getId());
-		for (final Question q : rendezvous.getQuestions())
-			if (q.getText().equals(question.getText())) {
-				unique = false;
-				break;
-			}
-		return unique;
-	}
+
 	private Boolean isCorrectString(final String string) {
 		Boolean correct = true;
 		if (string == null || string.equals(""))
