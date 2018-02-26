@@ -46,19 +46,26 @@
 	<display:column title="${birthDateHeader}" >
 		<fmt:formatDate value="${row.birthDate}" pattern="${datePattern}"/>
 	</display:column>	
+	<jstl:choose>
+		<jstl:when test="${ showAnswers == 1}">
 			<jstl:choose>
-				<jstl:when test="${showAnswers==1}">
-					<jstl:choose>
-						<jstl:when test="${isCreatorOfRendezvous[row.id]==1}">
-				<spring:message code="user.answers" var="answers"/>
-				<display:column sortable="false" title="${answers}">
-					<a href="answer/list.do?rendezvousId=${rendezvousId}&userId=${row.id}">
-						<spring:message code="user.show" />
-					</a>
-				</display:column>
-						</jstl:when>
-					</jstl:choose>	
+				<jstl:when test="${ row.id == creatorUserId}">
+					<spring:message code="user.answers" var="answers"/>
+					<display:column sortable="false" title="${answers}">
+						<spring:message code="user.noanswers" />
+					</display:column>
+					
 				</jstl:when>
+				<jstl:otherwise>
+					<spring:message code="user.answers" var="answers"/>
+					<display:column sortable="false" title="${answers}">
+					<a href="answer/list.do?rendezvousId=${rendezvousId}&userId=${row.id}">
+					<spring:message code="user.show" />
+					</a>
+					</display:column>
+				</jstl:otherwise>
+			
 			</jstl:choose>	
-	
+		</jstl:when>
+	</jstl:choose>
 </display:table>
