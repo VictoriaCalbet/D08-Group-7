@@ -52,7 +52,7 @@
 			<!-- Action buttons -->
 			
 			<acme:submit name="save" code="announcement.save"/> &nbsp;
-			<acme:cancel url="/" code="announcement.cancel"/>
+			<acme:cancel url="/announcement/user/list.do" code="announcement.cancel"/>
 		</jstl:when>
 		<jstl:otherwise>
 			<spring:message code="message.rendezvousesNotAvailable"/>
