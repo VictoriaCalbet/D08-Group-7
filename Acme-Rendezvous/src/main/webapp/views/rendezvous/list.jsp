@@ -156,7 +156,7 @@
 	<spring:message code="rendezvous.RSVPButton" var="rsvpHeader" />
 	<display:column title="${rsvpHeader}">
 	<jstl:choose>
-	<jstl:when test="${!principalRendezvouses.contains(row) and (row.isDraft==false)}">
+	<jstl:when test="${!principalRendezvouses.contains(row) and (row.isDraft==false) and !(cancelledRsvps.contains(rsvpToCancel))}">
 			
 			<a href="RSVP/user/RSVPAssure.do?rendezvousId=${row.id}"> <spring:message code="rendezvous.RSVPButton" /></a>	
 
@@ -168,16 +168,17 @@
 		</jstl:otherwise>
 		</jstl:choose>
 		</display:column>
-		
+<spring:message code="rsvp.isCancelled" />		
 <display:column title="${cancelHeader}">	
-	<jstl:choose>
-	<jstl:when test="${!rsvpToCancel.isCancelled}">
-			<a href="RSVP/user/cancelRSVP.do?rendezvousToCancelId=${row.id}">
-			 	<spring:message code="RSVP.cancelButton" />
-			</a>
+	<jstl:choose>	
+	<jstl:when test="${cancelledRsvps.contains(rsvpToCancel)}">
+			
+			<spring:message code= "rsvp.isCancelled"/>
 	</jstl:when>
 	<jstl:otherwise>
-		<spring:message code= "rsvp.isCancelled"/>
+		<a href="RSVP/user/cancelRSVP.do?rendezvousToCancelId=${row.id}">
+			 	<spring:message code="RSVP.cancelButton" />
+			</a>
 		</jstl:otherwise>
 	</jstl:choose>
 	</display:column>
