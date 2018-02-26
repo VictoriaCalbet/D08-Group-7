@@ -64,7 +64,5 @@
 
 <!-- Link to create an announcement. It's only visible by users -->
 <security:authorize access="hasRole('USER')">
-	<jstl:if test="${row.rendezvous.creator.userAccount.id eq loggedactor.id}">
-		<a href="announcement/user/create.do"> <spring:message code="announcement.create"/> </a>
-	</jstl:if>
+	<a href="announcement/user/create.do"> <spring:message code="announcement.create"/> </a>
 </security:authorize>
