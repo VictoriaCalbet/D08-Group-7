@@ -53,6 +53,9 @@
 			<li><a class="fNiv" href="RSVP/user/list.do"><spring:message code="master.page.user.RSVP.list" /></a></li>
 		</security:authorize>
 		
+		<security:authorize access="hasRole('USER')">
+			<li><a class="fNiv" href="RSVP/user/listRSVPs.do"><spring:message code="master.page.RSVP" /></a></li>
+		</security:authorize>
 		<security:authorize access="hasAnyRole('ADMIN', 'USER')">
 			<li>
 				<a class="fNiv">

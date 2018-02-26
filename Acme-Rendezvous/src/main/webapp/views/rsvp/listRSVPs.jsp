@@ -16,3 +16,25 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<security:authentication property="principal" var="loggedactor"/>
+
+<display:table name="RSVPs" id="row" requestURI="${requestURI}" pagesize="5">
+
+	
+<spring:message code="rsvp.isCancelled" var="isCanceledHeader" />
+<display:column property="isCancelled" title="${isCanceledHeader}" sortable="false" />
+
+<spring:message code="rendezvous.name" var="rendezvousHeader" />
+<display:column property="rendezvous.name" title="${rendezvousHeader}" sortable="false" />
+
+
+<spring:message code="rsvp.isCancelled" />		
+<display:column title="${cancelHeader}">			
+			
+	
+		<a href="RSVP/user/cancelRSVP.do?rendezvousToCancelId=${row.rendezvous.id}">
+			 	<spring:message code="RSVP.cancelButton" />
+	
+	</display:column>
+</display:table>

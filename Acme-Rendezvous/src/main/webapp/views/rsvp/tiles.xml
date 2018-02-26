@@ -19,7 +19,12 @@
 		<put-attribute name="title" value="List of RSVP" />
 		<put-attribute name="body" value="/views/rsvp/list.jsp" />
 	</definition>
-             
+	
+    <definition name="RSVP/user/listRSVPs" extends="master.page">        
+	<put-attribute name="title" value="Listado de reservas" />
+	<put-attribute name="body" value="/views/rsvp/listRSVPs.jsp" />
+	</definition>
+	 
 	<definition name="rsvp/edit" extends="master.page">        
 		<put-attribute name="title" value="Edit a RSVP" />
 		<put-attribute name="body" value="/views/rsvp/edit.jsp" />

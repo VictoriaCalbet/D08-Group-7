@@ -68,6 +68,21 @@ public class RSVPUserController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/listRSVPs", method = RequestMethod.GET)
+	public ModelAndView listRSVPs(@RequestParam(required = false) final String message) {
+		final ModelAndView result;
+
+		final User principal = this.userService.findByPrincipal();
+		final Collection<RSVP> RSVPs = principal.getRsvps();
+
+		result = new ModelAndView("RSVP/user/listRSVPs");
+		result.addObject("RSVPs", RSVPs);
+		result.addObject("message", message);
+		result.addObject("requestURI", "RSVP/user/listRSVPs.do");
+
+		return result;
+	}
+
 	@RequestMapping(value = "/RSVPAssure", method = RequestMethod.GET)
 	public ModelAndView rsvpAssure(@RequestParam final int rendezvousId) {
 
@@ -193,4 +208,5 @@ public class RSVPUserController extends AbstractController {
 		return result;
 
 	}
+
 }
