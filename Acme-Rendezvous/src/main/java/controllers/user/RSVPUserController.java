@@ -124,14 +124,19 @@ public class RSVPUserController extends AbstractController {
 			String messageError = "RSVP.cancel.error";
 			if (oops.getMessage().contains("message.error"))
 				messageError = oops.getMessage();
-			result = new ModelAndView("redirect:/rendezvous/user/list.do");
+			result = new ModelAndView("redirect:/rendezvous/list.do");
 			result.addObject("message", messageError);
 		}
 
 		final User principal = this.userService.findByPrincipal();
-		final RSVP rsvpToCancel = this.RSVPService.findRSVPByRendezvousAndUserId(rendezvousToCancelId, principal.getId());
+		RSVP rsvpToCancel = null;
+		final Collection<RSVP> principalRSVPs = principal.getRsvps();
+		for (final RSVP rsvp : principalRSVPs)
+			if (rsvp.getRendezvous() == this.rendezvousService.findOne(rendezvousToCancelId))
+				rsvpToCancel = rsvp;
 
 		result.addObject("rsvpToCancel", rsvpToCancel);
+
 		result.addObject("rendezvousToCancelId", rendezvousToCancelId);
 		return result;
 	}

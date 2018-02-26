@@ -85,7 +85,7 @@ public class RSVPService {
 		Assert.notNull(principal);
 		final RSVP rsvp = this.rsvpRepository.findRSVPByRendezvousAndUserId(rv.getId(), principal.getId());
 		Assert.notNull(rsvp);
-
+		this.rsvpRepository.save(rsvp);
 		rsvp.setIsCancelled(true);
 
 	}
@@ -131,5 +131,9 @@ public class RSVPService {
 	// Other business methods -------------------------------------------------
 	public RSVP findRSVPByRendezvousAndUserId(final int rendezvousId, final int userId) {
 		return this.rsvpRepository.findRSVPByRendezvousAndUserId(rendezvousId, userId);
+	}
+
+	public Collection<RSVP> findRSVPsCancelled(final int userId) {
+		return this.rsvpRepository.findRSVPsCancelled(userId);
 	}
 }
