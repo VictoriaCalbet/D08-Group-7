@@ -168,6 +168,22 @@
 		</jstl:otherwise>
 		</jstl:choose>
 		</display:column>
+		
+<display:column title="${cancelHeader}">	
+	<jstl:choose>
+	<jstl:when test="${!rsvpToCancel.isCancelled}">
+			<a href="RSVP/user/cancelRSVP.do?rendezvousToCancelId=${row.id}">
+			 	<spring:message code="RSVP.cancelButton" />
+			</a>
+	</jstl:when>
+	<jstl:otherwise>
+		<spring:message code= "rsvp.isCancelled"/>
+		</jstl:otherwise>
+	</jstl:choose>
+	</display:column>
+		
+		
+		
 	</security:authorize>
 	
 	<security:authorize access="hasRole('ADMIN')">

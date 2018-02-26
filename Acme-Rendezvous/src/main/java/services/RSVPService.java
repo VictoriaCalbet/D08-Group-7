@@ -78,11 +78,15 @@ public class RSVPService {
 
 	}
 
-	public void cancelRSVP(final int rsvpId) {
-		final RSVP rsvp = this.rsvpRepository.findOne(rsvpId);
+	public void cancelRSVP(final int rvId) {
+		final Rendezvous rv = this.rendezvousRepository.findOne(rvId);
+		Assert.notNull(rv);
+		final User principal = this.userService.findByPrincipal();
+		Assert.notNull(principal);
+		final RSVP rsvp = this.rsvpRepository.findRSVPByRendezvousAndUserId(rv.getId(), principal.getId());
 		Assert.notNull(rsvp);
+
 		rsvp.setIsCancelled(true);
-		this.rsvpRepository.save(rsvp);
 
 	}
 
@@ -117,7 +121,7 @@ public class RSVPService {
 
 		Assert.isTrue(!rendezvousToRSVP.getIsDraft(), "RSVP.isDraft.error");
 		final RSVP rsvp = this.create(rendezvousToRSVP);
-
+		Assert.isTrue(!rsvp.getIsCancelled());
 		rsvp.setRendezvous(rendezvousToRSVP);
 
 		final RSVP result = this.save(rsvp);
@@ -125,5 +129,7 @@ public class RSVPService {
 		principal.getRsvps().add(result);
 	}
 	// Other business methods -------------------------------------------------
-
+	public RSVP findRSVPByRendezvousAndUserId(final int rendezvousId, final int userId) {
+		return this.rsvpRepository.findRSVPByRendezvousAndUserId(rendezvousId, userId);
+	}
 }

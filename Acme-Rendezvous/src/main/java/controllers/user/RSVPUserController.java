@@ -19,6 +19,7 @@ import services.RSVPService;
 import services.RendezvousService;
 import services.UserService;
 import controllers.AbstractController;
+import domain.RSVP;
 import domain.Rendezvous;
 import domain.User;
 
@@ -111,6 +112,28 @@ public class RSVPUserController extends AbstractController {
 
 		return result;
 
+	}
+
+	@RequestMapping(value = "/cancelRSVP", method = RequestMethod.GET)
+	public ModelAndView cancel(@RequestParam final int rendezvousToCancelId) {
+		ModelAndView result;
+		try {
+			this.RSVPService.cancelRSVP(rendezvousToCancelId);
+			result = new ModelAndView("redirect:/rendezvous/list.do");
+		} catch (final Throwable oops) {
+			String messageError = "RSVP.cancel.error";
+			if (oops.getMessage().contains("message.error"))
+				messageError = oops.getMessage();
+			result = new ModelAndView("redirect:/rendezvous/user/list.do");
+			result.addObject("message", messageError);
+		}
+
+		final User principal = this.userService.findByPrincipal();
+		final RSVP rsvpToCancel = this.RSVPService.findRSVPByRendezvousAndUserId(rendezvousToCancelId, principal.getId());
+
+		result.addObject("rsvpToCancel", rsvpToCancel);
+		result.addObject("rendezvousToCancelId", rendezvousToCancelId);
+		return result;
 	}
 	// Ancillaty methods
 
