@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -130,6 +131,13 @@ public class AnnouncementUserController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int announcementId) {
 		ModelAndView result = null;
 		AnnouncementForm announcementForm = null;
+		Announcement announcement = null;
+		User user = null;
+
+		announcement = this.announcementService.findOne(announcementId);
+		user = this.userService.findByPrincipal();
+
+		Assert.isTrue(announcement.getRendezvous().getCreator().equals(user));
 
 		announcementForm = this.announcementFormService.createFromEdit(announcementId);
 		result = this.createEditModelAndView(announcementForm);
