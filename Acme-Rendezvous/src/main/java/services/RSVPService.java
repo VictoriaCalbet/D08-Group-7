@@ -78,6 +78,14 @@ public class RSVPService {
 
 	}
 
+	public void cancelRSVP(final int rsvpId) {
+		final RSVP rsvp = this.rsvpRepository.findOne(rsvpId);
+		Assert.notNull(rsvp);
+		rsvp.setIsCancelled(true);
+		this.rsvpRepository.save(rsvp);
+
+	}
+
 	public void RSVPaRendezvous(final int rvId) {
 		final Rendezvous rendezvousToRSVP = this.rendezvousRepository.findOne(rvId);
 		final User creator = rendezvousToRSVP.getCreator();
