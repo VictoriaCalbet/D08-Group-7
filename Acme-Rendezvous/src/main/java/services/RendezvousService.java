@@ -239,5 +239,7 @@ public class RendezvousService {
 			year = year - 1;
 		return year;
 	}
-
+	public Collection<Rendezvous> findAllPrincipalRsvps(final int userId) {
+		return this.rendezvousRepository.findAllPrincipalRsvps(userId);
+	}
 }

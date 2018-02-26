@@ -136,4 +136,5 @@ public class RSVPService {
 	public Collection<RSVP> findRSVPsCancelled(final int userId) {
 		return this.rsvpRepository.findRSVPsCancelled(userId);
 	}
+
 }

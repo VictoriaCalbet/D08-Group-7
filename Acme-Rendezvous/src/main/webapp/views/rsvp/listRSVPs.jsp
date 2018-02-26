@@ -35,6 +35,6 @@
 	
 		<a href="RSVP/user/cancelRSVP.do?rendezvousToCancelId=${row.rendezvous.id}">
 			 	<spring:message code="RSVP.cancelButton" />
-	
+	</a>
 	</display:column>
 </display:table>
