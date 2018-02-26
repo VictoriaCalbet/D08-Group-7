@@ -118,6 +118,13 @@
 	</jstl:choose>
 	</display:column>
 	
+	<spring:message code="rendezvous.announcements" var="announcementsHeader" />
+	<display:column title="${announcementsHeader}">
+		<a href="announcement/list.do?rendezvousId=${row.id}">
+			<spring:message code="rendezvous.showAnnouncements" />
+		</a>
+	</display:column>
+	
 	<spring:message code="rendezvous.comments" var="commentHeader" />	
 	<display:column title="${commentHeader}">
 			<a href="comment/list.do?rendezvousId=${row.id}"><spring:message code="rendezvous.commentButton"/></a>
