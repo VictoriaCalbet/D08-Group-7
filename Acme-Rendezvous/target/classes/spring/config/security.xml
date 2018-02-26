@@ -63,6 +63,7 @@
 		<security:intercept-url pattern="/rendezvous/user/link.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/RSVP/user/list.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/RSVP/user/RSVP.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/RSVP/user/cancelRSVP.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/RSVP/user/RSVPAssure.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/user/user/*" access="hasRole('USER')" />
 		<security:intercept-url pattern="/comment/user/*" access="hasRole('USER')" />
