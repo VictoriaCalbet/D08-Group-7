@@ -16,3 +16,27 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+	<display:table name="questions" id="row" requestURI="${requestURI}" pagesize="5" class="displaytag" >
+		<jstl:choose>
+			<jstl:when test="${canEdit==1}">
+				<spring:message code="question.edit" var="edit"/>
+				<display:column sortable="false" title="${edit}">
+					<a href="question/user/edit.do?questionId=${row.id}">
+						<spring:message code="question.edit" />
+					</a>
+				</display:column>
+			</jstl:when>
+		</jstl:choose>	
+		<spring:message code="question.question" var="question"/>
+		<display:column title="${question}" sortable="false">
+			<jstl:out value="${row.text}"/>
+		</display:column>
+	</display:table>
+	
+	<jstl:choose>
+		<jstl:when test="${canEdit==1}">
+			<spring:message code="question.create" var="create"/>
+			<a href="question/user/create.do?rendezvousId=${rendezvousId}">${create}</a>
+		</jstl:when>
+	</jstl:choose>	

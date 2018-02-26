@@ -51,6 +51,7 @@
 		<security:intercept-url pattern="/comment/listReplies.do" access="permitAll" />
 		<security:intercept-url pattern="/announcement/display.do" access="permitAll" />
 		<security:intercept-url pattern="/announcement/list.do" access="permitAll" />
+		<security:intercept-url pattern="/answer/*" access="permitAll" />
 		
 		<!-- Actor -->
 		<security:intercept-url pattern="/actor/actor/profile.do" access="hasAnyRole('ADMIN', 'USER')" />
@@ -67,6 +68,9 @@
 		<security:intercept-url pattern="/user/user/*" access="hasRole('USER')" />
 		<security:intercept-url pattern="/comment/user/*" access="hasRole('USER')" />
 		<security:intercept-url pattern="/announcement/user/**" access="hasRole('USER')" />
+		<security:intercept-url pattern="/question/user/*" access="hasRole('USER')" />
+		<security:intercept-url pattern="/answer/user/*" access="hasRole('USER')" />
+		
 		
 		<!-- ADMIN -->
 		<security:intercept-url pattern="/administrator/dashboard.do" access="hasRole('ADMIN')" />

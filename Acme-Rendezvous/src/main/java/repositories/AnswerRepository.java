@@ -17,4 +17,8 @@ public interface AnswerRepository extends JpaRepository<Answer, Integer> {
 
 	@Query("select sqrt(sum(q.answers.size * q.answers.size) / count(q.answers.size) - (avg(q.answers.size) * avg(q.answers.size))) from Rendezvous rvs join rvs.questions q join q.answers")
 	public Double findStdNoAnswersToTheQuestionPerRendezvous();
+
+	//Bussines queries
+	@Query("select a from Answer a where a.question.id= ?1 and a.user.id=?2")
+	Answer findAnswerByQuestionIdAndUserId(int questionId, int userId);
 }

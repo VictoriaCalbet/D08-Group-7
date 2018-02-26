@@ -16,3 +16,17 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+<security:authorize access="hasRole('USER')">
+	<form:form action="${requestURI}" modelAttribute="questionAndAnswerForm">
+		<form:hidden path="questionId"/>
+		<form:hidden path="questionText"/>
+		<form:hidden path="answerId"/>
+		<form:label path="answerText">${questionAndAnswerForm.questionText}:</form:label>
+		<form:input path="answerText"/>
+		<form:errors cssClass="error" path="answerText"/>
+		<br/>
+		<input type="submit" name="save" value="<spring:message code="answer.save"/>" />
+		<input type="button" value="<spring:message code="answer.cancel"/>" onClick="relativeRedir('answer/user/list.do?rendezvousId=${rendezvousId}')"/>	
+	</form:form>
+</security:authorize>	
