@@ -100,8 +100,7 @@
 		</property>
 		<property name="comments">
 			<list>
-				<ref bean="comment2"/>
-				<ref bean="comment4"/>
+				<ref bean="comment1"/>
 			</list>
 		</property>
 		<property name="answers">
@@ -134,7 +133,6 @@
 		</property>
 		<property name="comments">
 			<list>
-				<ref bean="comment1"/>
 			</list>
 		</property>
 		<property name="answers">
@@ -165,7 +163,9 @@
 		</property>
 		<property name="comments">
 			<list>
+				<ref bean="comment2"/>
 				<ref bean="comment3"/>
+				<ref bean="comment4"/>
 			</list>
 		</property>
 		<property name="answers">
@@ -409,7 +409,7 @@
 		<property name="momentWritten" value="2017/10/02 00:01"/>
 		<property name="text" value="Text of comment1"/>
 		<property name="picture"><null/></property>
-		<property name="user" ref="user2"/>
+		<property name="user" ref="user1"/>
 		<property name="replies">
 			<list>
 			</list>
@@ -422,7 +422,7 @@
 		<property name="momentWritten" value="2017/12/02 00:01"/>
 		<property name="text" value="Text of comment2"/>
 		<property name="picture"><null/></property>
-		<property name="user" ref="user1"/>
+		<property name="user" ref="user3"/>
 		<property name="replies">
 			<list>
 			</list>
@@ -449,7 +449,7 @@
 		<property name="momentWritten" value="2017/12/02 00:12"/>
 		<property name="text" value="Text of comment4, in reply of comment3"/>
 		<property name="picture"><null/></property>
-		<property name="user" ref="user1"/>
+		<property name="user" ref="user3"/>
 		<property name="replies">
 			<list>
 			</list>
