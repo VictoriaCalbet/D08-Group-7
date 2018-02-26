@@ -168,6 +168,12 @@
 		</jstl:otherwise>
 		</jstl:choose>
 		</display:column>
+	<spring:message code="question.question" var="question"/>
+	<display:column title="${question}" sortable="false">
+		<a href="question/user/list.do?rendezvousId=${row.id}">
+			<spring:message code="rendezvous.showquestions" />
+		</a>
+	</display:column>
 	</security:authorize>
 	
 	<security:authorize access="hasRole('ADMIN')">

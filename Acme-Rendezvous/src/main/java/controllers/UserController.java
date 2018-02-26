@@ -4,6 +4,8 @@ package controllers;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -56,7 +58,10 @@ public class UserController extends AbstractController {
 		result = new ModelAndView("user/list");
 		result.addObject("users", users);
 		result.addObject("requestURI", "user/list.do");
-
+		//Needed for answers
+		result.addObject("showAnswers", 0);
+		result.addObject("rendezvousId", 0);
+		result.addObject("isCreatorOfRendezvous", 1);
 		return result;
 	}
 
@@ -69,7 +74,17 @@ public class UserController extends AbstractController {
 		result.addObject("users", users);
 		result.addObject("message", message);
 		result.addObject("requestURI", "user/listAttendant.do");
-
+		//Needed for answers
+		Map<Integer, Integer> isCreatorOfRendezvous;
+		isCreatorOfRendezvous = new HashMap<Integer, Integer>();
+		for (final User u : users)
+			if (u.getRendezvoussesCreated().contains(this.rendezvousService.findOne(rendezvousId)))
+				isCreatorOfRendezvous.put(u.getId(), 1);
+			else
+				isCreatorOfRendezvous.put(u.getId(), 0);
+		result.addObject("showAnswers", 1);
+		result.addObject("rendezvousId", rendezvousId);
+		result.addObject("isCreatorOfRendezvous", isCreatorOfRendezvous);
 		return result;
 	}
 
