@@ -43,7 +43,14 @@ public class AnswerUserController extends AbstractController {
 	public ModelAndView list(@RequestParam final int rendezvousId) {
 
 		final ModelAndView result;
-		if (this.rendezvousService.findOne(rendezvousId) == null)
+		User user;
+		user = null;
+		try {
+			user = this.userService.findByPrincipal();
+		} catch (final Throwable oops) {
+
+		}
+		if (this.rendezvousService.findOne(rendezvousId) == null || user == null || user.getRendezvoussesCreated().contains(this.rendezvousService.findOne(rendezvousId)))
 			result = new ModelAndView("redirect:/");
 		else {
 			final List<QuestionAndAnswerForm> questionsAndAnswers;
@@ -53,13 +60,6 @@ public class AnswerUserController extends AbstractController {
 			Rendezvous rendezvousInDB;
 			rendezvousInDB = this.rendezvousService.findOne(rendezvousId);
 			questions.addAll(rendezvousInDB.getQuestions());
-			User user;
-			user = null;
-			try {
-				user = this.userService.findByPrincipal();
-			} catch (final Throwable oops) {
-
-			}
 			List<Answer> answersInDB;
 			answersInDB = new ArrayList<Answer>();
 			for (final Question q : questions) {
@@ -94,7 +94,14 @@ public class AnswerUserController extends AbstractController {
 	@RequestMapping(value = "/respond", method = RequestMethod.GET)
 	public ModelAndView respond(@RequestParam final int questionId) {
 		final ModelAndView result;
-		if (this.questionService.findOne(questionId) == null)
+		User user;
+		user = null;
+		try {
+			user = this.userService.findByPrincipal();
+		} catch (final Throwable oops) {
+
+		}
+		if (this.questionService.findOne(questionId) == null || user == null || user.getRendezvoussesCreated().contains(this.questionService.findOne(questionId).getRendezvous()))
 			result = new ModelAndView("redirect:/");
 		else {
 			QuestionAndAnswerForm questionAndAnswerForm;
@@ -105,13 +112,7 @@ public class AnswerUserController extends AbstractController {
 				questionAndAnswerForm.setQuestionId(questionId);
 				questionAndAnswerForm.setQuestionText(questionInDB.getText());
 				questionAndAnswerForm.setAnswerText("");
-				User user;
-				user = null;
-				try {
-					user = this.userService.findByPrincipal();
-				} catch (final Throwable oops) {
 
-				}
 				Answer answer;
 				answer = null;
 				if (user != null)
@@ -132,9 +133,18 @@ public class AnswerUserController extends AbstractController {
 	@RequestMapping(value = "/respond", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final QuestionAndAnswerForm questionAndAnswerForm, final BindingResult binding) {
 		ModelAndView result;
-		if (binding.hasErrors())
+		User user;
+		user = null;
+		try {
+			user = this.userService.findByPrincipal();
+		} catch (final Throwable oops) {
+
+		}
+		if (this.questionService.findOne(questionAndAnswerForm.getQuestionId()) == null || user == null || user.getRendezvoussesCreated().contains(this.questionService.findOne(questionAndAnswerForm.getQuestionId()).getRendezvous()))
+			result = new ModelAndView("redirect:/");
+		else if (binding.hasErrors())
 			result = this.createEditModelAndView(questionAndAnswerForm);
-		else
+		else {
 			try {
 				Question questionInDB;
 				questionInDB = this.questionService.findOne(questionAndAnswerForm.getQuestionId());
@@ -160,6 +170,7 @@ public class AnswerUserController extends AbstractController {
 
 				result = this.createEditModelAndView(questionAndAnswerForm, messageError);
 			}
+		}
 		return result;
 	}
 	//Auxialiares

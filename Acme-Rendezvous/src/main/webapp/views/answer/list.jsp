@@ -24,7 +24,7 @@
 		<jstl:out value="${row.questionText}"/>
 	</display:column>
 		<spring:message code="answer.answers" var="answers" />
-	<display:column title="${questions}" sortable="false">
+	<display:column title="${answers}" sortable="false">
 		<jstl:out value="${row.answerText}"/>
 	</display:column>
 	<jstl:choose>
