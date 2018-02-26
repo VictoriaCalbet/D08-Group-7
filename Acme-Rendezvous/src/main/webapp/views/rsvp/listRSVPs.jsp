@@ -31,10 +31,16 @@
 
 <spring:message code="rsvp.isCancelled" />		
 <display:column title="${cancelHeader}">			
-			
+			<jstl:choose>
+	<jstl:when test="${row.isCancelled==false }">
 	
 		<a href="RSVP/user/cancelRSVP.do?rendezvousToCancelId=${row.rendezvous.id}">
 			 	<spring:message code="RSVP.cancelButton" />
 	</a>
+	</jstl:when>
+	<jstl:otherwise>
+		<spring:message code="rsvp.isCancelled" />
+		</jstl:otherwise>
+		</jstl:choose>
 	</display:column>
 </display:table>
