@@ -2,6 +2,8 @@
 package controllers.user;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -50,7 +52,14 @@ public class AnswerUserController extends AbstractController {
 		} catch (final Throwable oops) {
 
 		}
-		if (this.rendezvousService.findOne(rendezvousId) == null || user == null || user.getRendezvoussesCreated().contains(this.rendezvousService.findOne(rendezvousId)))
+		final Date birthDate = user.getBirthDate();
+		final Calendar now = Calendar.getInstance();
+		now.set(Calendar.YEAR, now.get(Calendar.YEAR) - 18);
+		final Date yearLimit = now.getTime();
+
+		if (this.rendezvousService.findOne(rendezvousId).getIsAdultOnly() && birthDate.after(yearLimit))
+			result = new ModelAndView("redirect:/");
+		else if (this.rendezvousService.findOne(rendezvousId) == null || user == null || user.getRendezvoussesCreated().contains(this.rendezvousService.findOne(rendezvousId)))
 			result = new ModelAndView("redirect:/");
 		else {
 			final List<QuestionAndAnswerForm> questionsAndAnswers;
@@ -101,7 +110,14 @@ public class AnswerUserController extends AbstractController {
 		} catch (final Throwable oops) {
 
 		}
-		if (this.questionService.findOne(questionId) == null || user == null || user.getRendezvoussesCreated().contains(this.questionService.findOne(questionId).getRendezvous()))
+		final Date birthDate = user.getBirthDate();
+		final Calendar now = Calendar.getInstance();
+		now.set(Calendar.YEAR, now.get(Calendar.YEAR) - 18);
+		final Date yearLimit = now.getTime();
+
+		if (this.questionService.findOne(questionId).getRendezvous().getIsAdultOnly() && birthDate.after(yearLimit))
+			result = new ModelAndView("redirect:/");
+		else if (this.questionService.findOne(questionId) == null || user == null || user.getRendezvoussesCreated().contains(this.questionService.findOne(questionId).getRendezvous()))
 			result = new ModelAndView("redirect:/");
 		else {
 			QuestionAndAnswerForm questionAndAnswerForm;
@@ -140,7 +156,14 @@ public class AnswerUserController extends AbstractController {
 		} catch (final Throwable oops) {
 
 		}
-		if (this.questionService.findOne(questionAndAnswerForm.getQuestionId()) == null || user == null || user.getRendezvoussesCreated().contains(this.questionService.findOne(questionAndAnswerForm.getQuestionId()).getRendezvous()))
+		final Date birthDate = user.getBirthDate();
+		final Calendar now = Calendar.getInstance();
+		now.set(Calendar.YEAR, now.get(Calendar.YEAR) - 18);
+		final Date yearLimit = now.getTime();
+
+		if (this.questionService.findOne(questionAndAnswerForm.getQuestionId()).getRendezvous().getIsAdultOnly() && birthDate.after(yearLimit))
+			result = new ModelAndView("redirect:/");
+		else if (this.questionService.findOne(questionAndAnswerForm.getQuestionId()) == null || user == null || user.getRendezvoussesCreated().contains(this.questionService.findOne(questionAndAnswerForm.getQuestionId()).getRendezvous()))
 			result = new ModelAndView("redirect:/");
 		else if (binding.hasErrors())
 			result = this.createEditModelAndView(questionAndAnswerForm);
