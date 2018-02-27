@@ -77,7 +77,7 @@ public class AnswerService {
 	public Answer saveFromEdit(final Answer answer) {
 		Assert.notNull(answer, "message.error.answer.null");
 		Assert.isTrue(answer.getId() != 0);
-		this.isCorrectUser(answer.getQuestion().getRendezvous().getId());
+		this.isCorrectUser(answer.getUser().getId());
 
 		answer.setUser(this.userService.findByPrincipal());
 		Assert.notNull(this.questionService.findOne(answer.getQuestion().getId()));
@@ -131,8 +131,8 @@ public class AnswerService {
 		Assert.notNull(user);
 		return user;
 	}
-	private void isCorrectUser(final int rendezvousId) {
-		Assert.isTrue(this.isUserAuthenticate().getRendezvoussesCreated().contains(this.rendezvousService.findOne(rendezvousId)));
+	private void isCorrectUser(final int userId) {
+		Assert.isTrue(this.isUserAuthenticate().getId() == userId);
 
 	}
 	private Boolean isCorrectString(final String string) {
