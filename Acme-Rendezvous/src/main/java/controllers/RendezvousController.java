@@ -44,7 +44,11 @@ public class RendezvousController extends AbstractController {
 				rendezvouses = this.rendezvousService.findRendezvousesNotLogged();
 			}
 		else
-			rendezvouses = this.rendezvousService.findOne(rendezvousId).getIsLinkedTo();
+			try {
+				rendezvouses = this.rendezvousService.findRendezvousesSimilarsLogged(rendezvousId);
+			} catch (final Throwable oops) {
+				rendezvouses = this.rendezvousService.findRendezvousSimilarNotLogged(rendezvousId);
+			}
 
 		//RSVP button control
 		Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();

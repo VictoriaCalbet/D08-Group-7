@@ -103,6 +103,27 @@ public class RendezvousService {
 
 	}
 
+	public Collection<Rendezvous> findRendezvousesSimilarsLogged(final int rendezvousId) {
+
+		final Actor a = this.actorService.findByPrincipal();
+		final Calendar birthDate = new GregorianCalendar();
+		birthDate.setTime(a.getBirthDate());
+		final int age = this.calculateAge(birthDate);
+		if (age < 18)
+			return this.findRendezvousSimilarNotLogged(rendezvousId);
+		else
+			return this.findRendezvousSimilarLogged(rendezvousId);
+
+	}
+
+	public Collection<Rendezvous> findRendezvousSimilarLogged(final int rendezvousId) {
+		return this.rendezvousRepository.findRendezvousSimilarLogged(rendezvousId);
+	}
+
+	public Collection<Rendezvous> findRendezvousSimilarNotLogged(final int rendezvousId) {
+		return this.rendezvousRepository.findRendezvousSimilarNotLogged(rendezvousId);
+	}
+
 	public Collection<Rendezvous> findRendezvousesNotLogged() {
 		return this.findRendezvousesAllUser();
 	}
