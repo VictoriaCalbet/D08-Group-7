@@ -144,7 +144,7 @@ public class AnswerUserController extends AbstractController {
 			result = new ModelAndView("redirect:/");
 		else if (binding.hasErrors())
 			result = this.createEditModelAndView(questionAndAnswerForm);
-		else {
+		else
 			try {
 				Question questionInDB;
 				questionInDB = this.questionService.findOne(questionAndAnswerForm.getQuestionId());
@@ -170,7 +170,6 @@ public class AnswerUserController extends AbstractController {
 
 				result = this.createEditModelAndView(questionAndAnswerForm, messageError);
 			}
-		}
 		return result;
 	}
 	//Auxialiares
