@@ -3,6 +3,7 @@ package controllers.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -15,10 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.AnswerService;
 import services.RSVPService;
 import services.RendezvousService;
 import services.UserService;
 import controllers.AbstractController;
+import domain.Answer;
+import domain.Question;
 import domain.Rendezvous;
 import domain.User;
 
@@ -34,6 +38,9 @@ public class RSVPUserController extends AbstractController {
 
 	@Autowired
 	private UserService			userService;
+
+	@Autowired
+	private AnswerService		answerService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -71,44 +78,91 @@ public class RSVPUserController extends AbstractController {
 	public ModelAndView rsvpAssure(@RequestParam final int rendezvousId) {
 
 		final ModelAndView result;
+		User user;
+		user = null;
+		try {
+			user = this.userService.findByPrincipal();
+		} catch (final Throwable oops) {
 
-		Rendezvous rv;
+		}
+		Rendezvous rendezvousInDB;
+		rendezvousInDB = this.rendezvousService.findOne(rendezvousId);
+		List<Question> questions;
+		questions = new ArrayList<Question>();
+		questions.addAll(rendezvousInDB.getQuestions());
+		List<Answer> answersInDB;
+		answersInDB = new ArrayList<Answer>();
+		for (final Question q : questions) {
+			Answer answer;
+			answer = null;
+			if (user != null)
+				answer = this.answerService.findAnswerByQuestionIdAndUserId(q.getId(), user.getId());
+			if (answer != null)
+				answersInDB.add(answer);
+		}
+		if (questions.size() == answersInDB.size()) {
+			Rendezvous rv;
 
-		rv = this.rendezvousService.findOne(rendezvousId);
-		Assert.notNull(rv, "message.error.rsvp.null");
+			rv = this.rendezvousService.findOne(rendezvousId);
+			Assert.notNull(rv, "message.error.rsvp.null");
 
-		result = this.createEditModelAndView(rv);
+			result = this.createEditModelAndView(rv);
 
-		result.addObject(rendezvousId);
-
+			result.addObject(rendezvousId);
+		} else
+			result = new ModelAndView("redirect:/");
 		return result;
 
 	}
 	@RequestMapping(value = "/RSVP", method = RequestMethod.POST, params = "save")
 	public ModelAndView enrol(@Valid final Rendezvous rv, final BindingResult binding) {
-
 		ModelAndView result;
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(rv);
-		else
-			try {
+		User user;
+		user = null;
+		try {
+			user = this.userService.findByPrincipal();
+		} catch (final Throwable oops) {
 
-				this.RSVPService.RSVPaRendezvous(rv.getId());
+		}
+		Rendezvous rendezvousInDB;
+		rendezvousInDB = this.rendezvousService.findOne(rv.getId());
+		List<Question> questions;
+		questions = new ArrayList<Question>();
+		questions.addAll(rendezvousInDB.getQuestions());
+		List<Answer> answersInDB;
+		answersInDB = new ArrayList<Answer>();
+		for (final Question q : questions) {
+			Answer answer;
+			answer = null;
+			if (user != null)
+				answer = this.answerService.findAnswerByQuestionIdAndUserId(q.getId(), user.getId());
+			if (answer != null)
+				answersInDB.add(answer);
+		}
+		if (questions.size() == answersInDB.size()) {
 
-				result = new ModelAndView("redirect:/rendezvous/list.do");
+			if (binding.hasErrors())
+				result = this.createEditModelAndView(rv);
+			else
+				try {
 
-			} catch (final Throwable oops) {
+					this.RSVPService.RSVPaRendezvous(rv.getId());
 
-				String messageError = "rendezvous.commit.error";
+					result = new ModelAndView("redirect:/rendezvous/list.do");
 
-				if (oops.getMessage().contains("message.error"))
+				} catch (final Throwable oops) {
 
-					messageError = oops.getMessage();
+					String messageError = "rendezvous.commit.error";
 
-				result = this.createEditModelAndView(rv, messageError);
+					if (oops.getMessage().contains("message.error"))
 
-			}
+						messageError = oops.getMessage();
 
+					result = this.createEditModelAndView(rv, messageError);
+
+				}
+		} else
+			result = new ModelAndView("redirect:/");
 		return result;
 
 	}
