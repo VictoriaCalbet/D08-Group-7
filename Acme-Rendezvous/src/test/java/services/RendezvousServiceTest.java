@@ -67,7 +67,7 @@ public class RendezvousServiceTest extends AbstractTest {
 		r.setName("Rendezvous34");
 		r.setIsAdultOnly(true);
 
-		final Rendezvous savedRendezvous = this.rendezvousService.save(r);
+		this.rendezvousService.save(r);
 
 		this.unauthenticate();
 

@@ -29,8 +29,6 @@ public class AnswerService {
 	private UserService			userService;
 	@Autowired
 	private QuestionService		questionService;
-	@Autowired
-	private RendezvousService	rendezvousService;
 
 
 	// Constructors -----------------------------------------------------------
