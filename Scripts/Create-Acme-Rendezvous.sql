@@ -79,6 +79,7 @@ CREATE TABLE `announcement` (
   `title` varchar(255) DEFAULT NULL,
   `rendezvous_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY `UK_23l8etkt9jhuvru57vvwdbymf` (`momentMade`),
   KEY `FK_ff49x8lk2mmqi9noe8xwqg0ah` (`rendezvous_id`),
   CONSTRAINT `FK_ff49x8lk2mmqi9noe8xwqg0ah` FOREIGN KEY (`rendezvous_id`) REFERENCES `rendezvous` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -140,7 +141,7 @@ CREATE TABLE `comment` (
   `rendezvous_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_tm7d357m58v78e886thnp1521` (`originalComment_id`),
+  KEY `UK_tm7d357m58v78e886thnp1521` (`originalComment_id`),
   KEY `FK_cub35s8xr5ip2yamdkqky5dxf` (`rendezvous_id`),
   KEY `FK_jhvt6d9ap8gxv67ftrmshdfhj` (`user_id`),
   CONSTRAINT `FK_jhvt6d9ap8gxv67ftrmshdfhj` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
@@ -229,6 +230,10 @@ CREATE TABLE `rendezvous` (
   `picture` varchar(255) DEFAULT NULL,
   `creator_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY `UK_11137lvre7o365otdp451s3a7` (`isDeleted`),
+  KEY `UK_tmb0f3b35ikixuxb0hrxe1lpr` (`isDraft`),
+  KEY `UK_1a4phfhyeudsn8wq6112dpsfb` (`isAdultOnly`),
+  KEY `UK_kwxx0tcbell9dul8n0yj3qtuu` (`meetingMoment`),
   KEY `FK_4cru16jpqbsxd0g6runtbwqlt` (`creator_id`),
   CONSTRAINT `FK_4cru16jpqbsxd0g6runtbwqlt` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -283,6 +288,7 @@ CREATE TABLE `rsvp` (
   `rendezvous_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
+  KEY `UK_od96y6mkxxkuvckpmu20saxnu` (`isCancelled`),
   KEY `FK_n2jrtjuxh1nfd91vvo2jsyews` (`rendezvous_id`),
   KEY `FK_do8m6p15stxyd5cvernhv2x6y` (`user_id`),
   CONSTRAINT `FK_do8m6p15stxyd5cvernhv2x6y` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
@@ -392,6 +398,6 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-02-26 22:04:12
+-- Dump completed on 2018-02-27 10:04:16
 
 commit;
