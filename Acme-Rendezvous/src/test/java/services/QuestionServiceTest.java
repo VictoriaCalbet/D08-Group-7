@@ -27,9 +27,6 @@ public class QuestionServiceTest extends AbstractTest {
 
 	@Autowired
 	private UserService			userService;
-
-	@Autowired
-	private AnswerService		answerService;
 	@Autowired
 	private RendezvousService	rendezvousService;
 

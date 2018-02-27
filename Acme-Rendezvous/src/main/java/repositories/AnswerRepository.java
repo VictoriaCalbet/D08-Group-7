@@ -20,5 +20,5 @@ public interface AnswerRepository extends JpaRepository<Answer, Integer> {
 
 	//Bussines queries
 	@Query("select a from Answer a where a.question.id= ?1 and a.user.id=?2")
-	Answer findAnswerByQuestionIdAndUserId(int questionId, int userId);
+	public Answer findAnswerByQuestionIdAndUserId(int questionId, int userId);
 }
