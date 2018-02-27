@@ -80,11 +80,11 @@ public class RSVPService {
 
 	public void cancelRSVP(final int rvId) {
 		final Rendezvous rv = this.rendezvousRepository.findOne(rvId);
-		Assert.notNull(rv);
+		Assert.notNull(rv, "message.error.rsvp.rendezvous.null");
 		final User principal = this.userService.findByPrincipal();
-		Assert.notNull(principal);
+		Assert.notNull(principal, "message.error.rsvp.principal.null");
 		final RSVP rsvp = this.rsvpRepository.findRSVPByRendezvousAndUserId(rv.getId(), principal.getId());
-		Assert.notNull(rsvp);
+		Assert.notNull(rsvp, "message.error.rsvp.null");
 		this.rsvpRepository.save(rsvp);
 		rsvp.setIsCancelled(true);
 
@@ -95,7 +95,7 @@ public class RSVPService {
 		final User creator = rendezvousToRSVP.getCreator();
 
 		final User principal = this.userService.findByPrincipal();
-		Assert.isTrue(!(creator.equals(principal)));
+		Assert.isTrue(!(creator.equals(principal)), "message.error.rsvp.principal.creator.not");
 
 		Collection<RSVP> principalRsvps = new ArrayList<RSVP>();
 
@@ -106,10 +106,10 @@ public class RSVPService {
 		for (final RSVP rsvp : principalRsvps)
 			principalRendezvouses.add(rsvp.getRendezvous());
 
-		Assert.isTrue(!(principalRendezvouses.contains(rendezvousToRSVP)), "RSVP.alreadyRSVPed.error");
+		Assert.isTrue(!(principalRendezvouses.contains(rendezvousToRSVP)), "message.error.RSVP.alreadyRSVPed.error");
 		final Calendar currentCalendar = Calendar.getInstance();
 		final Date currentDate = currentCalendar.getTime();
-		Assert.isTrue(rendezvousToRSVP.getMeetingMoment().after(currentDate), "RSVP.past.error");
+		Assert.isTrue(rendezvousToRSVP.getMeetingMoment().after(currentDate), "message.error.RSVP.past.error");
 
 		final Date birthDate = principal.getBirthDate();
 		final Calendar now = Calendar.getInstance();
@@ -117,11 +117,11 @@ public class RSVPService {
 		final Date yearLimit = now.getTime();
 
 		if (rendezvousToRSVP.getIsAdultOnly())
-			Assert.isTrue(birthDate.before(yearLimit), "RSVP.adult.error");
+			Assert.isTrue(birthDate.before(yearLimit), "message.error.RSVP.adult.error");
 
-		Assert.isTrue(!rendezvousToRSVP.getIsDraft(), "RSVP.isDraft.error");
+		Assert.isTrue(!rendezvousToRSVP.getIsDraft(), "message.error.RSVP.isDraft.error");
 		final RSVP rsvp = this.create(rendezvousToRSVP);
-		Assert.isTrue(!rsvp.getIsCancelled());
+		Assert.isTrue(!rsvp.getIsCancelled(), "message.error.RSVP.isCancelled.errors");
 		rsvp.setRendezvous(rendezvousToRSVP);
 
 		final RSVP result = this.save(rsvp);
