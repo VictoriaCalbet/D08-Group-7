@@ -34,7 +34,7 @@ public class AnnouncementAdministratorController extends AbstractController {
 	// Listing --------------------------------------------------------------
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam(required = false) final String message) {
 		ModelAndView result = null;
 		Collection<Announcement> announcements = null;
 
@@ -43,6 +43,7 @@ public class AnnouncementAdministratorController extends AbstractController {
 
 		result = new ModelAndView("announcement/list");
 		result.addObject("announcements", announcements);
+		result.addObject("message", message);
 		result.addObject("requestURI", "announcement/administrator/list.do");
 
 		return result;
@@ -59,10 +60,21 @@ public class AnnouncementAdministratorController extends AbstractController {
 		ModelAndView result = null;
 		Announcement announcement = null;
 
-		announcement = this.announcementService.findOne(announcementId);
+		try {
+			announcement = this.announcementService.findOne(announcementId);
 
-		this.announcementService.delete(announcement);
-		result = new ModelAndView("redirect:/announcement/administrator/list.do");
+			this.announcementService.delete(announcement);
+			result = new ModelAndView("redirect:/announcement/administrator/list.do");
+			result.addObject("message", "announcement.delete.success");
+		} catch (final Throwable oops) {
+			String messageError = "announcement.delete.error";
+
+			if (oops.getMessage().contains("message.error"))
+				messageError = oops.getMessage();
+
+			result = new ModelAndView("redirect:/announcement/administrator/list.do");
+			result.addObject("message", messageError);
+		}
 
 		return result;
 	}
