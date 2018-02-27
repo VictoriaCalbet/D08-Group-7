@@ -61,21 +61,26 @@ public class CommentController extends AbstractController {
 			Assert.notNull(rendez, "message.error.rendezvous.null");
 
 			comments = this.commentService.getOriginalCommentsByRendezvousId(rendez.getId());
-
-			final Actor actor = this.actorService.findByPrincipal();
-
+			
 			Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
+			
+			Boolean isLoggedIn = this.actorService.checkLogin();
+			
+			if(isLoggedIn){
+			
+			final Actor actor = this.actorService.findByPrincipal();
+			
+			if (this.actorService.checkAuthority(actor, "USER")) { //checks if the actor is a user
+				principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(this.userService.findByPrincipal().getId());
+				
+				}
+			}
 
 			result = new ModelAndView("comment/list");
 			result.addObject("requestURI", "comment/list.do");
 			result.addObject("comments", comments);
 			result.addObject("rendezvous", rendez);
-
-			if (actor != null)
-				if (this.actorService.checkAuthority(actor, "USER")) { //checks if the actor is a user
-					principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(this.userService.findByPrincipal().getId());
-					result.addObject("principalRendezvouses", principalRendezvouses);
-				}
+			result.addObject("principalRendezvouses", principalRendezvouses);
 
 		} catch (final Throwable oops) {
 
@@ -83,12 +88,9 @@ public class CommentController extends AbstractController {
 			if (oops.getMessage().contains("message.error"))
 				messageError = oops.getMessage();
 			result = new ModelAndView("redirect:/rendezvous/list.do");
-			//result = new ModelAndView("rendezvous/list");
-			//Collection<Rendezvous> rendezvouses = this.rendezvousService.findAll();
-			//result.addObject(rendezvouses);
+			
 			result.addObject("message", messageError);
-			//result.addObject("requestURI", "rendezvous/list.do");
-			//result = new ModelAndView("redirect:/rendezvous/user/list.do");
+			
 		}
 
 		return result;
@@ -113,13 +115,20 @@ public class CommentController extends AbstractController {
 			result.addObject("comments", comments);
 			result.addObject("rendezvous", rendez);
 
-			final Actor actor = this.actorService.findByPrincipal();
 
-			if (actor != null)
-				if (this.actorService.checkAuthority(actor, "USER")) { //checks if the actor is a user
-					principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(this.userService.findByPrincipal().getId());
-					result.addObject("principalRendezvouses", principalRendezvouses);
+			Boolean isLoggedIn = this.actorService.checkLogin();
+			
+			if(isLoggedIn){
+			
+			final Actor actor = this.actorService.findByPrincipal();
+			
+			if (this.actorService.checkAuthority(actor, "USER")) { //checks if the actor is a user
+				principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(this.userService.findByPrincipal().getId());
+				
 				}
+			}
+			
+			result.addObject("principalRendezvouses", principalRendezvouses);
 
 		} catch (final Throwable oops) {
 

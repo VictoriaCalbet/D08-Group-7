@@ -28,13 +28,12 @@
 <br/>
 
 <spring:message code="announcement.momentMade" var="announcementMomentMadeHeader"/>
-<b><jstl:out value="${announcementMomentMadeHeader}"/> :&nbsp;</b> <jstl:out value="${announcement.momentMade}"/>
+<spring:message code="announcement.momentMade.pattern" var="datePattern"/>
+<b><jstl:out value="${announcementMomentMadeHeader}"/> :&nbsp;</b> <fmt:formatDate value="${announcement.momentMade}" pattern="${datePattern}"/>
 <br/>
 
 <spring:message code="announcement.description" var="announcementDescriptionHeader" />
 <b><jstl:out value="${announcementDescriptionHeader}"/> :&nbsp;</b> <jstl:out value="${announcement.description}"/>
 <br/>
 
-
-<!-- Cancel URI -->
-<acme:cancel url="/" code="announcement.cancel"/>
+<acme:cancel url="/announcement/list.do?rendezvousId=${announcement.rendezvous.id}" code="announcement.cancel"/>

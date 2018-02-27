@@ -50,7 +50,7 @@ public class RendezvousController extends AbstractController {
 		Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
 		if (this.actorService.checkLogin()) {
 			final Actor principal = this.actorService.findByPrincipal();
-			principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(principal.getId());
+			principalRendezvouses = this.rendezvousService.findAllPrincipalRsvps(principal.getId());
 		}
 
 		result = new ModelAndView("rendezvous/list");

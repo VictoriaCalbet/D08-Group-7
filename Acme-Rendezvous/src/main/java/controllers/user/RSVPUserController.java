@@ -23,6 +23,7 @@ import services.UserService;
 import controllers.AbstractController;
 import domain.Answer;
 import domain.Question;
+import domain.RSVP;
 import domain.Rendezvous;
 import domain.User;
 
@@ -70,6 +71,21 @@ public class RSVPUserController extends AbstractController {
 		result.addObject("rendezvouses", rendezvouses);
 		result.addObject("message", message);
 		result.addObject("requestURI", "rendezvous/user/list.do");
+
+		return result;
+	}
+
+	@RequestMapping(value = "/listRSVPs", method = RequestMethod.GET)
+	public ModelAndView listRSVPs(@RequestParam(required = false) final String message) {
+		final ModelAndView result;
+
+		final User principal = this.userService.findByPrincipal();
+		final Collection<RSVP> RSVPs = principal.getRsvps();
+
+		result = new ModelAndView("RSVP/user/listRSVPs");
+		result.addObject("RSVPs", RSVPs);
+		result.addObject("message", message);
+		result.addObject("requestURI", "RSVP/user/listRSVPs.do");
 
 		return result;
 	}
@@ -166,6 +182,33 @@ public class RSVPUserController extends AbstractController {
 		return result;
 
 	}
+
+	@RequestMapping(value = "/cancelRSVP", method = RequestMethod.GET)
+	public ModelAndView cancel(@RequestParam final int rendezvousToCancelId) {
+		ModelAndView result;
+		try {
+			this.RSVPService.cancelRSVP(rendezvousToCancelId);
+			result = new ModelAndView("redirect:/rendezvous/list.do");
+		} catch (final Throwable oops) {
+			String messageError = "RSVP.cancel.error";
+			if (oops.getMessage().contains("message.error"))
+				messageError = oops.getMessage();
+			result = new ModelAndView("redirect:/rendezvous/list.do");
+			result.addObject("message", messageError);
+		}
+
+		final User principal = this.userService.findByPrincipal();
+		RSVP rsvpToCancel = null;
+		final Collection<RSVP> principalRSVPs = principal.getRsvps();
+		for (final RSVP rsvp : principalRSVPs)
+			if (rsvp.getRendezvous() == this.rendezvousService.findOne(rendezvousToCancelId))
+				rsvpToCancel = rsvp;
+
+		result.addObject("rsvpToCancel", rsvpToCancel);
+
+		result.addObject("rendezvousToCancelId", rendezvousToCancelId);
+		return result;
+	}
 	// Ancillaty methods
 
 	protected final ModelAndView createEditModelAndView(final Rendezvous rv) {
@@ -219,4 +262,5 @@ public class RSVPUserController extends AbstractController {
 		return result;
 
 	}
+
 }

@@ -118,6 +118,13 @@
 	</jstl:choose>
 	</display:column>
 	
+	<spring:message code="rendezvous.announcements" var="announcementsHeader" />
+	<display:column title="${announcementsHeader}">
+		<a href="announcement/list.do?rendezvousId=${row.id}">
+			<spring:message code="rendezvous.showAnnouncements" />
+		</a>
+	</display:column>
+	
 	<spring:message code="rendezvous.comments" var="commentHeader" />	
 	<display:column title="${commentHeader}">
 			<a href="comment/list.do?rendezvousId=${row.id}"><spring:message code="rendezvous.commentButton"/></a>
@@ -156,12 +163,11 @@
 	<spring:message code="rendezvous.RSVPButton" var="rsvpHeader" />
 	<display:column title="${rsvpHeader}">
 	<jstl:choose>
-	<jstl:when test="${!principalRendezvouses.contains(row) and (row.isDraft==false)}">
+	<jstl:when test="${!principalRendezvouses.contains(row) and (row.isDraft==false) }">
 			
-			<a href="answer/user/list.do?rendezvousId=${row.id}"> <spring:message code="rendezvous.RSVPButton" /></a>	
+			<a href="RSVP/user/RSVPAssure.do?rendezvousId=${row.id}"> <spring:message code="rendezvous.RSVPButton" /></a>	
 
 	</jstl:when>
-	
 	
 	<jstl:otherwise>
 		<spring:message code="rendezvous.AlreadyRSVPed" />
@@ -174,6 +180,7 @@
 			<spring:message code="rendezvous.showquestions" />
 		</a>
 	</display:column>
+		
 	</security:authorize>
 	
 	<security:authorize access="hasRole('ADMIN')">
@@ -194,4 +201,5 @@
 <span style="background-color:brown"><spring:message code="rendezvous.adult" /></span>
 <span style="background-color:sandyBrown"><spring:message code="rendezvous.draft" /></span>
 <span style="background-color:SlateGray"><spring:message code="rendezvous.deleted" /></span>
+
 

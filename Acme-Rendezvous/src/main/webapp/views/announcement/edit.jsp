@@ -18,34 +18,33 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="${requestURI}" modelAttribute="announcement">
+<security:authentication property="principal" var="loggedactor"/>
+
+<form:form action="${requestURI}" modelAttribute="announcementForm">
 	
 	<jstl:choose>
 		<jstl:when test="${not empty availableRendezvouses}">
 			<!-- Hidden attributes -->
 			
 			<form:hidden path="id"/>
-			<form:hidden path="version"/>
-			<form:hidden path="momentMade"/>
 			
-			<jstl:if test="${announcement.id ne 0 }">
-				<form:hidden path="rendezvous"/>
+			<jstl:if test="${announcementForm.id ne 0 }">
+				<form:hidden path="rendezvousId"/>
 			</jstl:if>
 			
 			<!-- Attributes -->
 			
-			<spring:message code="announcement.rendezvous" var="rendezvousHeader" />
-			<b><form:label path="rendezvous"/><jstl:out value="${rendezvousHeader}"/>:&nbsp;</b>
+			<b><form:label path="rendezvousId"/><spring:message code="announcement.rendezvous"/>:&nbsp;</b>
 		
 			<jstl:choose>
-				<jstl:when test="${announcement.id eq 0}">
-					<form:select path="rendezvous">
+				<jstl:when test="${announcementForm.id eq 0}">
+					<form:select path="rendezvousId">
 						<form:options items="${availableRendezvouses}" itemLabel="name" itemValue="id"/>
 					</form:select>
 				</jstl:when>
 					
-				<jstl:when test="${announcement.id ne 0}">
-					<jstl:out value="${announcement.rendezvous.name}"/>
+				<jstl:when test="${announcementForm.id ne 0}">
+					<jstl:out value="${rendezvousName}"/>
 				</jstl:when>
 			</jstl:choose>
 			
@@ -55,7 +54,7 @@
 			<!-- Action buttons -->
 			
 			<acme:submit name="save" code="announcement.save"/> &nbsp;
-			<acme:cancel url="/" code="announcement.cancel"/>
+			<acme:cancel url="/announcement/user/list.do" code="announcement.cancel"/>
 		</jstl:when>
 		<jstl:otherwise>
 			<spring:message code="message.rendezvousesNotAvailable"/>

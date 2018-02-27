@@ -1,0 +1,43 @@
+Cambios desde la ultima revision: añadida entidad intermedia entre rendezvous y user para gestionar las reservas.
+Aun asi en el modelo sigue habiendo un problema que ese modelo permite que cree reserva a un rendezvous concreto, pero se puede crear preguntas y respuestas de otro rendezvous, aunque se controla en el servicio, en el modelo no queda claro.
+El grupo ve bien cambiarlo para la siguiente entrega por falta de tiempo.
+
+Registro de un usuario todo en blanco, muestra los errores, se comprueba que no te deja crear un usuario que ya existe, igual no te deja crear sin los terminos de usos marcados.
+Se pueden ver la lista de rendezvous, se ve el creador y los attendants
+
+Nos registramos en el sistema, creamos un rendezvous en borrador, se cancela.
+creamos otra cita en draft, lo cambiamos a no borrador y reservamos, 
+ISSUE: RESTRICCION DEL LATITUD Y LONGITUD
+**El profesor dice que documentemos en el modelo quizas o en algun sitio, para decir que en el creador asumimos que va a las citas**
+**Hay que reflexionar tambien lo de añadirle preguntas/respuestas al creador de una cita** Ahora mismo un usuario puede responder preguntas de una cita al que no va a asistir
+
+Hay que cambiar en el populate los comentarios de quien los hace
+Se crea un comentario y se ve q no se ha respondido, respondemos nosotros, y se ve la respuesta.
+Entramos como admin, muestra los comentarios, borramos un comentario basico y se borra, borramos un comentario con respuesta y comprobamos que se borran ambos.
+Ahora borramos los rendezvous que consideremos inapropiado.
+Se le enseña el dashboard
+**Hace falta poner una columna para que una cita sepa que citas tienen anuncios**
+Creamos un anuncio con campos vacios, creamos el anuncio, lo listamos y lo editamos y guardamos. 
+Abriamos una ventana de incognito y comprobamos que no se pueda editar por otro usuario
+**En el controlador no te deja entrar en el anuncio**
+**Cambiar formato de la fecha en mostrar anuncios**
+**El mostrar anuncios del cancelar debe redirigir al listado de anuncios**
+
+Se le enseña la eliminacion del contenido en los terminos legales, OK
+
+Se le lista los anuncios de aquellas citas que se han reservado, se puede borrar un anuncio por un admin OK
+Meter en el README: El linkar: nosotros solo podemos linkar las citas con nuestras propias citas
+Modificamos el perfil y añadimos un fecha
+Creamos una cita adulta y se ve como no le sale al menor de edad en el listado de las citas.
+
+Listado de preguntas donde se pueden editar. 
+Entramos en las respuestas **Cambiar el titulo de la columna**
+Se edita la respuesta, hasta que no se respondan todas las preguntas no se puede hacer la reserva. Te redirige a la vista de la lista 
+
+Listado de preguntas y respuestas, revisar el nombre de las columnas**
+Cambiar tambien el nombre Respond Answer y probar que vaya todo bien.
+
+Añadir en el modelo los form y cambiar la imagen del sample
+
+
+

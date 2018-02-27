@@ -33,6 +33,9 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select rvs from Rendezvous rvs where rvs.meetingMoment > CURRENT_TIMESTAMP and rvs.isDraft is false and rvs.isDeleted is false and rvs.creator.id = ?1")
 	Collection<Rendezvous> findAllAvailableRendezvousesCreatedByUserId(int userId);
 
+	@Query("select rsvp.rendezvous from RSVP rsvp where rsvp.user.id = ?1 AND rsvp.rendezvous.isDraft IS FALSE AND rsvp.rendezvous.isDeleted IS FALSE")
+	Collection<Rendezvous> findAllPrincipalRsvps(int userId);
+
 	// Dashboard queries
 
 	@Query("select avg(usr.rendezvoussesCreated.size) from User usr")

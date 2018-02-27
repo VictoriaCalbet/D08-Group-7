@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,10 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
 import services.AnnouncementService;
 import services.RendezvousService;
 import services.UserService;
+import services.form.AnnouncementFormService;
 import controllers.AbstractController;
 import domain.Announcement;
 import domain.Rendezvous;
 import domain.User;
+import domain.form.AnnouncementForm;
 
 @Controller
 @RequestMapping("/announcement/user")
@@ -29,13 +32,16 @@ public class AnnouncementUserController extends AbstractController {
 	// Services -------------------------------------------------------------
 
 	@Autowired
-	private AnnouncementService	announcementService;
+	private AnnouncementService		announcementService;
 
 	@Autowired
-	private UserService			userService;
+	private AnnouncementFormService	announcementFormService;
 
 	@Autowired
-	private RendezvousService	rendezvousService;
+	private UserService				userService;
+
+	@Autowired
+	private RendezvousService		rendezvousService;
 
 
 	// Constructors ---------------------------------------------------------
@@ -93,10 +99,10 @@ public class AnnouncementUserController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result = null;
-		Announcement announcement = null;
+		AnnouncementForm announcementForm = null;
 
-		announcement = this.announcementService.create();
-		result = this.createEditModelAndView(announcement);
+		announcementForm = this.announcementFormService.createFromCreate();
+		result = this.createEditModelAndView(announcementForm);
 
 		return result;
 	}
@@ -124,32 +130,40 @@ public class AnnouncementUserController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int announcementId) {
 		ModelAndView result = null;
+		AnnouncementForm announcementForm = null;
 		Announcement announcement = null;
+		User user = null;
+
 		announcement = this.announcementService.findOne(announcementId);
-		result = this.createEditModelAndView(announcement);
+		user = this.userService.findByPrincipal();
+
+		Assert.isTrue(announcement.getRendezvous().getCreator().equals(user));
+
+		announcementForm = this.announcementFormService.createFromEdit(announcementId);
+		result = this.createEditModelAndView(announcementForm);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Announcement announcement, final BindingResult binding) {
+	public ModelAndView save(@Valid final AnnouncementForm announcementForm, final BindingResult binding) {
 		ModelAndView result = null;
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(announcement);
+			result = this.createEditModelAndView(announcementForm);
 		else
 			try {
-				if (announcement.getId() == 0)
-					this.announcementService.saveFromCreate(announcement);
+				if (announcementForm.getId() == 0)
+					this.announcementFormService.saveFromCreate(announcementForm);
 				else
-					this.announcementService.saveFromEdit(announcement);
+					this.announcementFormService.saveFromEdit(announcementForm);
 
-				result = new ModelAndView("redirect:/announcement/list.do?rendezvousId=" + announcement.getRendezvous().getId());
+				result = new ModelAndView("redirect:/announcement/list.do?rendezvousId=" + announcementForm.getRendezvousId());
 			} catch (final Throwable oops) {
 				String messageError = "announcement.commit.error";
 				if (oops.getMessage().contains("message.error"))
 					messageError = oops.getMessage();
-				result = this.createEditModelAndView(announcement, messageError);
+				result = this.createEditModelAndView(announcementForm, messageError);
 			}
 
 		return result;
@@ -157,13 +171,13 @@ public class AnnouncementUserController extends AbstractController {
 
 	// Ancillary methods ----------------------------------------------------
 
-	protected ModelAndView createEditModelAndView(final Announcement announcement) {
+	protected ModelAndView createEditModelAndView(final AnnouncementForm announcementForm) {
 		ModelAndView result = null;
-		result = this.createEditModelAndView(announcement, null);
+		result = this.createEditModelAndView(announcementForm, null);
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Announcement announcement, final String message) {
+	protected ModelAndView createEditModelAndView(final AnnouncementForm announcementForm, final String message) {
 		ModelAndView result = null;
 		User user = null;
 		Collection<Rendezvous> rendezvouses = null;
@@ -173,12 +187,16 @@ public class AnnouncementUserController extends AbstractController {
 		rendezvouses = this.rendezvousService.findAllAvailableRendezvousesCreatedByUserId(user.getId());
 		requestURI = "announcement/user/edit.do";
 
-		if (announcement.getId() == 0)
+		if (announcementForm.getId() == 0)
 			result = new ModelAndView("announcement/create");
-		else
+		else {
+			Rendezvous rendezvous = null;
+			rendezvous = this.rendezvousService.findOne(announcementForm.getRendezvousId());
 			result = new ModelAndView("announcement/edit");
+			result.addObject("rendezvousName", rendezvous.getName());
+		}
 
-		result.addObject("announcement", announcement);
+		result.addObject("announcementForm", announcementForm);
 		result.addObject("availableRendezvouses", rendezvouses);
 		result.addObject("message", message);
 		result.addObject("requestURI", requestURI);

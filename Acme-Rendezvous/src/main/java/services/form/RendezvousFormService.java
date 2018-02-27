@@ -52,6 +52,7 @@ public class RendezvousFormService {
 	public RendezvousForm create(final int rendezvousId) {
 		final Rendezvous r = this.rendezvousService.findOne(rendezvousId);
 		final User u = this.userService.findByPrincipal();
+
 		Assert.isTrue(r.getCreator().equals(u), "message.error.rendezvous.user");
 		Assert.isTrue(r.getIsDraft(), "message.error.rendezvous.isDraft");
 		Assert.isTrue(!r.getIsDeleted(), "message.error.rendezvous.isDeleted");
@@ -72,6 +73,8 @@ public class RendezvousFormService {
 	public Rendezvous saveFromCreate(final RendezvousForm rendezvousForm) {
 
 		Assert.isTrue(rendezvousForm.getMeetingMoment().after(new Date()), "message.error.rendezvous.meetingMoment.future");
+		Assert.isTrue(!((rendezvousForm.getGpsPoint().getLongitude() == null && rendezvousForm.getGpsPoint().getLatitude() != null) || (rendezvousForm.getGpsPoint().getLongitude() != null && rendezvousForm.getGpsPoint().getLatitude() == null)),
+			"message.error.rendezvous.GPSPoint");
 
 		final Rendezvous r = this.rendezvousService.create();
 
@@ -101,6 +104,8 @@ public class RendezvousFormService {
 	public Rendezvous saveFromEdit(final RendezvousForm rendezvousForm) {
 
 		Assert.isTrue(rendezvousForm.getMeetingMoment().after(new Date()), "message.error.rendezvous.meetingMoment.future");
+		Assert.isTrue(!((rendezvousForm.getGpsPoint().getLongitude() == null && rendezvousForm.getGpsPoint().getLatitude() != null) || (rendezvousForm.getGpsPoint().getLongitude() != null && rendezvousForm.getGpsPoint().getLatitude() == null)),
+			"message.error.rendezvous.GPSPoint");
 
 		final Rendezvous r = this.rendezvousService.findOne(rendezvousForm.getId());
 		final User u = this.userService.findByPrincipal();

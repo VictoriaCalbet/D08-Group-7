@@ -62,7 +62,6 @@ public class RendezvousUserController extends AbstractController {
 		//Assist button control
 		Collection<Rendezvous> principalRendezvouses = new ArrayList<Rendezvous>();
 		principalRendezvouses = this.rendezvousService.findAllAttendedByUserId(u.getId());
-
 		result = new ModelAndView("rendezvous/list");
 		result.addObject("principalRendezvouses", principalRendezvouses);
 		result.addObject("rendezvouses", rendezvouses);
